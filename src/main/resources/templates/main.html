@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<head>
+	<title>Users : View all</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- Javascripts -->
+    <script th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js}"></script>
+    <script th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js}"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js}"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+    <script src="/js/jquery.bootstrap.year.calendar.min.js"></script>
+    <!-- Project Files -->
+    <link rel="stylesheet" type="text/css" media="all" href="/css/jquery.bootstrap.year.calendar.min.css">
+</head>
+<body>
+    
+   	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"> </div>  
+    </div>
+    <div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"> </div>  
+	</div>    
+    
+    <div class="container">
+    	<div class="calendar"></div>
+	</div>
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+	    $('.calendar').calendar({
+	        mode: 'classic'
+	    });
+	
+	    $('.calendar').on('jqyc.changeYearToPrevious', function (event) {
+	        var currentYear = $(this).find('.jqyc-change-year').data('year');
+	        console.log(currentYear);
+	    });
+	
+	    $('.calendar').on('jqyc.changeYearToNext', function (event) {
+	        var currentYear = $(this).find('.jqyc-next-year').data('year');
+	        console.log(currentYear);
+	    });
+	
+	    $('.calendar').on('jqyc.dayChoose', function (event) {
+	        var choosenYear = $(this).data('year');
+	        var choosenMonth = $(this).data('month');
+	        var choosenDay = $(this).data('day-of-month');
+	        var date = new Date(choosenYear, choosenMonth, choosenDay);
+	        console.log(date);
+	    });
+	    /*]]>*/
+	</script>    
+</body>
+</html>

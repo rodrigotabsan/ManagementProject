@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<head>
+<title>Users : Create</title>
+</head>
+<body>    
+    <div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"> </div>  
+    </div>
+    <div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"> </div>  
+	</div> 
+        <div layout:fragment="content" class="container">
+        <form id="personForm" th:action="@{/person/modify}" th:object="${modifyperson}" action="#" method="POST">
+        	<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+                <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
+            </div> 
+            <input type="hidden" th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'" />
+            <input type="hidden" th:field="*{password}" th:class="${#fields.hasErrors('password')} ? 'field-error'" />
+            <label for="user">Username</label>
+            <input type="text" th:field="*{user}" th:class="${#fields.hasErrors('user')} ? 'field-error'" />
+            <label for="name">Name</label>
+            <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')} ? 'field-error'" />
+            <label for="lastname1">Lastname 1</label>
+            <input type="text" th:field="*{lastname1}" th:class="${#fields.hasErrors('lastname1')} ? 'field-error'" />
+            <label for="lastname2">Lastname 2</label>
+            <input type="text" th:field="*{lastname2}" th:class="${#fields.hasErrors('lastname2')} ? 'field-error'" />
+            <label for="dni">DNI</label>
+            <input type="text" th:field="*{dni}" th:class="${#fields.hasErrors('dni')} ? 'field-error'"/>            
+            <label for="email">Email</label>
+            <input type="email" th:field="*{email}" th:class="${#fields.hasErrors('email')} ? 'field-error'"/>                   
+            <label for="role">Role</label>
+            <select th:field="*{role}">
+			    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}">
+			    </option>
+			</select>   
+			<div class="form-group" th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
+			<label for="projects">Projects</label>
+			<select th:field="*{projects}" multiple="multiple"/>				
+				<option th:each="project : ${projects}" th:value="${{project}}" th:text="${project.name}" th:selected="${true}">
+			    </option>
+			    <option th:each="project : ${projectselected}" th:value="${{project}}" th:text="${project.name}">
+			    </option>
+			</select>        
+			</div>
+            <div class="form-actions">
+                <input type="submit" value="Save" />
+            </div>
+        </form>
+    	</div>
+</body>
+</html>

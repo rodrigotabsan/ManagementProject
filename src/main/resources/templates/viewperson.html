@@ -1,0 +1,81 @@
+<!DOCTYPE>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<head>
+<title>Users : View</title>
+</head>
+<body>
+
+	
+   	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"> </div>  
+    </div>
+    <div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"> </div>  
+	</div> 
+    <div layout:fragment="content" class="container">
+        <div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}">Some Success message</div>        
+        <div th:if="${viewperson.endDate == null}">
+        <dl>
+            <dt>ID</dt>
+            <dd id="id" th:text="${viewperson.id}">123</dd>
+            <dt>Username</dt>
+            <dd id="username" th:text="${viewperson.user}">Username</dd>
+            <dt>Name</dt>
+            <dd id="name" th:text="${viewperson.name}">Name</dd>
+            <dt>Lastname 1</dt>
+            <dd id="lastname1" th:text="${viewperson.lastname1}">Lastname 1</dd>
+            <dt>Lastname 2</dt>
+            <dd id="lastname2" th:text="${viewperson.lastname2}">Lastname 2</dd>
+            <dt>DNI</dt>
+            <dd id="dni" th:text="${viewperson.dni}">DNI</dd>
+            <dt>Email</dt>
+            <dd id="email" th:text="${viewperson.email}">Email</dd>
+            <dt>Start Date</dt>
+            <dd id="created" th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewperson.startDate), #dates.month(viewperson.startDate), #dates.day(viewperson.startDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</dd>
+            <dt>End Date</dt>
+            <dd id="ended"></dd>
+            <dt>Role</dt>
+            <dd id="role" th:text="${viewperson.role.name}">Role</dd>
+            <dt>Projects</dt>
+		    <dd th:each="project: ${projects}"
+		            th:value="${project.id}"
+		            th:text="${project.name}"></dd>
+        </dl>
+        </div>
+        <div th:if="${viewperson.endDate != null}">
+        <dl>
+            <dt>ID</dt>
+            <dd id="id" th:text="${viewperson.id}">123</dd>
+            <dt>Username</dt>
+            <dd id="username" th:text="${viewperson.user}">Username</dd>
+            <dt>Name</dt>
+            <dd id="name" th:text="${viewperson.name}">Name</dd>
+            <dt>Lastname 1</dt>
+            <dd id="lastname1" th:text="${viewperson.lastname1}">Lastname 1</dd>
+            <dt>Lastname 2</dt>
+            <dd id="lastname2" th:text="${viewperson.lastname2}">Lastname 2</dd>
+            <dt>DNI</dt>
+            <dd id="dni" th:text="${viewperson.dni}">DNI</dd>
+            <dt>Email</dt>
+            <dd id="email" th:text="${viewperson.email}">Email</dd>
+            <dt>Start Date</dt>
+            <dd id="created" th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewperson.startDate), #dates.month(viewperson.startDate), #dates.day(viewperson.startDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</dd>
+            <dt>End Date</dt>
+            <dd id="ended" th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewperson.endDate), #dates.month(viewperson.endDate), #dates.day(viewperson.endDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</dd>
+            <dt>Role</dt>
+            <dd id="role" th:text="${viewperson.role.name}">Role</dd>
+            <dt>Projects</dt>
+		    <dd th:each="project: ${projects}"
+		            th:value="${project.id}"
+		            th:text="${project.name}"></dd>
+        </dl>
+        </div>
+        <div th:if="${person.role.name == 'ROLE_ADMIN'}">
+	        <div class="pull-left">
+	            <a href="persons" th:href="@{'/person/delete/' + ${viewperson.id}}"> Delete </a> | <a href="formperson.html" th:href="@{'/person/viewmodify/' + ${viewperson.id}}"> Modify </a>
+	        </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<head>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"> </div>  
+    </div>
+    <div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"> </div>  
+	</div> 
+	<form id="taskForm" th:action="@{/task/modify}" th:object="${modifytask}" action="#" method="POST">
+        	<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+                <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
+            </div> 
+        <input type="hidden" th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'" />
+        <label for="name">Name</label>
+        <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')} ? 'field-error'" />
+        <label for="description">Description</label>
+        <input type="text" th:field="*{description}" th:class="${#fields.hasErrors('description')} ? 'field-error'" />
+        <label for="startDate">Start date</label>
+        <input type="date" th:field="*{startDate}" th:class="${#fields.hasErrors('startDate')} ? 'field-error'"/>
+        <label for="endDate">End date</label>
+        <input type="date" th:field="*{endDate}" th:class="${#fields.hasErrors('endDate')} ? 'field-error'"/>
+        <select th:field="*{persons}">
+		    <option th:each="person: ${persons}"
+		            th:value="${person.id}"
+		            th:text="${person.name + ' ' + person.lastname1 + ' ' + person.lastname2}"/>
+		</select>
+		<select th:field="*{projects}">
+		    <option th:each="project: ${projects}"
+		            th:value="${project.id}"
+		            th:text="${project.name}"/>
+		</select>
+        <div class="form-actions">
+            <input type="submit" value="Save" />
+        </div>
+    </form>
+</body>
+</html>

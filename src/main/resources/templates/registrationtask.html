@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+
+<head>
+    <title>Registration Page</title>
+
+    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
+    <script src="/js/jquery-1.7.2.js"></script>
+    <script src="/js/pwstrength.js"></script>
+
+</head>
+<body>
+<div class="container">
+    <div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"> </div>  
+    </div>
+    <div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"> </div>  
+	</div> 
+    <form id="taskForm" th:action="@{/task/createtask}" th:object="${createtask}" action="#" method="post" class="form-horizontal">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+            <label class="control-label col-xs-2" for="name">Name</label>
+            <div class="col-xs-10">
+                <input id="name" type="text" title="name" th:field="*{name}"/>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="help-block">Name Error</span>
+            </div>
+        </div>
+        <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'has-error'">
+            <label class="control-label col-xs-2" for="description">Description</label>
+            <div class="col-xs-10">
+                <input id="description" type="text" title="description" th:field="*{description}"/>
+                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="help-block">Description Error</span>
+            </div>
+        </div>        
+		<div class="form-group" th:classappend="${#fields.hasErrors('person')} ? 'has-error'">
+			<label class="control-label col-xs-2">Users</label>
+			<select th:field="*{person}">
+			    <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name} + ' ' + ${person.lastname1} + ' ' + ${person.lastname2}">
+			    </option>
+			</select>
+		</div>
+		<div class="form-group" th:classappend="${#fields.hasErrors('project')} ? 'has-error'">
+			<label class="control-label col-xs-2" for="registrations">Projects</label>
+			<select th:field="*{project}">
+			    <option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.name}">
+			    </option>
+			</select>
+		</div>
+        <div class="form-actions col-xs-offset-2 col-xs-10">
+            <input type="submit" class="btn btn-primary" value="Register"/>
+        </div>
+    </form>
+</div>
+</body>
+</html>
