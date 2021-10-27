@@ -20,6 +20,9 @@ import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.service.ProjectService;
 import com.master.atrium.managementproject.service.TaskService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
+import com.master.atrium.managementproject.validator.EmailExistsException;
+import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
+import com.master.atrium.managementproject.validator.UserExistsException;
 
 @Controller
 @RequestMapping("/task")
@@ -57,7 +60,7 @@ public class TaskController {
     }
 
     @PostMapping()
-    public ModelAndView create(@Valid Person person, BindingResult result, RedirectAttributes redirect) {
+    public ModelAndView create(@Valid Person person, BindingResult result, RedirectAttributes redirect) throws EmailExistsException, UserExistsException {
         if (result.hasErrors()) {
             return new ModelAndView("formtask", "formErrors", result.getAllErrors());
         }
@@ -67,8 +70,8 @@ public class TaskController {
     }
 
     @GetMapping(value = "delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) {
-        this.personService.deleteById(id);
+    public ModelAndView delete(@PathVariable("id") Long id) throws RecordReferencedInOtherTablesException {    	
+        this.personService.delete(personService.findById(id));
         return new ModelAndView("redirect:/task/");
     }
 

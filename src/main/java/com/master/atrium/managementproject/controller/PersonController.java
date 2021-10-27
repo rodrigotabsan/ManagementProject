@@ -46,10 +46,7 @@ public class PersonController {
 	
 	@Autowired
 	RoleService roleService;
-	
-	//@Autowired
-	//ProjectRegistrationService projectRegistrationService;
-	
+		
 	@Autowired
 	public PersonController(PersonService personService) {
 		this.personService = personService;
@@ -67,7 +64,7 @@ public class PersonController {
 	@GetMapping("{id}")
     public ModelAndView view(@PathVariable("id") Person viewperson, ModelMap model) {
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-        //List<ProjectRegistration> projectRegistrations = projectRegistrationService.findByPerson(viewperson);
+        
         Iterable<Project> projects = viewperson.getProjectList();
         model.addAttribute("viewperson", viewperson);        
 		model.addAttribute(PERSON, person);
@@ -78,12 +75,12 @@ public class PersonController {
 	@GetMapping(value = "createform")
     public ModelAndView createForm(ModelMap model) {
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-    	//Iterable<Role> roles = roleService.findAll();
+    	Iterable<Role> roles = roleService.findAll();
     	Iterable<Project> projects = projectService.findAll();
     	Person createperson = new Person();
     	model.addAttribute(PERSON, person);
     	model.addAttribute("createperson", createperson);
-    	//model.addAttribute("roles", roles);
+    	model.addAttribute("roles", roles);
 		model.addAttribute(PROJECTS, projects);
     	return new ModelAndView("registrationperson", model);
     }
@@ -95,7 +92,6 @@ public class PersonController {
         }
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());               		
 		Person personcreated = personService.save(createperson);
-		//projectRegistrationService.saveProjectRegistrations(Arrays.asList(createperson.getProjects()), personcreated);
 		model.addAttribute(PERSON, person);
 		model.addAttribute("personcreated.id", personcreated.getId()); 
         model.addAttribute("globalMessage", "Successfully created a new person");
@@ -112,7 +108,7 @@ public class PersonController {
     @GetMapping(value = "viewmodify/{id}")
     public ModelAndView viewmodifyForm(@PathVariable("id") Person modifyperson, ModelMap model) {
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-    	//Iterable<Role> roles = roleService.findAll();
+    	Iterable<Role> roles = roleService.findAll();
     	Collection<Project> allprojects = Utility.convertIterableProjectToListProject(projectService.findAll());
     	modifyperson = personService.findById(modifyperson.getId());
     	Collection<Project> projectsselected = personService.findById(modifyperson.getId()).getProjectList();
@@ -126,7 +122,7 @@ public class PersonController {
     	
         model.addAttribute("modifyperson", modifyperson);        
 		model.addAttribute(PERSON, person);
-		//model.addAttribute("roles", roles);
+		model.addAttribute("roles", roles);
 		model.addAttribute(PROJECTS, projectsnotselected);
 		model.addAttribute("projectsselected", projectsselected);
         return new ModelAndView("formperson", model);
@@ -139,7 +135,6 @@ public class PersonController {
         }
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());	   
 		personService.save(modifyperson);
-		//projectRegistrationService.saveProjectRegistrations(Arrays.asList(modifyperson.getProjects()), modifiedperson);
 		model.addAttribute("modifyperson.id", modifyperson.getId());        
 		model.addAttribute(PERSON, person);   	
         return new ModelAndView("redirect:/person/{modifyperson.id}", model);

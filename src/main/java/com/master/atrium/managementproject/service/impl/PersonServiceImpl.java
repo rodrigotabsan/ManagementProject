@@ -70,7 +70,7 @@ public class PersonServiceImpl implements PersonService {
 						}
 					}
 				} else {
-					for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {
+					for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {						
 						projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
 					}
 				}
@@ -81,7 +81,8 @@ public class PersonServiceImpl implements PersonService {
 	        }
 			if (userExist(person.getUser())) {
 	            throw new UserExistsException("There is an account with that username: " + person.getUser());
-	        }			
+	        }
+			person.setPassword(passwordEncoder.encode(person.getPassword()));
 			personRepository.insert(person);
 			Person personSaved = personRepository.findByUser(person.getUser());
 			if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {

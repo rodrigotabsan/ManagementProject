@@ -9,7 +9,6 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,8 +19,6 @@ import com.master.atrium.managementproject.entity.Role;
 public class PersonRepository {
 	@Autowired
 	private JdbcTemplate template;
-	@Autowired
-	PasswordEncoder passwordEncoder;
 	@Autowired
 	RoleRepository roleRepository;
 	
@@ -45,7 +42,7 @@ public class PersonRepository {
 						person.getLastname1(),
 						person.getLastname2(),
 						person.getName(),
-						passwordEncoder.encode(person.getPassword()),				
+						person.getPassword(),				
 						localDateStartDate,
 						person.getUser(),
 						person.getRole().getId());
