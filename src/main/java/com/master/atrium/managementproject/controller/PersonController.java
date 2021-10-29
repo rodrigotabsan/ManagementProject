@@ -1,7 +1,6 @@
 package com.master.atrium.managementproject.controller;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -89,13 +88,9 @@ public class PersonController {
     public ModelAndView create(@Valid Person createperson, BindingResult result, ModelMap model) throws EmailExistsException, UserExistsException {
         if (result.hasErrors()) {
             return new ModelAndView("registrationperson", "formErrors", result.getAllErrors());
-        }
-        Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());               		
-		Person personcreated = personService.save(createperson);
-		model.addAttribute(PERSON, person);
-		model.addAttribute("personcreated.id", personcreated.getId()); 
-        model.addAttribute("globalMessage", "Successfully created a new person");
-        return new ModelAndView("redirect:/person/{personcreated.id}", model);
+        }         		
+		personService.save(createperson);
+        return new ModelAndView("redirect:/person/");
     }
 
     @GetMapping(value = "delete/{id}")

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Role;
@@ -16,6 +17,7 @@ import com.master.atrium.managementproject.service.RoleService;
  * @author Rodrigo
  *
  */
+@Service
 public class RoleServiceImpl implements RoleService {
 	@Autowired
 	RoleRepository roleRepository;

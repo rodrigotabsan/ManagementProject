@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Project;
@@ -19,6 +20,7 @@ import com.master.atrium.managementproject.validator.RecordReferencedInOtherTabl
  * @author Rodrigo
  *
  */
+@Service
 public class ProjectServiceImpl implements ProjectService {
 
 	@Autowired

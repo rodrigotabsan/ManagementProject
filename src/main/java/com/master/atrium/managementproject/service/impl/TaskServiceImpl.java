@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.master.atrium.managementproject.entity.Message;
 import com.master.atrium.managementproject.entity.Person;
@@ -20,6 +21,7 @@ import com.master.atrium.managementproject.service.TaskService;
  * @author Rodrigo
  *
  */
+@Service
 public class TaskServiceImpl implements TaskService {
 	
 	@Autowired

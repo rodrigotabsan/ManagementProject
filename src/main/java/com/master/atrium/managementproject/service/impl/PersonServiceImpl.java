@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Project;
@@ -20,6 +21,7 @@ import com.master.atrium.managementproject.validator.UserExistsException;
  * @author Rodrigo
  *
  */
+@Service
 public class PersonServiceImpl implements PersonService {
 
 	@Autowired
@@ -40,61 +42,73 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public Person save(final Person person) throws EmailExistsException, UserExistsException {
 		Person personFound = personRepository.findById(person.getId());
-		
 		if(Objects.nonNull(personFound)) {
-			List<Project> projectsFound = findAllProjectsByPerson(personFound);
-			if (emailExist(person.getEmail()) && !personFound.getEmail().equals(person.getEmail())) {
-	            throw new EmailExistsException("There is an account with that email address: " + person.getEmail());
-	        }
-			if (userExist(person.getUser()) && !personFound.getUser().equals(person.getUser())) {
-	            throw new UserExistsException("There is an account with that username: " + person.getUser());
-	        }
-			personRepository.update(person);
-			Person personFoundSaved = personRepository.findById(person.getId());
-			if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {
-				if(Objects.nonNull(projectsFound)){
-					int indexProjects = 0;
-					while(indexProjects < person.getProjects().length && indexProjects < projectsFound.size()) {
-						projectPersonRepository.update(person.getProjects()[indexProjects], personFoundSaved, projectsFound.get(indexProjects), personFound);
-						indexProjects++;
-					}
-					if(indexProjects >= person.getProjects().length) {
-						while(indexProjects < projectsFound.size()) {
-							projectPersonRepository.delete(projectsFound.get(indexProjects), personFoundSaved);
-							indexProjects++;
-						}
-					} else if(indexProjects >= projectsFound.size()) {
-						while(indexProjects < person.getProjects().length) {
-							projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
-							indexProjects++;
-						}
-					}
-				} else {
-					for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {						
-						projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
-					}
-				}
-			}
+			update(person, personFound);
 		} else {
-			if (emailExist(person.getEmail())) {
-	            throw new EmailExistsException("There is an account with that email address: " + person.getEmail());
-	        }
-			if (userExist(person.getUser())) {
-	            throw new UserExistsException("There is an account with that username: " + person.getUser());
-	        }
-			person.setPassword(passwordEncoder.encode(person.getPassword()));
-			personRepository.insert(person);
-			Person personSaved = personRepository.findByUser(person.getUser());
-			if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {
-				for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {
-					projectPersonRepository.insert(person.getProjects()[indexProjects], personSaved);
-				}
-			}
-		}
-		
+			insert(person);
+		}		
 		return findByUser(person.getUser());
 	}
-
+	
+	private void update(Person person, Person personFound) throws EmailExistsException, UserExistsException {
+		List<Project> projectsFound = findAllProjectsByPerson(personFound);
+		if (emailExist(person.getEmail()) && !personFound.getEmail().equals(person.getEmail())) {
+            throw new EmailExistsException("There is an account with that email address: " + person.getEmail());
+        }
+		if (userExist(person.getUser()) && !personFound.getUser().equals(person.getUser())) {
+            throw new UserExistsException("There is an account with that username: " + person.getUser());
+        }
+		personRepository.update(person);
+		Person personFoundSaved = personRepository.findById(person.getId());
+		if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {
+			if(Objects.nonNull(projectsFound)){
+				updateProjectPersonRelation(person, projectsFound, personFound, personFoundSaved);
+			} else {
+				insertProjectPersonRelation(person, personFoundSaved);
+			}
+		}
+	}
+	
+	private void insert(Person person) throws EmailExistsException, UserExistsException {
+		if (emailExist(person.getEmail())) {
+            throw new EmailExistsException("There is an account with that email address: " + person.getEmail());
+        }
+		if (userExist(person.getUser())) {
+            throw new UserExistsException("There is an account with that username: " + person.getUser());
+        }
+		person.setPassword(passwordEncoder.encode(person.getPassword()));
+		personRepository.insert(person);
+		Person personSaved = personRepository.findByUser(person.getUser());
+		if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {
+			insertProjectPersonRelation(person, personSaved);
+		}
+	}
+	
+	private void insertProjectPersonRelation(Person person, Person personFoundSaved) {
+		for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {						
+			projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
+		}
+	}
+	
+	private void updateProjectPersonRelation(Person person, List<Project> projectsFound, Person personFound, Person personFoundSaved) {
+		int indexProjects = 0;
+		while(indexProjects < person.getProjects().length && indexProjects < projectsFound.size()) {
+			projectPersonRepository.update(person.getProjects()[indexProjects], personFoundSaved, projectsFound.get(indexProjects), personFound);
+			indexProjects++;
+		}
+		if(indexProjects >= person.getProjects().length) {
+			while(indexProjects < projectsFound.size()) {
+				projectPersonRepository.delete(projectsFound.get(indexProjects), personFoundSaved);
+				indexProjects++;
+			}
+		} else if(indexProjects >= projectsFound.size()) {
+			while(indexProjects < person.getProjects().length) {
+				projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
+				indexProjects++;
+			}
+		}
+	}
+	
 	@Override
 	public void delete(final Person person) throws RecordReferencedInOtherTablesException {
 		List<Project> projects = findAllProjectsByPerson(person);

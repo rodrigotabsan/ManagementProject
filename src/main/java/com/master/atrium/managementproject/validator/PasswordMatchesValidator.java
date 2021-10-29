@@ -36,6 +36,10 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordVal
     	
     	Person person = null;    	
     	boolean valid = Boolean.FALSE;
+    	String specialChars = "~!@#$%^&*,_?";
+    	String numbers = "0123456789";
+    	String lowercase = "abcdefghijklmnñopqrstuvwxyz";
+    	String uppercase = "ABCDEFGHIJKLMNÑOPQRSTUVWXYZ";
     	
     	if(obj instanceof Person) {
     		person = (Person) obj;
@@ -43,11 +47,28 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordVal
     	
     	if(Objects.nonNull(person) 
     			&& Objects.nonNull(person.getPassword()) 
-    			&& Objects.nonNull(person.getPasswordConfirmation())) {
-    		valid = person.getPassword().equals(person.getPasswordConfirmation());
+    			&& Objects.nonNull(person.getPasswordConfirmation())    			
+    			&& verifyChars(person.getPassword(), specialChars)
+    			&& verifyChars(person.getPassword(), numbers)
+    			&& verifyChars(person.getPassword(), lowercase)
+    			&& verifyChars(person.getPassword(), uppercase)
+    			&& person.getPassword().equals(person.getPasswordConfirmation())) {
+    		valid = Boolean.TRUE;
     	}
     	
     	return valid;
     }
+    
+    private boolean verifyChars(String password, String chars) {
+    	
+    	int indexSpecialChars = 0;
+    	boolean hasSpecialChars = Boolean.TRUE;
+    	while(indexSpecialChars < chars.length() && !hasSpecialChars) {
+    		hasSpecialChars = password.contains(String.valueOf(chars.charAt(indexSpecialChars)));
+    		indexSpecialChars++;
+    	}
+    	return hasSpecialChars;
+    }
+    
 
 }

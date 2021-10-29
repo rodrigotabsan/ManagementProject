@@ -17,6 +17,7 @@ import com.master.atrium.managementproject.validator.PasswordValidator;
  * @author Rodrigo
  *
  */
+@PasswordValidator
 public class Person extends Common implements Serializable{
 
 	/**
@@ -41,12 +42,10 @@ public class Person extends Common implements Serializable{
 	/** Email del usuario */
 	@NotEmpty(message = "Email is required.")
 	private String email;
-	/** Contraseña del usuario */
-	@PasswordValidator
+	/** Contraseña del usuario */	
 	@NotEmpty(message = "Password is required.")
 	private String password;
 	/** Contraseña de confirmación del usuario */
-	@PasswordValidator
 	private String passwordConfirmation;
 	/** Fecha de alta del usuario */
 	private Date startDate;
