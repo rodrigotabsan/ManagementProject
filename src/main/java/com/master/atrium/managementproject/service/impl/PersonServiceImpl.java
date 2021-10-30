@@ -59,7 +59,7 @@ public class PersonServiceImpl implements PersonService {
             throw new UserExistsException("There is an account with that username: " + person.getUser());
         }
 		personRepository.update(person);
-		Person personFoundSaved = personRepository.findById(person.getId());
+		Person personFoundSaved = findById(person.getId());
 		if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {
 			if(Objects.nonNull(projectsFound)){
 				updateProjectPersonRelation(person, projectsFound, personFound, personFoundSaved);
@@ -92,21 +92,33 @@ public class PersonServiceImpl implements PersonService {
 	
 	private void updateProjectPersonRelation(Person person, List<Project> projectsFound, Person personFound, Person personFoundSaved) {
 		int indexProjects = 0;
-		while(indexProjects < person.getProjects().length && indexProjects < projectsFound.size()) {
+		while(hasProjectPersonToUpdate(indexProjects, person, projectsFound)) {
 			projectPersonRepository.update(person.getProjects()[indexProjects], personFoundSaved, projectsFound.get(indexProjects), personFound);
 			indexProjects++;
 		}
-		if(indexProjects >= person.getProjects().length) {
+		if(hasProjectPersonToDelete(indexProjects, person)) {
 			while(indexProjects < projectsFound.size()) {
 				projectPersonRepository.delete(projectsFound.get(indexProjects), personFoundSaved);
 				indexProjects++;
 			}
-		} else if(indexProjects >= projectsFound.size()) {
+		} else if(hasProjectPersonToInsert(indexProjects, projectsFound)) {
 			while(indexProjects < person.getProjects().length) {
 				projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
 				indexProjects++;
 			}
 		}
+	}
+	
+	private boolean hasProjectPersonToUpdate(int indexProjects, Person person, List<Project> projectsFound) {
+		return indexProjects < person.getProjects().length && indexProjects < projectsFound.size();
+	}
+	
+	private boolean hasProjectPersonToDelete(int indexProjects, Person person) {
+		return indexProjects >= person.getProjects().length;
+	}
+	
+	private boolean hasProjectPersonToInsert(int indexProjects, List<Project> projectsFound) {
+		return indexProjects >= projectsFound.size();
 	}
 	
 	@Override

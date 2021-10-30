@@ -35,9 +35,7 @@ public class MessageServiceImpl implements MessageService{
 	@Override
 	public Message save(Message message) {
 		Message messageFound = messageRepository.findBySubject(message.getSubject());
-		if(Objects.nonNull(messageFound) 
-				&& messageFound.getSubject().equals(message.getSubject())
-				&& messageFound.getId().equals(message.getId())) {
+		if(isUpdate(messageFound, messageFound)) {
 			messageRepository.update(message);
 			LOG.info("Se ha actualizado un mensaje");
 		} else {
@@ -45,6 +43,12 @@ public class MessageServiceImpl implements MessageService{
 			LOG.info("Se ha insertado un mensaje");
 		}
 		return messageRepository.findBySubject(message.getSubject());
+	}
+	
+	private boolean isUpdate(Message message, Message messageFound) {
+		return Objects.nonNull(messageFound) 
+				&& messageFound.getSubject().equals(message.getSubject())
+				&& messageFound.getId().equals(message.getId());
 	}
 
 	@Override
@@ -72,11 +76,15 @@ public class MessageServiceImpl implements MessageService{
 	@Override
 	public List<Message> findMessagesByTask(Task task) {
 		List<Message> messages = new ArrayList<>();
-		if(Objects.nonNull(task) && Objects.nonNull(task.getId())) {
+		if(taskIsNotNull(task)) {
 			messages = messageRepository.findMessagesByTaskId(task.getId()); 
 			messages.forEach(message -> message.setTask(task));			
 		}
 		return messages;
+	}
+	
+	private boolean taskIsNotNull(Task task) {
+		return Objects.nonNull(task) && Objects.nonNull(task.getId());
 	}
 
 }
