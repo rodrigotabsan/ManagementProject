@@ -55,7 +55,7 @@ class ProjectServiceImplTest {
 		
 		personRepository.insert(person);
 		person = personRepository.findByUser("RODRIGOUSER");
-		Person[] persons = {person};
+		Integer[] persons = {Integer.valueOf(person.getId().toString())};
 		
 		project.setPersons(persons);
 		Project afterSave = projectService.save(project);
@@ -84,8 +84,9 @@ class ProjectServiceImplTest {
 			
 		personRepository.insert(person2);
 		person2 = personRepository.findByUser("RODRIGOUSER3");
-		
-		Person[] persons = {person, person2};
+		Integer personStr = Integer.valueOf(person.getId().toString());
+		Integer person2Str = Integer.valueOf(person2.getId().toString());
+		Integer[] persons = {personStr, person2Str};
 		project.setPersons(persons);
 		Project afterSave = projectService.save(project);
 		assertEquals(2, afterSave.getPersonList().size());
@@ -100,7 +101,7 @@ class ProjectServiceImplTest {
 		personRepository.insert(person);
 		person = personRepository.findByUser("RODRIGOUSER4");
 		
-		Person[] persons = {person};
+		Integer[] persons = {Integer.valueOf(person.getId().toString())};
 		project.setPersons(persons);
 		Project afterSave = projectService.save(project);
 		assertEquals(1, afterSave.getPersonList().size());
@@ -111,12 +112,12 @@ class ProjectServiceImplTest {
 	void saveWithUpdateWithALotOfPersonsTest() throws EmailExistsException, UserExistsException {
 		Project project = projectService.findByName("PEPITOSPROJECT");
 		List<Person> personList = personRepository.findAll();
-		Person[] persons = new Person[personList.size()-2];
+		Integer[] persons = new Integer[personList.size()-2];
 		int indexPersonList = 2;
 		int indexPersons = 0;
 		
 		while(indexPersonList < personList.size()) {
-			persons[indexPersons] = personList.get(indexPersonList);
+			persons[indexPersons] = Integer.valueOf(personList.get(indexPersonList).getId().toString());
 			indexPersonList++;
 			indexPersons++;
 		}		

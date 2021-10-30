@@ -186,8 +186,6 @@ to {
 	</div>
 	<h1 layout:fragment="header">Create user</h1>
 	<div class="container">
-
-
 		<form id="personForm" th:action="@{/person/createperson}"
 			th:object="${createperson}" action="#" method="post"
 			class="form-horizontal">
@@ -303,10 +301,12 @@ to {
 					<div class="col form-group"
 						th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
 						<label class="control-label col-xs-2" for="projects"><strong>Projects</strong></label>
-						<select class="select-user-form" th:field="*{projects}" multiple="multiple">
-							<option th:each="project : ${projects}" th:value="${{project}}"
-								th:text="${project.name}"></option>
-						</select>
+						<select class="select-user-form" th:field="*{projects}"
+								multiple="multiple">
+								<option th:each="projectcreate : ${projects}"
+									th:value="${projectcreate.id}"
+									th:text="${projectcreate.name}"></option>
+							</select>
 					</div>
 				</div>
 			</div>

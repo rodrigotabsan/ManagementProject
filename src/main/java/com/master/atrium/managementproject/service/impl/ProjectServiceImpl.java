@@ -17,6 +17,7 @@ import com.master.atrium.managementproject.validator.RecordReferencedInOtherTabl
 
 /**
  * Implementación del servicio de proyectos
+ * 
  * @author Rodrigo
  *
  */
@@ -31,6 +32,7 @@ public class ProjectServiceImpl implements ProjectService {
 	ProjectPersonRepository projectPersonRepository;
 	@Autowired
 	TaskRepository taskRepository;
+
 	/**
 	 * Constructor de la clase
 	 */
@@ -41,70 +43,73 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public Project save(Project project) {
 		Project projectFound = projectRepository.findById(project.getId());
-		if(Objects.nonNull(projectFound)) {
-			project.setTasks(taskRepository.findTasksByProjectId(projectFound.getId()));			
+		if (Objects.nonNull(projectFound)) {
+			project.setTasks(taskRepository.findTasksByProjectId(projectFound.getId()));
 			List<Person> personsOld = findAllPersonsByProject(projectFound);
 			projectRepository.update(project);
 			Project projectSaved = projectRepository.findByName(project.getName());
-			if(Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
-				if(Objects.nonNull(personsOld)){
+			if (Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
+				Person[] persons = mappingArrayIntegerPersonsToArrayPersons(project.getPersons());
+				if (Objects.nonNull(personsOld)) {
 					int indexPersons = 0;
-					while(indexPersons < project.getPersons().length && indexPersons < personsOld.size()) {
-						projectPersonRepository.update(projectSaved, project.getPersons()[indexPersons], projectFound, personsOld.get(indexPersons));
+					while (indexPersons < project.getPersons().length && indexPersons < personsOld.size()) {
+						projectPersonRepository.update(projectSaved, persons[indexPersons], projectFound,
+								personsOld.get(indexPersons));
 						indexPersons++;
 					}
-					if(indexPersons >= project.getPersons().length) {
-						while(indexPersons < personsOld.size()) {
+					if (indexPersons >= project.getPersons().length) {
+						while (indexPersons < personsOld.size()) {
 							projectPersonRepository.delete(projectSaved, personsOld.get(indexPersons));
 							indexPersons++;
 						}
-					} else if(indexPersons >= personsOld.size()) {
-						while(indexPersons < project.getPersons().length) {
-							projectPersonRepository.insert(projectSaved, project.getPersons()[indexPersons]);
+					} else if (indexPersons >= personsOld.size()) {
+						while (indexPersons < project.getPersons().length) {
+							projectPersonRepository.insert(projectSaved, persons[indexPersons]);
 							indexPersons++;
 						}
 					}
 				} else {
-					for(int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
-						projectPersonRepository.insert(projectSaved, project.getPersons()[indexProjects]);
+					for (int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
+						projectPersonRepository.insert(projectSaved, persons[indexProjects]);
 					}
 				}
 			}
 		} else {
-			if(Objects.nonNull(project.getPersonList()) && project.getPersonList().isEmpty()) {
+			if (Objects.nonNull(project.getPersonList()) && project.getPersonList().isEmpty()) {
 				project.setPersonList(null);
 			}
-			if(Objects.nonNull(project.getTasks()) && project.getTasks().isEmpty()) {
+			if (Objects.nonNull(project.getTasks()) && project.getTasks().isEmpty()) {
 				project.setTasks(null);
 			}
 			projectRepository.insert(project);
 			Project projectSaved = projectRepository.findByName(project.getName());
-			if(Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
-				for(int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
-					projectPersonRepository.insert(projectSaved, project.getPersons()[indexProjects]);
+			if (Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
+				Person[] persons = mappingArrayIntegerPersonsToArrayPersons(project.getPersons());
+				for (int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
+					projectPersonRepository.insert(projectSaved, persons[indexProjects]);
 				}
 			}
-		}		
-        return findByName(project.getName());
+		}
+		return findByName(project.getName());
 	}
-	
+
 	@Override
 	public Project findByName(String name) {
 		Project project = projectRepository.findByName(name);
 		return addPersonListToProject(project);
 	}
-	
+
 	@Override
 	public Project findById(Long id) {
-		Project project = projectRepository.findById(id); 
-		return addPersonListToProject(project); 
+		Project project = projectRepository.findById(id);
+		return addPersonListToProject(project);
 	}
-	
+
 	@Override
 	public List<Project> findAll() {
 		List<Project> projects = projectRepository.findAll();
-		for(Project project : projects) {
-			project.setPersonList(findAllPersonsByProject(project));			
+		for (Project project : projects) {
+			project.setPersonList(findAllPersonsByProject(project));
 		}
 		return projects;
 	}
@@ -112,22 +117,35 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public void delete(Project project) throws RecordReferencedInOtherTablesException {
 		List<Person> persons = findAllPersonsByProject(project);
-		if(!persons.isEmpty()) {
-			throw new RecordReferencedInOtherTablesException("Record is relationed with at least one person. Delete this reference to delete this record.");
+		if (!persons.isEmpty()) {
+			throw new RecordReferencedInOtherTablesException(
+					"Record is relationed with at least one person. Delete this reference to delete this record.");
 		}
-		projectRepository.deleteById(project.getId());		
+		projectRepository.deleteById(project.getId());
 	}
 
 	@Override
-	public List<Person> findAllPersonsByProject(Project project) {		
+	public List<Person> findAllPersonsByProject(Project project) {
 		return projectPersonRepository.findAllPersonsByIdProject(project.getId());
 	}
-	
+
 	private Project addPersonListToProject(Project project) {
-		if(Objects.nonNull(project)) {
+		if (Objects.nonNull(project)) {
 			project.setPersonList(findAllPersonsByProject(project));
 		}
 		return project;
 	}
-		
+
+	private Person[] mappingArrayIntegerPersonsToArrayPersons(Integer[] personsInteger) {
+		Person[] persons = new Person[personsInteger.length];
+		for (int indexPersons = 0; indexPersons < personsInteger.length; indexPersons++) {
+			persons[indexPersons] = getUserFromInteger(personsInteger[indexPersons]);
+		}
+		return persons;
+	}
+
+	private Person getUserFromInteger(Integer personInteger) {
+		return personRepository.findById(Long.valueOf(personInteger));
+	}
+
 }

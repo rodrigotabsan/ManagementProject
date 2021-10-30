@@ -33,7 +33,7 @@ public class Project extends Common implements Serializable{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	
-	private Person[] persons; 
+	private Integer[] persons; 
 	
 	/** Lista de {@link Task} */
 	private List<Task> tasks;
@@ -162,7 +162,7 @@ public class Project extends Common implements Serializable{
 	 * Obtiene el array de personas
 	 * @return the persons
 	 */
-	public Person[] getPersons() {
+	public Integer[] getPersons() {
 		return persons;
 	}
 
@@ -170,7 +170,7 @@ public class Project extends Common implements Serializable{
 	 * Sobrescribe el array de personas
 	 * @param persons the persons to set
 	 */
-	public void setPersons(Person[] persons) {
+	public void setPersons(Integer[] persons) {
 		this.persons = persons;
 	}
 

@@ -1,37 +1,69 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout" lang="en">
 <head>
-<title>Users : View all</title>
+<title>Projects : View all</title>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<style>
+.material-icons {
+	color: #343a40 !important;
+	margin-left:37%;
+}
+</style>
 </head>
 <body>
-    <div th:if="${person.role.name == 'ROLE_ADMIN'}">
-		<div th:replace="adminmenu :: header"> </div>  
-    </div>
-    <div th:if="${person.role.name == 'ROLE_USER'}">
-		<div th:replace="usermenu :: header"> </div>  
-	</div> 
-        <table class="table table-bordered table-striped">
-        	<caption>List of projects</caption> 
-            <thead>
-                <tr>
-                    <th scope="col">Project</th>
-                    <th scope="col">Created</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:if="${projects.empty}">
-                    <td colspan="3">No projects</td>
-                </tr>
-                <tr th:each="project : ${projects}">
-                    <td><a href="viewproject.html" th:href="@{'/project/' + ${project.id}}" th:text="${project.name}"> Name </a></td>
-                    <td th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(project.startDate), #dates.month(project.startDate), #dates.day(project.startDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</td>
-                    <td><a href="projects" th:href="@{'/project/delete/' + ${project.id}}" th:text="Delete"> Delete </a></td>
-                    <td><a href="formproject.html" th:href="@{'/project/viewmodify/' + ${project.id}}" th:text="Modify"> Modify </a></td>
-                </tr>
-            </tbody>
-        </table>
+	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"></div>
+	</div>
+	<div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"></div>
+	</div>
+	<h1>List of projects</h1>
+	<table class="table table-bordered table-striped">
+		<caption>List of projects</caption>
+		<thead>
+			<tr>
+				<th scope="col">Name</th>
+				<th scope="col">Description</th>
+				<th scope="col">Started</th>
+				<th scope="col">Ended</th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+				<th scope="col"></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${projects.empty}">
+				<td colspan="3">No projects</td>
+			</tr>
+			<tr th:each="project : ${projects}">
+				<td th:text="${project.name}">Name</td>
+				<td th:text="${project.description}"> Description </td>
+				<td
+					th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(project.startDate), #dates.month(project.startDate), #dates.day(project.startDate),'UTC'), 'yyyy-MMM-dd')}">July
+					11, 2012 2:17:16 PM CDT</td>
+				<td
+					th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(project.endDate), #dates.month(project.endDate), #dates.day(project.endDate),'UTC'), 'yyyy-MMM-dd')}">July
+					11, 2012 2:17:16 PM CDT</td>
+				<td><a href="viewproject.html"
+					th:href="@{'/project/' + ${project.id}}"><span
+						class="material-icons">visibility</span></a></td>
+				<td><a href="formproject.html"
+					th:href="@{'/project/viewmodify/' + ${project.id}}"> <span
+						class="material-icons">mode_edit</span></a></td>
+				<td><a href="persons"
+					th:href="@{'/project/delete/' + ${project.id}}"> <span
+						class="material-icons md-36">delete</span></a></td>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

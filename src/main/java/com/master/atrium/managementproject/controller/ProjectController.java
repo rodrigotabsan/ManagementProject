@@ -3,6 +3,7 @@ package com.master.atrium.managementproject.controller;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -43,9 +44,6 @@ public class ProjectController {
 	@Autowired
 	ProjectService projectService;
 	
-	/*@Autowired
-	ProjectRegistrationService projectRegistrationService;
-	*/
 	@Autowired
 	public ProjectController(ProjectService projectService) {
 		this.projectService = projectService;
@@ -67,13 +65,13 @@ public class ProjectController {
     }
 
 	@GetMapping("{id}")
-    public ModelAndView view(@PathVariable("id") Project viewproject, ModelMap model) {
+    public ModelAndView view(@PathVariable("id") Long idViewProject, ModelMap model) {
+		Project viewProject = projectService.findById(idViewProject);
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-        //List<ProjectRegistration> projectRegistrations = projectRegistrationService.findByProject(viewproject);
-        //Iterable<Person> persons = personService.findPersonsByProjectId(projectRegistrations);        
-        model.addAttribute("viewproject", viewproject);        
+        List<Person> persons = projectService.findAllPersonsByProject(viewProject);    
+        model.addAttribute("viewproject", viewProject);        
 		model.addAttribute(PERSON, person);
-		//model.addAttribute(PERSONS, persons);
+		model.addAttribute(PERSONS, persons);
         return new ModelAndView("viewproject", model);
     }
 
@@ -95,13 +93,12 @@ public class ProjectController {
         }
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());               
 		
-		Project projectcreated = projectService.save(createproject);
-		//projectRegistrationService.saveProjectRegistrations(Arrays.asList(createproject.getPersons()), projectcreated);		
+		Project projectcreated = projectService.save(createproject);		
 		
-		model.addAttribute("projectcreated.id", projectcreated.getId()); 
+		model.addAttribute("viewproject.id", projectcreated.getId()); 
 		model.addAttribute(PERSON, person);
         model.addAttribute("globalMessage", "Successfully created a new project");
-        return new ModelAndView("redirect:/project/{projectcreated.id}", model);
+        return new ModelAndView("redirect:/project/{viewproject.id}", model);
     }
 
     @GetMapping(value = "delete/{id}")
@@ -112,7 +109,8 @@ public class ProjectController {
     }
 
     @GetMapping(value = "viewmodify/{id}")
-    public ModelAndView viewmodifyForm(@PathVariable("id") Project modifyproject, ModelMap model) {
+    public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyproject, ModelMap model) {
+    	Project modifyproject = projectService.findById(idModifyproject);
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
     	Iterable<Person> persons = personService.findAll();
         model.addAttribute("modifyproject", modifyproject);        
