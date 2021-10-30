@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Project;
+import com.master.atrium.managementproject.entity.Role;
 import com.master.atrium.managementproject.repository.PersonRepository;
 import com.master.atrium.managementproject.repository.ProjectPersonRepository;
+import com.master.atrium.managementproject.repository.RoleRepository;
 import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.validator.EmailExistsException;
 import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
@@ -31,6 +33,9 @@ public class PersonServiceImpl implements PersonService {
 	ProjectPersonRepository projectPersonRepository;
 	@Autowired
 	PersonRepository personRepository;
+	@Autowired 
+	RoleRepository roleRepository;
+	
 		
 	/**
 	 * Constructor de la clase
@@ -42,6 +47,7 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public Person save(final Person person) throws EmailExistsException, UserExistsException {
 		Person personFound = personRepository.findById(person.getId());
+		
 		if(Objects.nonNull(personFound)) {
 			update(person, personFound);
 		} else {
@@ -58,6 +64,7 @@ public class PersonServiceImpl implements PersonService {
 		if (userExist(person.getUser()) && !personFound.getUser().equals(person.getUser())) {
             throw new UserExistsException("There is an account with that username: " + person.getUser());
         }
+		person = addRole(person);
 		personRepository.update(person);
 		Person personFoundSaved = findById(person.getId());
 		if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {
@@ -76,12 +83,25 @@ public class PersonServiceImpl implements PersonService {
 		if (userExist(person.getUser())) {
             throw new UserExistsException("There is an account with that username: " + person.getUser());
         }
-		person.setPassword(passwordEncoder.encode(person.getPassword()));
+		person = addRole(person);
+		person.setPassword(passwordEncoder.encode(person.getPassword()));		
 		personRepository.insert(person);
 		Person personSaved = personRepository.findByUser(person.getUser());
 		if(Objects.nonNull(person.getProjects()) && person.getProjects().length > 0) {
 			insertProjectPersonRelation(person, personSaved);
 		}
+	}
+	
+	private Person addRole(Person person) {
+		Role role = roleRepository.findByName(person.getRole().getName());
+		person.setRole(role);
+		return person;
+	}
+	
+	private Person addRoleById(Person person) {
+		Role role = roleRepository.findById(person.getRoleId());
+		person.setRole(role);
+		return person;
 	}
 	
 	private void insertProjectPersonRelation(Person person, Person personFoundSaved) {
@@ -134,6 +154,7 @@ public class PersonServiceImpl implements PersonService {
 	public List<Person> findAll() {
 		List<Person> persons = personRepository.findAll();
 		for(Person person : persons) {
+			person = addRoleById(person);
 			person.setProjectList(findAllProjectsByPerson(person));			
 		}
 		return persons;
@@ -147,18 +168,27 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public Person findById(Long id) {
 		Person person = personRepository.findById(id);
+		if(Objects.nonNull(person)) {
+			person = addRole(person);
+		}
 		return addProjectListToPerson(person);
 	}
 
 	@Override
 	public Person findByEmail(String email) {
 		Person person = personRepository.findByEmail(email);
+		if(Objects.nonNull(person)) {
+		 person = addRole(person);
+		}
 		return addProjectListToPerson(person);
 	}
 
 	@Override
 	public Person findByUser(String user) {
 		Person person = personRepository.findByUser(user);
+		if(Objects.nonNull(person)) {
+			person = addRole(person);
+		}
 		return addProjectListToPerson(person);
 	}
 	

@@ -61,9 +61,9 @@ public class PersonController {
     }
 
 	@GetMapping("{id}")
-    public ModelAndView view(@PathVariable("id") Person viewperson, ModelMap model) {
+    public ModelAndView view(@PathVariable("id") Long idViewperson, ModelMap model) {
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-        
+        Person viewperson = personService.findById(idViewperson);
         Iterable<Project> projects = viewperson.getProjectList();
         model.addAttribute("viewperson", viewperson);        
 		model.addAttribute(PERSON, person);
@@ -101,9 +101,11 @@ public class PersonController {
     }
     
     @GetMapping(value = "viewmodify/{id}")
-    public ModelAndView viewmodifyForm(@PathVariable("id") Person modifyperson, ModelMap model) {
+    public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyperson, ModelMap model) {
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
+    	Person modifyperson = personService.findById(idModifyperson);
     	Iterable<Role> roles = roleService.findAll();
+    	
     	Collection<Project> allprojects = Utility.convertIterableProjectToListProject(projectService.findAll());
     	modifyperson = personService.findById(modifyperson.getId());
     	Collection<Project> projectsselected = personService.findById(modifyperson.getId()).getProjectList();

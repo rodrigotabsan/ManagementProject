@@ -294,7 +294,7 @@ to {
 					<label class="control-label col-xs-2" for="role">Role</label>
 					<div class="col-xs-10">
 						<select class="select-user-form" th:field="*{role}">
-							<option th:each="role : ${roles}" th:value="${role.id}"
+							<option th:each="role : ${roles}" th:value="${role.name}"
 								th:text="${role.name}"></option>
 						</select>
 					</div>

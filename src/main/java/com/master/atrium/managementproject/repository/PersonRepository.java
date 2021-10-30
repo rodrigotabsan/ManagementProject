@@ -100,7 +100,7 @@ public class PersonRepository {
 	}
 	
 	public Person findById(Long id) {
-		String query = "SELECT p.id, p.dni, p.email, p.end_date, p.start_date, p.lastname1, p.lastname2, p.name, p.password, p.user, r.id as role_id FROM person p, role r WHERE p.id = ? AND p.role_id = r.id;";
+		String query = "SELECT id, dni, email, end_date, start_date, lastname1, lastname2, name, password, user, role_id FROM person WHERE id = ?;";
 		List<Person> persons = template.query(query, new BeanPropertyRowMapper<Person>(Person.class), id);
 		Person person = null;
 		if(Objects.nonNull(persons) && !persons.isEmpty()) {
@@ -112,7 +112,7 @@ public class PersonRepository {
 	}
 		
 	public Person findByEmail(String email) {
-		String query = "SELECT p.id, p.dni, p.email, p.end_date, p.start_date, p.lastname1, p.lastname2, p.name, p.password, p.user, r.id as role_id FROM person p, role r WHERE p.email = ? AND p.role_id = r.id;";
+		String query = "SELECT id, dni, email, end_date, start_date, lastname1, lastname2, name, password, user, role_id FROM person WHERE email = ?;";
 		List<Person> persons = template.query(query, new BeanPropertyRowMapper<Person>(Person.class), email);
 		Person person = null;
 		if(Objects.nonNull(persons) && !persons.isEmpty()) {
@@ -124,7 +124,7 @@ public class PersonRepository {
 	}
 	
 	public Person findByUser(String user) {
-		String query = "SELECT p.id, p.dni, p.email, p.end_date, p.start_date, p.lastname1, p.lastname2, p.name, p.password, p.user, r.id as role_id FROM person p, role r WHERE p.user = ? AND p.role_id = r.id;";
+		String query = "SELECT id, dni, email, end_date, start_date, lastname1, lastname2, name, password, user, role_id FROM person p WHERE user = ?;";
 		List<Person> persons = template.query(query, new BeanPropertyRowMapper<Person>(Person.class), user);
 		Person person = null;
 		if(Objects.nonNull(persons) && !persons.isEmpty()) {
