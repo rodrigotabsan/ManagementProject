@@ -10,6 +10,8 @@ import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.master.atrium.managementproject.validator.PasswordValidator;
 
 /**
@@ -48,8 +50,10 @@ public class Person extends Common implements Serializable{
 	/** Contraseña de confirmación del usuario */
 	private String passwordConfirmation;
 	/** Fecha de alta del usuario */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
 	/** Fecha de baja del usuario */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	
 	private Project[] projects;

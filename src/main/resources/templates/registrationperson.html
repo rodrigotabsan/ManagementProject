@@ -184,7 +184,7 @@ to {
 	<div th:if="${person.role.name == 'ROLE_USER'}">
 		<div th:replace="usermenu :: header"></div>
 	</div>
-	<h1 layout:fragment="header">Create User</h1>
+	<h1 layout:fragment="header">Create user</h1>
 	<div class="container">
 
 
@@ -197,7 +197,7 @@ to {
 			<div class="row">
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('user')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="user">User</label>
+					<label class="control-label col-xs-2" for="user"><strong>User</strong></label>
 					<div class="col-xs-10">
 						<input class="create-user-form" id="user" type="text" title="user" th:field="*{user}" /> <span
 							th:if="${#fields.hasErrors('user')}" th:errors="*{user}"
@@ -206,7 +206,7 @@ to {
 				</div>
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="name">Name</label>
+					<label class="control-label col-xs-2" for="name"><strong>Name</strong></label>
 					<div class="col-xs-10">
 						<input class="create-user-form" id="name" type="text" title="name" th:field="*{name}" /> <span
 							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
@@ -218,8 +218,8 @@ to {
 				<div class="row">
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('lastname1')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="lastname1">Lastname
-						1</label>
+					<label class="control-label col-xs-2" for="lastname1"><strong>Lastname
+						1</strong></label>
 					<div class="col-xs-10">
 						<input class="create-user-form" id="lastname1" type="text" title="lastname1"
 							th:field="*{lastname1}" /> <span
@@ -231,8 +231,8 @@ to {
 
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('lastname2')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="lastname2">Lastname
-						2</label>
+					<label class="control-label col-xs-2" for="lastname2"><strong>Lastname
+						2</strong></label>
 					<div class="col-xs-10">
 						<input class="create-user-form" id="lastname2" type="text" title="lastname2"
 							th:field="*{lastname2}" /> <span
@@ -245,7 +245,7 @@ to {
 			<div class="row">
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="password">Password</label>
+					<label class="control-label col-xs-2" for="password"><strong>Password</strong></label>
 					<div class="col-xs-3">
 						<input class="create-user-form" id="password" type="password" title="password"
 							th:field="*{password}" /> <span
@@ -255,8 +255,8 @@ to {
 				</div>
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="passwordConfirmation">Password
-						Confirmation</label>
+					<label class="control-label col-xs-2" for="passwordConfirmation"><strong>Password
+						Confirmation</strong></label>
 					<div class="col-xs-10">
 						<input class="create-user-form" id="passwordConfirmation" type="password"
 							title="passwordConfirmation" th:field="*{passwordConfirmation}" />
@@ -269,7 +269,7 @@ to {
 				<div class="row">
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('dni')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="dni">DNI</label>
+					<label class="control-label col-xs-2" for="dni"><strong>DNI</strong></label>
 					<div class="col-xs-10">
 						<input class="create-user-form" id="dni" type="text" title="dni" th:field="*{dni}" /> <span
 							th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"
@@ -279,7 +279,7 @@ to {
 
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="email">Email</label>
+					<label class="control-label col-xs-2" for="email"><strong>Email</strong></label>
 					<div class="col-xs-10">
 						<input class="create-user-form" id="email" type="email" title="email" th:field="*{email}" />
 						<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
@@ -291,7 +291,7 @@ to {
 			<div class="row">
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('role')} ? 'has-error'">
-					<label class="control-label col-xs-2" for="role">Role</label>
+					<label class="control-label col-xs-2" for="role"><strong>Role</strong></label>
 					<div class="col-xs-10">
 						<select class="select-user-form" th:field="*{role}">
 							<option th:each="role : ${roles}" th:value="${role.name}"
@@ -302,7 +302,7 @@ to {
 				<div th:if="${!projects.isEmpty}">
 					<div class="col form-group"
 						th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
-						<label class="control-label col-xs-2" for="projects">Projects</label>
+						<label class="control-label col-xs-2" for="projects"><strong>Projects</strong></label>
 						<select class="select-user-form" th:field="*{projects}" multiple="multiple">
 							<option th:each="project : ${projects}" th:value="${{project}}"
 								th:text="${project.name}"></option>

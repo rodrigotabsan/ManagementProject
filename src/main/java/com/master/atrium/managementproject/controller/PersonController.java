@@ -86,11 +86,16 @@ public class PersonController {
 
     @PostMapping(value = "createperson")
     public ModelAndView create(@Valid Person createperson, BindingResult result, ModelMap model) throws EmailExistsException, UserExistsException {
-        if (result.hasErrors()) {
+    	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
+    	
+    	if (result.hasErrors()) {
             return new ModelAndView("registrationperson", "formErrors", result.getAllErrors());
         }         		
 		personService.save(createperson);
-        return new ModelAndView("redirect:/person/");
+		Person viewperson = personService.findByUser(createperson.getUser());
+		model.addAttribute(PERSON, person);
+		model.addAttribute("viewperson", viewperson); 
+        return new ModelAndView("redirect:/person/"+ viewperson.getId());
     }
 
     @GetMapping(value = "delete/{id}")
