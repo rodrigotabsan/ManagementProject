@@ -56,7 +56,7 @@ public class Person extends Common implements Serializable{
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	
-	private Project[] projects;
+	private Integer[] projects;
 	
     private Set<Task> tasks = new HashSet<>();
 		
@@ -310,14 +310,14 @@ public class Person extends Common implements Serializable{
 	/**
 	 * @return the projects
 	 */
-	public Project[] getProjects() {
+	public Integer[] getProjects() {
 		return projects;
 	}
 
 	/**
 	 * @param projects the projects to set
 	 */
-	public void setProjects(Project[] projects) {
+	public void setProjects(Integer[] projects) {
 		this.projects = projects;
 	}
 	

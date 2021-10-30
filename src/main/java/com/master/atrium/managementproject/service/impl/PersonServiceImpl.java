@@ -12,6 +12,7 @@ import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.entity.Role;
 import com.master.atrium.managementproject.repository.PersonRepository;
 import com.master.atrium.managementproject.repository.ProjectPersonRepository;
+import com.master.atrium.managementproject.repository.ProjectRepository;
 import com.master.atrium.managementproject.repository.RoleRepository;
 import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.validator.EmailExistsException;
@@ -35,6 +36,8 @@ public class PersonServiceImpl implements PersonService {
 	PersonRepository personRepository;
 	@Autowired 
 	RoleRepository roleRepository;
+	@Autowired
+	ProjectRepository projectRepository;
 	
 		
 	/**
@@ -105,15 +108,17 @@ public class PersonServiceImpl implements PersonService {
 	}
 	
 	private void insertProjectPersonRelation(Person person, Person personFoundSaved) {
-		for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {						
-			projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
+		for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {
+			Project[] projects = mappingArrayIntegerProjectsToArrayProjects(person.getProjects());
+			projectPersonRepository.insert(projects[indexProjects], personFoundSaved);
 		}
 	}
 	
 	private void updateProjectPersonRelation(Person person, List<Project> projectsFound, Person personFound, Person personFoundSaved) {
 		int indexProjects = 0;
 		while(hasProjectPersonToUpdate(indexProjects, person, projectsFound)) {
-			projectPersonRepository.update(person.getProjects()[indexProjects], personFoundSaved, projectsFound.get(indexProjects), personFound);
+			Project[] projects = mappingArrayIntegerProjectsToArrayProjects(person.getProjects());
+			projectPersonRepository.update(projects[indexProjects], personFoundSaved, projectsFound.get(indexProjects), personFound);
 			indexProjects++;
 		}
 		if(hasProjectPersonToDelete(indexProjects, person)) {
@@ -123,7 +128,8 @@ public class PersonServiceImpl implements PersonService {
 			}
 		} else if(hasProjectPersonToInsert(indexProjects, projectsFound)) {
 			while(indexProjects < person.getProjects().length) {
-				projectPersonRepository.insert(person.getProjects()[indexProjects], personFoundSaved);
+				Project[] projects = mappingArrayIntegerProjectsToArrayProjects(person.getProjects());
+				projectPersonRepository.insert(projects[indexProjects], personFoundSaved);
 				indexProjects++;
 			}
 		}
@@ -190,6 +196,18 @@ public class PersonServiceImpl implements PersonService {
 			person = addRole(person);
 		}
 		return addProjectListToPerson(person);
+	}
+	
+	private Project[] mappingArrayIntegerProjectsToArrayProjects(Integer[] projectsInteger) {
+		Project[] projects = new Project[projectsInteger.length];
+		for (int indexProjects = 0; indexProjects < projectsInteger.length; indexProjects++) {
+			projects[indexProjects] = getProjectFromInteger(projectsInteger[indexProjects]);
+		}
+		return projects;
+	}
+	
+	private Project getProjectFromInteger(Integer projectInteger) {
+		return projectRepository.findById(Long.valueOf(projectInteger));
 	}
 	
 	private boolean userExist(String user) {

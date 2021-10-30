@@ -54,7 +54,7 @@ class PersonServiceImplTest {
 		projectRepository.insert(project);
 		project = projectRepository.findByName("JUNITPROJECT");
 		
-		Project[] projects = {project};
+		Integer[] projects = {project.getId().intValue()};
 		Role role = roleRepository.findByName("ROLE_ADMIN");
 		Person person = new Person("09052516S", "RODRIGOUSER20", "RODRIGO", "TABLADO", "SANCHEZ", "test20junit@test.com", "1234", role, new Date(), null);
 		person.setProjects(projects);
@@ -84,7 +84,7 @@ class PersonServiceImplTest {
 		projectRepository.insert(project2);
 		project2 = projectRepository.findByName("JUNITPROJECT3");
 		
-		Project[] projects = {project, project2};
+		Integer[] projects = {project.getId().intValue(), project2.getId().intValue()};
 		person.setProjects(projects);
 		Person afterSave = personService.save(person);
 		assertEquals(2, afterSave.getProjectList().size());
@@ -98,7 +98,7 @@ class PersonServiceImplTest {
 		projectRepository.insert(project);
 		project = projectRepository.findByName("JUNITPROJECT4");
 		
-		Project[] projects = {project};
+		Integer[] projects = {project.getId().intValue()};
 		person.setProjects(projects);
 		Person afterSave = personService.save(person);
 		assertEquals(1, afterSave.getProjectList().size());
@@ -109,12 +109,12 @@ class PersonServiceImplTest {
 	void saveWithUpdateWithALotOfProjectsTest() throws EmailExistsException, UserExistsException {
 		Person person = personService.findByUser("PEPITO");
 		List<Project> projectList = projectRepository.findAll();
-		Project[] projects = new Project[projectList.size()-2];
+		Integer[] projects = new Integer[projectList.size()-2];
 		int indexProjects = 0;
 		int indexProjectList = 2;
 		
 		while(indexProjectList < projectList.size()) {
-			projects[indexProjects] = projectList.get(indexProjectList);
+			projects[indexProjects] = projectList.get(indexProjectList).getId().intValue();
 			indexProjects++;
 			indexProjectList++;
 		}		

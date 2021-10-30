@@ -55,7 +55,7 @@ class ProjectServiceImplTest {
 		
 		personRepository.insert(person);
 		person = personRepository.findByUser("RODRIGOUSER");
-		Integer[] persons = {Integer.valueOf(person.getId().toString())};
+		Integer[] persons = {person.getId().intValue()};
 		
 		project.setPersons(persons);
 		Project afterSave = projectService.save(project);
@@ -84,9 +84,7 @@ class ProjectServiceImplTest {
 			
 		personRepository.insert(person2);
 		person2 = personRepository.findByUser("RODRIGOUSER3");
-		Integer personStr = Integer.valueOf(person.getId().toString());
-		Integer person2Str = Integer.valueOf(person2.getId().toString());
-		Integer[] persons = {personStr, person2Str};
+		Integer[] persons = {person.getId().intValue(), person2.getId().intValue()};
 		project.setPersons(persons);
 		Project afterSave = projectService.save(project);
 		assertEquals(2, afterSave.getPersonList().size());
@@ -101,7 +99,7 @@ class ProjectServiceImplTest {
 		personRepository.insert(person);
 		person = personRepository.findByUser("RODRIGOUSER4");
 		
-		Integer[] persons = {Integer.valueOf(person.getId().toString())};
+		Integer[] persons = {person.getId().intValue()};
 		project.setPersons(persons);
 		Project afterSave = projectService.save(project);
 		assertEquals(1, afterSave.getPersonList().size());
@@ -117,7 +115,7 @@ class ProjectServiceImplTest {
 		int indexPersons = 0;
 		
 		while(indexPersonList < personList.size()) {
-			persons[indexPersons] = Integer.valueOf(personList.get(indexPersonList).getId().toString());
+			persons[indexPersons] = personList.get(indexPersonList).getId().intValue();
 			indexPersonList++;
 			indexPersons++;
 		}		
