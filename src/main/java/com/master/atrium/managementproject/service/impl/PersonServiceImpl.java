@@ -120,7 +120,7 @@ public class PersonServiceImpl implements PersonService {
 	private boolean hasProjectPersonToInsert(int indexProjects, List<Project> projectsFound) {
 		return indexProjects >= projectsFound.size();
 	}
-	
+		
 	@Override
 	public void delete(final Person person) throws RecordReferencedInOtherTablesException {
 		List<Project> projects = findAllProjectsByPerson(person);
