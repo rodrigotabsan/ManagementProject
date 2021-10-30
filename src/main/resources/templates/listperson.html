@@ -3,6 +3,33 @@
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
 <head>
 <title>Users : View all</title>
+<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<style>.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  color: #343a40!important;
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}</style>
 </head>
 <body>
     <div th:if="${person.role.name == 'ROLE_ADMIN'}">
@@ -11,12 +38,19 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
     <div th:if="${person.role.name == 'ROLE_USER'}">
 		<div th:replace="usermenu :: header"> </div>  
 	</div> 
+	<h1>List of users</h1>
+		<div class="table-responsive">
         <table class="table table-bordered table-striped">
         	<caption>List of users</caption> 
-            <thead>
+            <thead class="thead-dark">
                 <tr>
                     <th scope="col">Username</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Lastname 1</th>
+                    <th scope="col">Lastname 2</th>
+                    <th scope="col">Email</th>
                     <th scope="col">Created</th>
+                    <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
                 </tr>
@@ -26,12 +60,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
                     <td colspan="3">No users</td>
                 </tr>
                 <tr th:each="viewperson : ${persons}">
-                    <td><a href="viewperson.html" th:href="@{'/person/' + ${viewperson.id}}" th:text="${viewperson.user}"> Username </a></td>
+                    <td><a th:text="${viewperson.user}"> Username </a></td>
+                    <td><a th:text="${viewperson.name}"> Name </a></td>
+                    <td><a th:text="${viewperson.lastname1}"> Lastname 1 </a></td>
+                    <td><a th:text="${viewperson.lastname2}"> Lastname 2 </a></td>
+                    <td><a th:text="${viewperson.email}"> Email </a></td>
                     <td th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewperson.startDate), #dates.month(viewperson.startDate), #dates.day(viewperson.startDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</td>
-                    <td><a href="persons" th:href="@{'/person/delete/' + ${viewperson.id}}" th:text="Delete"> Delete </a></td>
-                    <td><a href="formperson.html" th:href="@{'/person/viewmodify/' + ${viewperson.id}}" th:text="Modify"> Modify </a></td>
+                    <td><a href="viewperson.html" th:href="@{'/person/' + ${viewperson.id}}"><span class="material-icons">visibility</span></a></td>
+                    <td><a href="formperson.html" th:href="@{'/person/viewmodify/' + ${viewperson.id}}"> 
+                    	<span class="material-icons">mode_edit</span></a></td>
+                    <td><a href="persons" th:href="@{'/person/delete/' + ${viewperson.id}}"> 
+                    	<span class="material-icons md-36">delete</span></a></td>
+                    
                 </tr>
             </tbody>
         </table>
+        </div>
 </body>
 </html>

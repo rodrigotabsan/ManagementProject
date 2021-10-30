@@ -1,124 +1,345 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout" lang="en">
 
 <head>
-    <title>Registration Page</title>
+<title>Registration Page</title>
 
-    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
-    <script src="/js/jquery-1.7.2.js"></script>
-    <script src="/js/pwstrength.js"></script>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<script src="/js/jquery-1.7.2.js"></script>
+<script src="/js/pwstrength.js"></script>
 
+<style>
+@
+-webkit-keyframes progress-bar-stripes {
+	from {background-position: 40px 0
+}
+
+to {
+	background-position: 0 0
+}
+
+}
+@
+-o-keyframes progress-bar-stripes {
+	from {background-position: 40px 0
+}
+
+to {
+	background-position: 0 0
+}
+
+}
+@
+keyframes progress-bar-stripes {
+	from {background-position: 40px 0
+}
+
+to {
+	background-position: 0 0
+}
+
+}
+@
+keyframes progress-bar-stripes {
+	from {background-position: 40px 0
+}
+
+to {
+	background-position: 0 0
+}
+
+}
+.progress {
+	width: 74%;
+	height: 20px;
+	margin-bottom: 20px;
+	overflow: hidden;
+	background-color: #f5f5f5;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
+	box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1)
+}
+
+.progress-bar {
+	float: left;
+	width: 0;
+	height: 100%;
+	font-size: 12px;
+	line-height: 20px;
+	color: #fff;
+	text-align: center;
+	background-color: #337ab7;
+	-webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+	box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .15);
+	-webkit-transition: width .6s ease;
+	-o-transition: width .6s ease;
+	transition: width .6s ease
+}
+
+.progress-bar-striped, .progress-striped .progress-bar {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15)
+		25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	-webkit-background-size: 40px 40px;
+	background-size: 40px 40px
+}
+
+.progress-bar.active, .progress.active .progress-bar {
+	-webkit-animation: progress-bar-stripes 2s linear infinite;
+	-o-animation: progress-bar-stripes 2s linear infinite;
+	animation: progress-bar-stripes 2s linear infinite
+}
+
+.progress-bar-success {
+	background-color: #5cb85c
+}
+
+.progress-striped .progress-bar-success {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15)
+		25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)
+}
+
+.progress-bar-info {
+	background-color: #5bc0de
+}
+
+.progress-striped .progress-bar-info {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15)
+		25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)
+}
+
+.progress-bar-warning {
+	background-color: #f0ad4e
+}
+
+.progress-striped .progress-bar-warning {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15)
+		25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+	background-image: linear-gradient(45deg, rgba(255, 255, 255, .15) 25%,
+		transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent)
+}
+
+.progress-bar-danger {
+	background-color: #d9534f
+}
+
+.progress-striped .progress-bar-danger {
+	background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, .15)
+		25%, transparent 25%, transparent 50%, rgba(255, 255, 255, .15) 50%,
+		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
+}
+
+.create-user-form{
+	width: 74%;
+}
+.select-user-form{
+	width: 36%;
+}
+.submit-create-user-form{
+	margin-left:36%;
+	margin-top:5%;
+}
+.input-submit-create-user{
+	width:15%;
+}
+</style>
 </head>
 <body>
-<div class="container">
-    <div th:if="${person.role.name == 'ROLE_ADMIN'}">
-		<div th:replace="adminmenu :: header"> </div>  
-    </div>
-    <div th:if="${person.role.name == 'ROLE_USER'}">
-		<div th:replace="usermenu :: header"> </div>  
-	</div> 
-    <form id="personForm" th:action="@{/person/createperson}" th:object="${createperson}" action="#" method="post" class="form-horizontal">
-        <div th:if="${#fields.hasErrors('global')}" th:errors="*{global}" class="alert alert-danger">Incorrect password confirmation</div>
-        <input type="hidden" th:field="*{id}"/>
-		<div class="form-group" th:classappend="${#fields.hasErrors('user')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="user">User</label>
-            <div class="col-xs-10">
-                <input id="user" type="text" title="user" th:field="*{user}"/>
-                <span th:if="${#fields.hasErrors('user')}" th:errors="*{user}" class="help-block">User Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="name">Name</label>
-            <div class="col-xs-10">
-                <input id="name" type="text" title="name" th:field="*{name}"/>
-                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="help-block">Name Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('lastname1')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="lastname1">Lastname 1</label>
-            <div class="col-xs-10">
-                <input id="lastname1" type="text" title="lastname1" th:field="*{lastname1}"/>
-                <span th:if="${#fields.hasErrors('lastname1')}" th:errors="*{lastname1}" class="help-block">Lastname 1 Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('lastname2')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="lastname2">Lastname 2</label>
-            <div class="col-xs-10">
-                <input id="lastname2" type="text" title="lastname2" th:field="*{lastname2}"/>
-                <span th:if="${#fields.hasErrors('lastname2')}" th:errors="*{lastname2}" class="help-block">Lastname 2 Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('dni')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="dni">DNI</label>
-            <div class="col-xs-10">
-                <input id="dni" type="text" title="dni" th:field="*{dni}"/>
-                <span th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}" class="help-block">DNI Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="email">Email</label>
-            <div class="col-xs-10">
-                <input id="email" type="email" title="email" th:field="*{email}"/>
-                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="help-block">Email Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="password">Password</label>
-            <div class="col-xs-3">
-                <input id="password" type="password" title="password" th:field="*{password}"/>
-                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="help-block">Password Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="passwordConfirmation">Password Confirmation</label>
-            <div class="col-xs-10">
-                <input id="passwordConfirmation" type="password" title="passwordConfirmation" th:field="*{passwordConfirmation}"/>
-                <span th:if="${#fields.hasErrors('passwordConfirmation')}" th:errors="*{passwordConfirmation}" class="help-block">Password Confirmation Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('role')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="role">Role</label>
-            <div class="col-xs-10">
-	        	<select th:field="*{role}">
-				    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}">
-				    </option>
-				</select>
+	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"></div>
+	</div>
+	<div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"></div>
+	</div>
+	<h1 layout:fragment="header">Create User</h1>
+	<div class="container">
+
+
+		<form id="personForm" th:action="@{/person/createperson}"
+			th:object="${createperson}" action="#" method="post"
+			class="form-horizontal">
+			<div th:if="${#fields.hasErrors('global')}" th:errors="*{global}"
+				class="alert alert-danger">Incorrect password confirmation</div>
+			<input type="hidden" th:field="*{id}" />
+			<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('user')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="user">User</label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="user" type="text" title="user" th:field="*{user}" /> <span
+							th:if="${#fields.hasErrors('user')}" th:errors="*{user}"
+							class="help-block">User Error</span>
+					</div>
+				</div>
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="name">Name</label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="name" type="text" title="name" th:field="*{name}" /> <span
+							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
+							class="help-block">Name Error</span>
+					</div>
+				</div>
+
+				</div>
+				<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('lastname1')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="lastname1">Lastname
+						1</label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="lastname1" type="text" title="lastname1"
+							th:field="*{lastname1}" /> <span
+							th:if="${#fields.hasErrors('lastname1')}"
+							th:errors="*{lastname1}" class="help-block">Lastname 1
+							Error</span>
+					</div>
+				</div>
+
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('lastname2')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="lastname2">Lastname
+						2</label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="lastname2" type="text" title="lastname2"
+							th:field="*{lastname2}" /> <span
+							th:if="${#fields.hasErrors('lastname2')}"
+							th:errors="*{lastname2}" class="help-block">Lastname 2
+							Error</span>
+					</div>
+				</div>
 			</div>
-		</div>
-		<div class="form-group" th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
-			<label class="control-label col-xs-2" for="projects">Projects</label>
-			<select th:field="*{projects}" multiple="multiple">
-			    <option th:each="project : ${projects}" th:value="${{project}}" th:text="${project.name}">
-			    </option>
-			</select>
-		</div>
-        <div class="form-actions col-xs-offset-2 col-xs-10">
-            <input type="submit" class="btn btn-primary" value="Register"/>
-        </div>
-    </form>
-</div>
-<script type="text/javascript">
-    $(document).ready(function () {
-        options = {
-            common: {minChar:8},
-            ui: {
-                showVerdictsInsideProgressBar:true,
-                showErrors:true,
-                errorMessages:{
-                    wordLength: 'Your password is too short',
-                    wordNotEmail: 'Do not use your email as your password',
-                    wordSequences: 'Your password contains sequences',
-                    wordLowercase: 'Use lower case characters',
-                    wordUppercase: 'Use upper case characters',
-                    wordOneNumber: 'Use numbers',
-                    wordOneSpecialChar: 'Use special characters: [~!@#$%^&amp;*,_?]'
-                }
-            }
-        };
-        $('#password').pwstrength(options);
-    });
-</script>
+			<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="password">Password</label>
+					<div class="col-xs-3">
+						<input class="create-user-form" id="password" type="password" title="password"
+							th:field="*{password}" /> <span
+							th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+							class="help-block">Password Error</span>
+					</div>
+				</div>
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="passwordConfirmation">Password
+						Confirmation</label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="passwordConfirmation" type="password"
+							title="passwordConfirmation" th:field="*{passwordConfirmation}" />
+						<span th:if="${#fields.hasErrors('passwordConfirmation')}"
+							th:errors="*{passwordConfirmation}" class="help-block">Password
+							Confirmation Error</span>
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('dni')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="dni">DNI</label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="dni" type="text" title="dni" th:field="*{dni}" /> <span
+							th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"
+							class="help-block">DNI Error</span>
+					</div>
+				</div>
+
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="email">Email</label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="email" type="email" title="email" th:field="*{email}" />
+						<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+							class="help-block">Email Error</span>
+					</div>
+				</div>
+
+			</div>
+			<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('role')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="role">Role</label>
+					<div class="col-xs-10">
+						<select class="select-user-form" th:field="*{role}">
+							<option th:each="role : ${roles}" th:value="${role.id}"
+								th:text="${role.name}"></option>
+						</select>
+					</div>
+				</div>
+				<div th:if="${!projects.isEmpty}">
+					<div class="col form-group"
+						th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
+						<label class="control-label col-xs-2" for="projects">Projects</label>
+						<select class="select-user-form" th:field="*{projects}" multiple="multiple">
+							<option th:each="project : ${projects}" th:value="${{project}}"
+								th:text="${project.name}"></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
+				<input type="submit" class="btn btn-primary input-submit-create-user" value="Register" />
+			</div>
+
+		</form>
+	</div>
+	<script type="text/javascript">
+		$(document)
+				.ready(
+						function() {
+							options = {
+								common : {
+									minChar : 8
+								},
+								ui : {
+									showVerdictsInsideProgressBar : true,
+									showErrors : true,
+									errorMessages : {
+										wordLength : 'Your password is too short',
+										wordNotEmail : 'Do not use your email as your password',
+										wordSequences : 'Your password contains sequences',
+										wordLowercase : 'Use lower case characters',
+										wordUppercase : 'Use upper case characters',
+										wordOneNumber : 'Use numbers',
+										wordOneSpecialChar : 'Use special characters: [~!@#$%^&amp;*,_?]'
+									}
+								}
+							};
+							$('#password').pwstrength(options);
+						});
+	</script>
 </body>
 </html>

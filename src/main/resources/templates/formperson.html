@@ -3,6 +3,8 @@
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
 <head>
 <title>Users : Create</title>
+<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
 <body>    
     <div th:if="${person.role.name == 'ROLE_ADMIN'}">
@@ -11,6 +13,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
     <div th:if="${person.role.name == 'ROLE_USER'}">
 		<div th:replace="usermenu :: header"> </div>  
 	</div> 
+		<h1>Modify User</h1>
         <div layout:fragment="content" class="container">
         <form id="personForm" th:action="@{/person/modify}" th:object="${modifyperson}" action="#" method="POST">
         	<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">

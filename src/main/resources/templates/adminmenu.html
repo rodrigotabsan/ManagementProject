@@ -3,28 +3,43 @@
 <head>
 <title>Layout</title>
 
-<link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.3.2/css/bootstrap.min.css" rel="stylesheet" />
+<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
 <body>
-    <div th:fragment="header" class="container">
-        <div class="navbar">
-            <div class="navbar-inner">
-		        <div class="pull-right">
-		        	<ul>
-			        	<li><a class="brand" th:href="@{/main}">Home</a></li>
-				        <li><a href="registrationperson.html" th:href="@{/person/createform/(registrationperson)}">Create User</a></li>
-				        <li><a href="registrationproject.html" th:href="@{/project/createform/(registrationproject)}">Create Project</a></li>
-				        <li><a href="registrationtask.html" th:href="@{/task/createform/(registrationtask)}">Create Task</a></li>	           
-				        <li><a href="listperson.html" th:href="@{/person/(listperson)}">List Users</a></li>
-				        <li><a href="listproject.html" th:href="@{/project/(listproject)}">List Projects</a></li>
-				    	<li><a href="listtask.html" th:href="@{/task/(listtask)}">List Tasks</a></li>
-			    	</ul>
-		    	</div>			            
-			</div>
-        </div>
-        <h1 layout:fragment="header">Layout</h1>
-        <div layout:fragment="content">Fake content</div>
+    <div th:fragment="header" class="">
+        <nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
+		    <a class="navbar-brand" th:href="@{/main}">
+		      <img src="/img/logo.png" width="80" height="100" alt="">
+		    </a>
+  			
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav mr-auto">
+		      <li class="nav-item">
+		        <a class="nav-link" th:href="@{/main}">Home <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="registrationperson.html" th:href="@{/person/createform/(registrationperson)}">Create User <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="registrationproject.html" th:href="@{/project/createform/(registrationproject)}">Create Project <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="registrationtask.html" th:href="@{/task/createform/(registrationtask)}">Create Task <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="listperson.html" th:href="@{/person/(listperson)}">List Users <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="listproject.html" th:href="@{/project/(listproject)}">List Projects <span class="sr-only">(current)</span></a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="listtask.html" th:href="@{/task/(listtask)}">List Tasks <span class="sr-only">(current)</span></a>
+		      </li>
+		    </ul>
+		 	</div>
+		</nav>	  
     </div>
 </body>
 </html>
