@@ -1,38 +1,108 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout" lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<style>
+.create-user-form {
+	width: 74%;
+}
+
+.select-user-form {
+	width: 36%;
+}
+
+.submit-create-user-form {
+	margin-left: 36%;
+	margin-top: 5%;
+}
+
+.input-submit-create-user {
+	width: 15%;
+}
+</style>
 </head>
 <body>
 	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
-		<div th:replace="adminmenu :: header"> </div>  
-    </div>
-    <div th:if="${person.role.name == 'ROLE_USER'}">
-		<div th:replace="usermenu :: header"> </div>  
-	</div> 
-	<form id="projectForm" th:action="@{/project/modify}" th:object="${modifyproject}" action="#" method="POST">
-        	<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
-                <p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation error</p>
-            </div> 
-        <input type="hidden" th:field="*{id}" th:class="${#fields.hasErrors('id')} ? 'field-error'" />
-        <label for="name">Name</label>
-        <input type="text" th:field="*{name}" th:class="${#fields.hasErrors('name')} ? 'field-error'" />
-        <label for="description">Description</label>
-        <input type="text" th:field="*{description}" th:class="${#fields.hasErrors('description')} ? 'field-error'" />
-        <label for="startDate">Start date</label>
-        <input type="date" th:field="*{startDate}" th:class="${#fields.hasErrors('startDate')} ? 'field-error'"/>
-        <label for="endDate">End date</label>
-        <input type="date" th:field="*{endDate}" th:class="${#fields.hasErrors('endDate')} ? 'field-error'"/>
-        <label for="persons">Users</label>
-        <select th:field="*{persons}" multiple = "multiple">
-        	<option th:each="person : ${persons}" th:value="${{person}}" th:text="${person.name + ' ' + person.lastname1 + ' ' + person.lastname2}">
-			</option>
-		</select>		
-        <div class="form-actions">
-            <input type="submit" value="Save" />
-        </div>
-    </form>
+		<div th:replace="adminmenu :: header"></div>
+	</div>
+	<div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"></div>
+	</div>
+	<h1>Modify project</h1>
+	<div layout:fragment="content" class="container">
+		<form id="projectForm" th:action="@{/project/modify}"
+			th:object="${modifyproject}" action="#" method="POST">
+			<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
+				<p th:each="error : ${#fields.errors('*')}" th:text="${error}">Validation
+					error</p>
+			</div>
+			<input type="hidden" th:field="*{id}"
+				th:class="${#fields.hasErrors('id')} ? 'field-error'" />
+			<div class="row">
+				<div class="col form-group">
+					<label class="control-label col-xs-2" for="name"><strong>Name</strong></label>
+					<div class="col-xs-10">
+						<input type="text" th:field="*{name}"
+							th:class="${#fields.hasErrors('name')} ? 'field-error'" />
+					</div>
+				</div>
+				<div class="col form-group">
+					<label class="control-label col-xs-2" for="description"><strong>Description</strong></label>
+					<div class="col-xs-10">
+						<input type="text" th:field="*{description}"
+							th:class="${#fields.hasErrors('description')} ? 'field-error'" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col form-group">
+					<label class="control-label col-xs-2" for="startDate"><strong>Start
+						date</strong></label>
+					<div class="col-xs-10">
+						<input type="date" th:field="*{startDate}"
+							th:class="${#fields.hasErrors('startDate')} ? 'field-error'" />
+					</div>
+				</div>
+				<div class="col form-group">
+					<label class="control-label col-xs-2" for="endDate"><strong>End
+						date</strong></label>
+					<div class="col-xs-10">
+						<input type="date" th:field="*{endDate}"
+							th:class="${#fields.hasErrors('endDate')} ? 'field-error'" />
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col form-group">
+					<label class="control-label col-xs-2" for="persons"><strong>Users</strong></label>
+					<div class="col-xs-10">
+						<select th:field="*{persons}" multiple="multiple" />
+						<option th:each="person : ${personselected}"
+							th:value="${person.id}"
+							th:text="${person.user} + '-' + ${person.name} + ' ' +${person.lastname1} + ' ' + ${person.lastname2}"
+							selected></option>
+
+						<option th:each="person : ${persons}" th:value="${person.id}"
+							th:text="${person.user} + '-' + ${person.name} + ' ' +${person.lastname1} + ' ' + ${person.lastname2}"></option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div
+				class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
+				<input type="submit"
+					class="btn btn-primary input-submit-create-user" value="Save" />
+			</div>
+		</form>
+	</div>
 </body>
 </html>

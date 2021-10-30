@@ -27,7 +27,7 @@
 }
 
 .submit-create-user-form {
-	margin-left: 36%;
+	margin-left: 31%;
 	margin-top: 5%;
 }
 
@@ -43,6 +43,7 @@
 	<div th:if="${person.role.name == 'ROLE_USER'}">
 		<div th:replace="usermenu :: header"></div>
 	</div>
+	<h1>View user</h1>
 	<div layout:fragment="content" class="container">
 		<div class="alert alert-success" th:if="${globalMessage}"
 			th:text="${globalMessage}">Some Success message</div>
@@ -167,17 +168,15 @@
 			</dl>
 		</div>
 		<div th:if="${person.role.name == 'ROLE_ADMIN'}">
-			<div class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
-				<button class="btn btn-primary input-submit-create-user">
-					<a href="formperson.html"
-						th:href="@{'/person/viewmodify/' + ${viewperson.id}}"> <span
-						class="material-icons">mode_edit</span></a>
-				</button>
-				<button class="btn btn-primary input-submit-create-user">
-					<a href="persons" th:href="@{'/person/delete/' + ${viewperson.id}}">
-						<span class="material-icons md-36">delete</span>
-					</a>
-				</button>
+			<div
+				class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
+				<a href="formperson.html"
+					th:href="@{'/person/viewmodify/' + ${viewperson.id}}"> <span
+					class="btn btn-primary input-submit-create-user material-icons">mode_edit</span></a>
+				<a href="persons"
+					th:href="@{'/person/delete/' + ${viewperson.id}}"> <span
+					class="btn btn-primary input-submit-create-user material-icons md-36">delete</span>
+				</a>
 			</div>
 		</div>
 	</div>
