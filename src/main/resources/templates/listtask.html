@@ -26,13 +26,13 @@
 	<div th:if="${person.role.name == 'ROLE_USER'}">
 		<div th:replace="usermenu :: header"></div>
 	</div>
-	<h1>List of projects</h1>
+	<h1>List of tasks</h1>
 	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
 		<table class="table table-bordered table-striped">
-			<caption>List of projects</caption>
+			<caption>List of tasks</caption>
 			<thead class="thead-dark">
 				<tr>
-					<th scope="col">Project</th>
+					<th scope="col">Project name</th>
 					<th scope="col">Username</th>
 					<th scope="col">Name</th>
 					<th scope="col">Description</th>					
