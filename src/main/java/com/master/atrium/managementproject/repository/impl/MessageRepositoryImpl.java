@@ -21,23 +21,34 @@ import com.master.atrium.managementproject.repository.MessageRepository;
 import com.master.atrium.managementproject.repository.TaskRepository;
 
 /**
- * 
+ * Implementación del repositorio de mensajes
  * @author Rodrigo
  *
  */
 @Repository
 public class MessageRepositoryImpl implements MessageRepository{
+	/** Log de la clase */
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+	/**
+	 * Inyección de {@link JdbcTemplate}
+	 */
 	@Autowired
 	private JdbcTemplate template;
 
+	/**
+	 * Inyección de {@link TaskRepository}
+	 */
 	@Autowired
 	TaskRepository taskRepository;
 	
+	/** Constante query*/
 	private static final String QUERY = "Query:{";
+	/** Constante PARAMS*/
 	private static final String PARAMS = "} Params:{";
+	/** Constante END_CURLY_BRACKET*/
 	private static final String END_CURLY_BRACKET = "}";
 	/**
+	 * Constructor de la clase
 	 * @param template
 	 */
 	public MessageRepositoryImpl(JdbcTemplate template) {
@@ -45,6 +56,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 		this.template = template;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void insert(Message message) {
@@ -59,6 +73,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 						message.getTask().getId());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void update(Message message) {
@@ -80,6 +97,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 						message.getId());		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void deleteById(Long id) {
@@ -88,6 +108,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 		template.update(query, id);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Message> findAll() {
 		String query = "SELECT * FROM message;";
@@ -95,6 +118,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 		return template.query(query, new BeanPropertyRowMapper<Message>(Message.class));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Message findById(Long id) {
 		String query = "SELECT m.id, m.body, m.subject, m.date, t.id as task_id FROM message m, task t WHERE m.id = ? AND m.task_id = t.id;";
@@ -109,6 +135,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 		return message;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Message findBySubject(String subject) {
 		String query = "SELECT m.id, m.body, m.subject, m.date, t.id as task_id FROM message m, task t WHERE m.subject = ? AND m.task_id = t.id;";
@@ -123,6 +152,9 @@ public class MessageRepositoryImpl implements MessageRepository{
 		return message;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Message> findMessagesByTaskId(Long id) {
 		String query = "SELECT m.id, m.body, m.subject, m.date, t.id as task_id FROM message m, task t WHERE m.task_id = ? AND m.task_id = t.id;";

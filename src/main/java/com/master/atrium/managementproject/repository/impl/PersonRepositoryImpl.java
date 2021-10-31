@@ -16,21 +16,34 @@ import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Role;
 import com.master.atrium.managementproject.repository.PersonRepository;
 
+/**
+ * Implementación del repositorio de personas
+ * @author Rodrigo
+ *
+ */
 @Repository
 public class PersonRepositoryImpl implements PersonRepository{
+	/** Inyección de {@link JdbcTemplate}*/
 	@Autowired
 	private JdbcTemplate template;
+	/** Inyección de {@link RoleRepositoryImpl}*/
 	@Autowired
-	RoleRepositoryImpl roleRepositoryImpl;
+	RoleRepositoryImpl roleRepository;
 	
+	/** Constante MADRID ZONE ID*/
 	private static final String MADRID_ZONE_ID = "Europe/Madrid";
 	/**
+	 * Constructor de la clase
 	 * @param template
 	 */
 	public PersonRepositoryImpl(JdbcTemplate template) {
 		super();
 		this.template = template;
 	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void insert(Person person) {
@@ -49,6 +62,9 @@ public class PersonRepositoryImpl implements PersonRepository{
 						person.getRole().getId());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void update(Person person) {
@@ -58,7 +74,7 @@ public class PersonRepositoryImpl implements PersonRepository{
 		if(Objects.nonNull(person.getRole())) {
 			role = person.getRole();
 		} else {
-			role = roleRepositoryImpl.findById(person.getRoleId());
+			role = roleRepository.findById(person.getRoleId());
 		}		
 		if(Objects.nonNull(person.getEndDate())) {
 			LocalDate localDateEndDate = person.getEndDate().toInstant().atZone(ZoneId.of(MADRID_ZONE_ID))
@@ -90,6 +106,9 @@ public class PersonRepositoryImpl implements PersonRepository{
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void deleteById(Long id) {
@@ -97,12 +116,18 @@ public class PersonRepositoryImpl implements PersonRepository{
 		template.update(query, id);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Person> findAll() {
 		String query = "SELECT * FROM person;";
 		return template.query(query, new BeanPropertyRowMapper<Person>(Person.class));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Person findById(Long id) {
 		String query = "SELECT id, dni, email, end_date, start_date, lastname1, lastname2, name, password, user, role_id FROM person WHERE id = ?;";
@@ -110,12 +135,15 @@ public class PersonRepositoryImpl implements PersonRepository{
 		Person person = null;
 		if(Objects.nonNull(persons) && !persons.isEmpty()) {
 			person = persons.get(0);
-			Role role = roleRepositoryImpl.findById(person.getRoleId());
+			Role role = roleRepository.findById(person.getRoleId());
 			person.setRole(role);
 		}
 		return person;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Person findByEmail(String email) {
 		String query = "SELECT id, dni, email, end_date, start_date, lastname1, lastname2, name, password, user, role_id FROM person WHERE email = ?;";
@@ -123,12 +151,15 @@ public class PersonRepositoryImpl implements PersonRepository{
 		Person person = null;
 		if(Objects.nonNull(persons) && !persons.isEmpty()) {
 			person = persons.get(0);
-			Role role = roleRepositoryImpl.findById(person.getRoleId());
+			Role role = roleRepository.findById(person.getRoleId());
 			person.setRole(role);
 		}
 		return person;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Person findByUser(String user) {
 		String query = "SELECT id, dni, email, end_date, start_date, lastname1, lastname2, name, password, user, role_id FROM person p WHERE user = ?;";
@@ -136,7 +167,7 @@ public class PersonRepositoryImpl implements PersonRepository{
 		Person person = null;
 		if(Objects.nonNull(persons) && !persons.isEmpty()) {
 			person = persons.get(0);
-			Role role = roleRepositoryImpl.findById(person.getRoleId());
+			Role role = roleRepository.findById(person.getRoleId());
 			person.setRole(role);
 		}
 		return person;

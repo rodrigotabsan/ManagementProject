@@ -12,18 +12,29 @@ import org.springframework.transaction.annotation.Transactional;
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.entity.ProjectPerson;
+import com.master.atrium.managementproject.repository.PersonRepository;
 import com.master.atrium.managementproject.repository.ProjectPersonRepository;
+import com.master.atrium.managementproject.repository.ProjectRepository;
 
+/**
+ * Implementación del repositorio de proyectos/personas
+ * @author Rodrigo
+ *
+ */
 @Repository
 public class ProjectPersonRepositoryImpl implements ProjectPersonRepository{
+	/** Inyección de {@link JdbcTemplate}*/
 	@Autowired
 	private JdbcTemplate template;
+	/** Inyección de {@link PersonRepositoryImpl}*/
 	@Autowired
-	PersonRepositoryImpl personRepositoryImpl;
+	PersonRepository personRepository;
+	/** Inyección de {@link ProjectRepositoryImpl}*/
 	@Autowired
-	ProjectRepositoryImpl projectRepositoryImpl;
+	ProjectRepository projectRepository;
 
 	/**
+	 * Constructor de la clase
 	 * @param template
 	 */
 	public ProjectPersonRepositoryImpl(JdbcTemplate template) {
@@ -31,6 +42,9 @@ public class ProjectPersonRepositoryImpl implements ProjectPersonRepository{
 		this.template = template;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void insert(Project project, Person person) {
@@ -40,6 +54,9 @@ public class ProjectPersonRepositoryImpl implements ProjectPersonRepository{
 				person.getId());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void update(Project project, Person person, Project projectBeforeUpdate, Person personBeforeUpdate) {
@@ -52,6 +69,9 @@ public class ProjectPersonRepositoryImpl implements ProjectPersonRepository{
 		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void delete(Project project, Person person) {
@@ -59,30 +79,39 @@ public class ProjectPersonRepositoryImpl implements ProjectPersonRepository{
 		template.update(query, project.getId(), person.getId());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Person> findAllPersonsByIdProject(Long id) {
 		List<Person> persons = new ArrayList<>();
 		String query = "SELECT * FROM project_person_list WHERE project_id = ?;";
 		List<ProjectPerson> projectsPersons = template.query(query, new BeanPropertyRowMapper<ProjectPerson>(ProjectPerson.class), id);
 		for(ProjectPerson projectPerson : projectsPersons) { 
-			persons.add(personRepositoryImpl.findById(projectPerson.getPersonId()));
+			persons.add(personRepository.findById(projectPerson.getPersonId()));
 		}
 		
 		return persons;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Project> findAllProjectsByIdPerson(Long id) {
 		List<Project> projects = new ArrayList<>();
 		String query = "SELECT * FROM project_person_list WHERE person_id = ?;";
 		List<ProjectPerson> projectsPersons = template.query(query, new BeanPropertyRowMapper<ProjectPerson>(ProjectPerson.class), id);
 		for(ProjectPerson projectPerson : projectsPersons) {			
-			projects.add(projectRepositoryImpl.findById(projectPerson.getProjectId()));
+			projects.add(projectRepository.findById(projectPerson.getProjectId()));
 		}
 		
 		return projects;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ProjectPerson findProjectPersonByIdPersonAndByIdProject(Long idPerson, Long idProject) {
 		String query = "SELECT * FROM project_person_list WHERE person_id = ? AND project_id = ?;";
@@ -90,9 +119,9 @@ public class ProjectPersonRepositoryImpl implements ProjectPersonRepository{
 		ProjectPerson projectPerson = null;
 		if(!projectsPersons.isEmpty()) {
 			projectPerson = projectsPersons.get(0);
-			Project project = projectRepositoryImpl.findById(projectPerson.getProjectId());
+			Project project = projectRepository.findById(projectPerson.getProjectId());
 			projectPerson.setProject(project);
-			Person person = personRepositoryImpl.findById(projectPerson.getPersonId());
+			Person person = personRepository.findById(projectPerson.getPersonId());
 			projectPerson.setPerson(person);
 		}
 		return projectPerson;

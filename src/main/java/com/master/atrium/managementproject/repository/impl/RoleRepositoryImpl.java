@@ -12,12 +12,19 @@ import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Role;
 import com.master.atrium.managementproject.repository.RoleRepository;
 
+/**
+ * Implementación del repositorio de roles
+ * @author Rodrigo
+ *
+ */
 @Repository
 public class RoleRepositoryImpl implements RoleRepository{
+	/** Inyección de {@link JdbcTemplate}*/
 	@Autowired
 	private JdbcTemplate template;
 
 	/**
+	 * Constructor de la clase
 	 * @param template
 	 */
 	public RoleRepositoryImpl(JdbcTemplate template) {
@@ -25,6 +32,9 @@ public class RoleRepositoryImpl implements RoleRepository{
 		this.template = template;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void insert(Role role) {
@@ -32,6 +42,9 @@ public class RoleRepositoryImpl implements RoleRepository{
 		template.update(query, role.getName());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void update(Role role) {
@@ -39,6 +52,9 @@ public class RoleRepositoryImpl implements RoleRepository{
 		template.update(query, role.getName(), role.getId());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void deleteById(Long id) {
@@ -46,18 +62,27 @@ public class RoleRepositoryImpl implements RoleRepository{
 		template.update(query, id);		
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Role> findAll() {
 		String query = "SELECT * FROM role;";
 		return template.query(query, new BeanPropertyRowMapper<Role>(Role.class));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Person> findPersonsByIdRole(Long id) {
 		String query = "SELECT p.id, p.name, p.lastname1, p.lastname2, p.user, p.email, p.password, p.role_id, p.dni, p.start_date, p.end_date FROM role r, person p WHERE r.id = ? AND r.id = p.role_id;";
 		return template.query(query, new BeanPropertyRowMapper<Person>(Person.class), id);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Role findById(Long id) {
 		String query = "SELECT * FROM role WHERE id = ?;";
@@ -68,7 +93,10 @@ public class RoleRepositoryImpl implements RoleRepository{
 		}
 		return role;
 	}
-		
+	
+	/**
+	 * {@inheritDoc}
+	 */	
 	@Override
 	public Role findByName(String name) {
 		String query = "SELECT * FROM role WHERE name = ?;";

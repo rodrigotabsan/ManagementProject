@@ -2,8 +2,6 @@ package com.master.atrium.managementproject.repository;
 
 import java.util.List;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.entity.ProjectPerson;

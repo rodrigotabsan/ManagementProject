@@ -16,18 +16,29 @@ import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.entity.Task;
 import com.master.atrium.managementproject.repository.TaskRepository;
 
+/**
+ * Implementación del repositorio de tareas
+ * @author Rodrigo
+ *
+ */
 @Repository
 public class TaskRepositoryImpl implements TaskRepository{
+	/** Inyección de {@link JdbcTemplate}*/
 	@Autowired
 	private JdbcTemplate template;
+	
+	/** Inyección de {@link PersonRepositoryImpl}*/
 	@Autowired
 	PersonRepositoryImpl personRepositoryImpl;
+	/** Inyección de {@link ProjectRepositoryImpl}*/
 	@Autowired
 	ProjectRepositoryImpl projectRepositoryImpl;
 
+	/** Constante MADRID ZONE ID*/	
 	private static final String MADRID_ZONE_ID = "Europe/Madrid";
 	
 	/**
+	 * Constructor de la clase
 	 * @param template
 	 */
 	public TaskRepositoryImpl(JdbcTemplate template) {
@@ -35,6 +46,9 @@ public class TaskRepositoryImpl implements TaskRepository{
 		this.template = template;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void insert(Task task) {
@@ -46,6 +60,9 @@ public class TaskRepositoryImpl implements TaskRepository{
 		template.update(query, task.getDescription(), localDateStartDate, task.getName(), localEndDateStartDate, task.getPerson().getId(), task.getProject().getId());
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void update(Task task) {
@@ -87,6 +104,9 @@ public class TaskRepositoryImpl implements TaskRepository{
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	@Transactional
 	public void deleteById(Long id) {
@@ -94,12 +114,18 @@ public class TaskRepositoryImpl implements TaskRepository{
 		template.update(query, id);
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> findAll() {
 		String query = "SELECT * FROM task;";
 		return template.query(query, new BeanPropertyRowMapper<Task>(Task.class));
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Task findById(Long id) {
 		String query = "SELECT t.id, t.description, t.name, t.start_date, t.end_date, pj.id as project_id, p.id as person_id FROM task t, person p, project pj WHERE t.id = ? AND t.project_id = pj.id AND t.person_id = p.id;";
@@ -114,7 +140,10 @@ public class TaskRepositoryImpl implements TaskRepository{
 		}
 		return task;
 	}
-		
+	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Task findByName(String name) {
 		String query = "SELECT t.id, t.description, t.name, t.start_date, t.end_date, pj.id as project_id, p.id as person_id FROM task t, person p, project pj WHERE t.name = ? AND t.project_id = pj.id AND t.person_id = p.id;";
@@ -130,6 +159,9 @@ public class TaskRepositoryImpl implements TaskRepository{
 		return task;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> findTasksByProjectId(Long projectId) {
 		String query = "SELECT t.id, t.description, t.name, t.start_date, t.end_date, pj.id as project_id, p.id as person_id FROM task t, person p, project pj WHERE t.project_id = ? AND t.project_id = pj.id AND t.person_id = p.id;";
@@ -142,6 +174,9 @@ public class TaskRepositoryImpl implements TaskRepository{
 		return tasks;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> findTasksByPersonId(Long personId) {	
 		String query = "SELECT t.id, t.description, t.name, t.start_date, t.end_date, pj.id as project_id, p.id as person_id FROM task t, person p, project pj WHERE t.person_id = ? AND t.project_id = pj.id AND t.person_id = p.id;";
