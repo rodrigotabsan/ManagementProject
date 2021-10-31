@@ -39,6 +39,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	/** Constante USER */
 	private static final String USER = "USER";
 	
+	/** Recursos estáticos a permitir */
+	private String[] staticResources  =  {
+	        "/css/**",
+	        "/img/**",
+	        "/js/**",
+	    };
+	
 	/**
 	 * Inyección {@link UserDetailsServiceImpl}
 	 */
@@ -165,6 +172,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		      .antMatchers("/person/modify/**").hasAnyRole(ADMIN)
 		      .antMatchers("/doLogin/**").hasAnyRole(ADMIN, USER)
 		      .antMatchers("/person/**").hasAnyRole(ADMIN, USER)
+		      .antMatchers(staticResources).permitAll()
 		      .anyRequest().authenticated()
 		  .and()
 		  	  .formLogin()

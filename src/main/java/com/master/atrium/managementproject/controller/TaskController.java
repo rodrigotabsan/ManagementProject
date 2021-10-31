@@ -1,5 +1,7 @@
 package com.master.atrium.managementproject.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,22 +14,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.master.atrium.managementproject.entity.Message;
 import com.master.atrium.managementproject.entity.Person;
+import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.entity.Task;
+import com.master.atrium.managementproject.service.MessageService;
 import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.service.ProjectService;
 import com.master.atrium.managementproject.service.TaskService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
-import com.master.atrium.managementproject.validator.EmailExistsException;
 import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
-import com.master.atrium.managementproject.validator.UserExistsException;
 
 @Controller
 @RequestMapping("/task")
 public class TaskController {
 
+	private static final String PERSON = "person";
+	
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
 	
@@ -39,6 +43,9 @@ public class TaskController {
 	
 	@Autowired
 	TaskService taskService;
+	
+	@Autowired
+	MessageService messageService;
 	
 	@Autowired
 	public TaskController(TaskService taskService) {
@@ -54,37 +61,109 @@ public class TaskController {
         return new ModelAndView("listtask", model);
     }
 
+	/**
+	 * Petición GET que obtiene la vista de un proyecto por identificador
+	 * @param idViewProject Identificador del proyecto a ver
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("{id}")
-    public ModelAndView view(@PathVariable("id") Person person) {
-        return new ModelAndView("viewtask", "task", person);
+    public ModelAndView view(@PathVariable("id") Long idViewTask, ModelMap model) {
+		Task viewTask = taskService.findById(idViewTask);
+        Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
+        List<Message> messages = messageService.findMessagesByTask(viewTask);    
+        model.addAttribute("viewtask", viewTask);        
+		model.addAttribute(PERSON, person);
+		model.addAttribute("messages", messages);
+        return new ModelAndView("viewtask", model);
     }
 
-    @PostMapping()
-    public ModelAndView create(@Valid Person person, BindingResult result, RedirectAttributes redirect) throws EmailExistsException, UserExistsException {
+	/**
+	 * Petición GET que prepara el formulario de crear tarea
+	 * @param tarea Tarea a crear
+	 * @param result Resultado de la validación para la creación de un formulario.
+	 * @param model
+	 * @return
+	 */
+    @GetMapping(value = "createform")
+    public ModelAndView createForm(@Valid Task project, BindingResult result, ModelMap model) {
+    	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
+    	Task createtask = new Task();
+    	List<Project> projects = personService.findAllProjectsWithTheirOwnPersonsByPerson(person);
+    	model.addAttribute(PERSON, person);
+    	model.addAttribute("projects", projects);
+    	model.addAttribute("createtask", createtask);
+    	return new ModelAndView("registrationtask", model);
+    }
+        
+    /**
+     * Crea una tarea
+     * @param createtarea tarea a crear
+     * @param result Valida los datos del formulario de creación
+     * @param model
+     * @return
+     */
+    @PostMapping(value = "createtask")
+    public ModelAndView create(@Valid Task createtask, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
-            return new ModelAndView("formtask", "formErrors", result.getAllErrors());
+            return new ModelAndView("registrationtask", "formErrors", result.getAllErrors());
         }
-        person = this.personService.save(person);
-        redirect.addFlashAttribute("globalMessage", "Successfully created a new task");
-        return new ModelAndView("redirect:/task/{task.id}", "task.id", person.getId());
+        Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());               
+		
+		Task taskcreated = taskService.save(createtask);		
+		
+		model.addAttribute("viewtask.id", taskcreated.getId()); 
+		model.addAttribute(PERSON, person);
+        return new ModelAndView("redirect:/project/{viewtask.id}", model);
     }
 
+    /**
+     * Elimina una tarea por su identificador
+     * @param id identificador de la tarea a eliminar
+     * @return
+     * @throws RecordReferencedInOtherTablesException Exception en caso de que el campo a borrar tenga algún dato relacionado con otra tabla. Por ejemplo, con Project
+     */
     @GetMapping(value = "delete/{id}")
-    public ModelAndView delete(@PathVariable("id") Long id) throws RecordReferencedInOtherTablesException {    	
-        this.personService.delete(personService.findById(id));
+    public ModelAndView delete(@PathVariable("id") Long id) throws RecordReferencedInOtherTablesException {
+    	Task task = taskService.findById(id);
+        this.taskService.delete(task);
         return new ModelAndView("redirect:/task/");
     }
 
-    @GetMapping(value = "modify/{id}")
-    public ModelAndView modifyForm(@PathVariable("id") Person person) {
-        return new ModelAndView("formtask", "task", person);
+    /**
+     * Crea el formulario de modificación para un proyecto
+     * @param idModifyproject identificador del proyecto a modificar
+     * @param model
+     * @return
+     */
+    @GetMapping(value = "viewmodify/{id}")
+    public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyTask, ModelMap model) {
+    	Task modifyTask = taskService.findById(idModifyTask);
+    	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
+    	
+        model.addAttribute("modifytask", modifyTask);        
+		model.addAttribute(PERSON, person);
+        return new ModelAndView("formtask", model);
     }
 
-    // the form
-
-    @GetMapping(params = "form")
-    public String createForm(@ModelAttribute Person person) {
-        return "registration";
+    /**
+     * Petición POST para modificar un proyecto
+     * @param modifyproject
+     * @param result
+     * @param model
+     * @return
+     */
+    @PostMapping(value = "modify")
+    public ModelAndView modifyForm(@ModelAttribute Project modifyproject, BindingResult result, ModelMap model) {
+    	if (result.hasErrors()) {
+            return new ModelAndView("formproject", "formErrors", result.getAllErrors());
+        }
+    	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());    		
+	    model.addAttribute("modifyproject.id", modifyproject.getId());        
+		model.addAttribute(PERSON, person);
+		projectService.save(modifyproject);    	
+        return new ModelAndView("redirect:/project/{modifyproject.id}", model);
     }
 
+   
 }

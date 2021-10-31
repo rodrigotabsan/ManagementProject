@@ -32,6 +32,7 @@
 		<caption>List of projects</caption>
 		<thead class="thead-dark">
 			<tr>
+				<th scope="col">Id</th>
 				<th scope="col">Name</th>
 				<th scope="col">Description</th>
 				<th scope="col">Started</th>
@@ -43,9 +44,10 @@
 		</thead>
 		<tbody>
 			<tr th:if="${projects.empty}">
-				<td colspan="7">No projects</td>
+				<td colspan="8">No projects</td>
 			</tr>
 			<tr th:each="project : ${projects}">
+				<td th:text="${project.id}">Id</td>
 				<td th:text="${project.name}">Name</td>
 				<td th:text="${project.description}"> Description </td>
 				<td

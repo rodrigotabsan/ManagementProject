@@ -266,6 +266,15 @@ public class PersonServiceImpl implements PersonService {
 	public List<Project> findAllProjectsByPerson(Person person) {
 		return projectPersonRepository.findAllProjectsByIdPerson(person.getId());
 	}
+	
+	public List<Project> findAllProjectsWithTheirOwnPersonsByPerson(Person person){
+		List<Project> projects = findAllProjectsByPerson(person);
+		for(Project project : projects) {
+			List<Person> persons = projectPersonRepository.findAllPersonsByIdProject(project.getId());
+			project.setPersonList(persons);
+		}
+		return projects;
+	}
 		
 	/**
 	 * {@inheritDoc}

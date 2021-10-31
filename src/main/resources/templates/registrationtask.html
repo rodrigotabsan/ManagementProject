@@ -1,58 +1,150 @@
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout" lang="en">
 
 <head>
-    <title>Registration Page</title>
+<title>Registration Page</title>
 
-    <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="/js/jquery-1.7.2.js"></script>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<script src="/js/jquery-1.7.2.js"></script>
+
+<style>
+.create-user-form {
+	width: 74%;
+}
+
+.submit-create-user-form {
+	margin-left: 36%;
+	margin-top: 5%;
+}
+
+.input-submit-create-user {
+	width: 15%;
+}
+</style>
 
 </head>
 <body>
-<div class="container">
-    <div th:if="${person.role.name == 'ROLE_ADMIN'}">
-		<div th:replace="adminmenu :: header"> </div>  
-    </div>
-    <div th:if="${person.role.name == 'ROLE_USER'}">
-		<div th:replace="usermenu :: header"> </div>  
-	</div> 
-    <form id="taskForm" th:action="@{/task/createtask}" th:object="${createtask}" action="#" method="post" class="form-horizontal">
-        <input type="hidden" th:field="*{id}"/>
-        <div class="form-group" th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="name">Name</label>
-            <div class="col-xs-10">
-                <input id="name" type="text" title="name" th:field="*{name}"/>
-                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="help-block">Name Error</span>
-            </div>
-        </div>
-        <div class="form-group" th:classappend="${#fields.hasErrors('description')} ? 'has-error'">
-            <label class="control-label col-xs-2" for="description">Description</label>
-            <div class="col-xs-10">
-                <input id="description" type="text" title="description" th:field="*{description}"/>
-                <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="help-block">Description Error</span>
-            </div>
-        </div>        
-		<div class="form-group" th:classappend="${#fields.hasErrors('person')} ? 'has-error'">
-			<label class="control-label col-xs-2">Users</label>
-			<select th:field="*{person}">
-			    <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.user} + ' - ' +${person.name} + ' ' + ${person.lastname1} + ' ' + ${person.lastname2}">
-			    </option>
-			</select>
-		</div>
-		<div class="form-group" th:classappend="${#fields.hasErrors('project')} ? 'has-error'">
-			<label class="control-label col-xs-2" for="registrations">Projects</label>
-			<select th:field="*{project}">
-			    <option th:each="project : ${projects}" th:value="${project.id}" th:text="${project.name}">
-			    </option>
-			</select>
-		</div>
-        <div class="form-actions col-xs-offset-2 col-xs-10">
-            <input type="submit" class="btn btn-primary" value="Register"/>
-        </div>
-    </form>
-</div>
+
+	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"></div>
+	</div>
+	<div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"></div>
+	</div>
+	<h1>Create task</h1>
+	<div class="container">
+		<form id="taskForm" th:action="@{/task/createtask}"
+			th:object="${createtask}" action="#" method="post"
+			class="form-horizontal">
+			<input type="hidden" th:field="*{id}" />
+			<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="name"><strong>Name</strong></label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="name" type="text" title="name"
+							th:field="*{name}" /> <span th:if="${#fields.hasErrors('name')}"
+							th:errors="*{name}" class="help-block">Name Error</span>
+					</div>
+				</div>
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('description')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="description"><strong>Description</strong></label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="description" type="text"
+							title="description" th:field="*{description}" /> <span
+							th:if="${#fields.hasErrors('description')}"
+							th:errors="*{description}" class="help-block">Description
+							Error</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('startDate')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="startDate"><strong>Start
+							date</strong></label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="startDate" type="date"
+							title="startDate" th:field="*{startDate}" /> <span
+							th:if="${#fields.hasErrors('startDate')}"
+							th:errors="*{startDate}" class="help-block">Start date
+							Error</span>
+					</div>
+				</div>
+
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('endDate')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="endDate"><strong>End
+							date</strong></label>
+					<div class="col-xs-10">
+						<input class="create-user-form" id="endDate" type="date"
+							title="endDate" th:field="*{endDate}" /> <span
+							th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}"
+							class="help-block">End date Error</span>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('project')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="registrations"><strong>Projects</strong></label>
+					<div class="col-xs-10">
+						<select class="create-user-form" id="project"
+							th:field="*{project}" onclick="onProjectChanged()">
+							<option th:each="project : ${projects}" th:value="${project.id}"
+								th:text="${project.name}"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('person')} ? 'has-error'">
+					<label class="control-label col-xs-2"><strong>Users</strong></label>
+					<div class="col-xs-10">
+						<select class="create-user-form" id="person" th:field="*{person}"></select>
+					</div>
+				</div>
+			</div>
+			<div
+				class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
+				<input type="submit"
+					class="btn btn-primary input-submit-create-user" value="Register" />
+			</div>
+		</form>
+	</div>
+	<script th:inline="javascript">
+		var projects = /*[[${projects}]]*/'projects';
+
+		function onProjectChanged() {
+			var chosenProject = $("#project").children("option:selected").val();
+			for (i = 0; i < projects.length; i++) {
+				if (projects[i].id == chosenProject) {
+					$('#person option').remove();
+					person = projects[i].personList;
+					for (indexPerson = 0; indexPerson < person.length; indexPerson++) {
+						$('#person').append(
+								$('<option>', {
+									value : person[indexPerson].id,
+									text : person[indexPerson].user + " - "
+											+ person[indexPerson].name + " "
+											+ person[indexPerson].lastname1
+											+ " "
+											+ person[indexPerson].lastname2
+								}));
+					}
+					$("#person").trigger("chosen:updated");
+				}
+			}
+		}
+	</script>
 </body>
 </html>

@@ -2,6 +2,8 @@ package com.master.atrium.managementproject.repository;
 
 import java.util.List;
 
+import com.master.atrium.managementproject.entity.Person;
+import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.entity.Task;
 
 /**
@@ -62,4 +64,5 @@ public interface TaskRepository {
 	 * @return
 	 */
 	public List<Task> findTasksByPersonId(Long personId);
+	
 }

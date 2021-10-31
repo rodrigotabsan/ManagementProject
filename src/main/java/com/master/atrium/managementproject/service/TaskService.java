@@ -51,5 +51,6 @@ public interface TaskService {
 	 * @param project el proyecto
 	 * @return
 	 */
-	public List<Task> findTasksByProject(Project project);	
+	public List<Task> findTasksByProject(Project project);
+	
 }

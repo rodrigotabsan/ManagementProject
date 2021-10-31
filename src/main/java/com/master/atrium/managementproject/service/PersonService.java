@@ -58,4 +58,11 @@ public interface PersonService {
 	 */
 	public Person findByUser(final String user);
 	
+	/**
+	 * Obtiene todos los proyectos con las personas que están relacionadas a cada uno de ellos dada una persona involucrada en cada uno de los proyectos
+	 * @param person la persona involucrada en cada uno de los proyectos
+	 * @return
+	 */
+	public List<Project> findAllProjectsWithTheirOwnPersonsByPerson(Person person);
+	
 }
