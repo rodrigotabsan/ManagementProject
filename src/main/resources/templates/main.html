@@ -38,12 +38,12 @@
 	<div th:if="${person.role.name == 'ROLE_USER'}">
 		<div th:replace="usermenu :: header"></div>
 	</div>
-
-
-			<div class="col">
-				<h1 layout:fragment="header">Home</h1>
-				<div class="calendar"></div>
-			</div>
+	
+	
+	<div class="col">
+		<h1 layout:fragment="header">Home</h1>
+		<div class="calendar"></div>
+	</div>
 	<script th:inline="javascript">
 		/*<![CDATA[*/
 		$('.calendar').calendar({

@@ -31,33 +31,61 @@ import com.master.atrium.managementproject.service.ProjectService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
 import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
 
+/**
+ * Controlador para las acciones con los proyectos
+ * @author Rodrigo
+ *
+ */
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
 
+	/** Constante de PERSON */
 	private static final String PERSON = "person";
+	/** Constante de PERSONS */
 	private static final String PERSONS = "persons";
 	
+	/**
+	 * Inyección de {@link UserDetailsServiceImpl}
+	 */
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
 	
+	/**
+	 * Inyección de {@link PersonService}
+	 */
 	@Autowired
 	PersonService personService;
 	
+	/**
+	 * Inyección de {@link ProjectService}
+	 */
 	@Autowired
 	ProjectService projectService;
 	
+	/**
+	 * Constructor de la clase
+	 */
 	@Autowired
 	public ProjectController(ProjectService projectService) {
 		this.projectService = projectService;
 	}
 	
+	/**
+	 * Inicializador del controlador. Cada acción que se ejecute pasará primero por esta función.
+	 * @param binder {@link WebDataBinder}
+	 */
 	@InitBinder     
 	public void initBinder(WebDataBinder binder){
 		DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
 	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   
 	}
 	
+	/**
+	 * Petición GET que obtiene la lista de todos los proyectos
+	 * @param model
+	 * @return
+	 */
 	@GetMapping
     public ModelAndView list(ModelMap model) {        
         Iterable<Project> projects = this.projectService.findAll();
@@ -67,6 +95,12 @@ public class ProjectController {
         return new ModelAndView("listproject", model);
     }
 
+	/**
+	 * Petición GET que obtiene la vista de un proyecto por identificador
+	 * @param idViewProject Identificador del proyecto a ver
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("{id}")
     public ModelAndView view(@PathVariable("id") Long idViewProject, ModelMap model) {
 		Project viewProject = projectService.findById(idViewProject);
@@ -78,6 +112,13 @@ public class ProjectController {
         return new ModelAndView("viewproject", model);
     }
 
+	/**
+	 * Petición GET que prepara el formulario de crear proyecto
+	 * @param project Proyecto a crear
+	 * @param result Resultado de la validación para la creación de un formulario.
+	 * @param model
+	 * @return
+	 */
     @GetMapping(value = "createform")
     public ModelAndView createForm(@Valid Project project, BindingResult result, ModelMap model) {
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
@@ -89,6 +130,13 @@ public class ProjectController {
     	return new ModelAndView("registrationproject", model);
     }
     
+    /**
+     * Crea un proyecto
+     * @param createproject proyecto a crear
+     * @param result Valida los datos del formulario de creación
+     * @param model
+     * @return
+     */
     @PostMapping(value = "createproject")
     public ModelAndView create(@Valid Project createproject, BindingResult result, ModelMap model) {
         if (result.hasErrors()) {
@@ -104,6 +152,12 @@ public class ProjectController {
         return new ModelAndView("redirect:/project/{viewproject.id}", model);
     }
 
+    /**
+     * Elimina un usuario por su identificador
+     * @param id identificador del usuario a eliminar
+     * @return
+     * @throws RecordReferencedInOtherTablesException Exception en caso de que el campo a borrar tenga algún dato relacionado con otra tabla. Por ejemplo, con ProjectPersonList
+     */
     @GetMapping(value = "delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) throws RecordReferencedInOtherTablesException {
     	Project project = projectService.findById(id);
@@ -111,6 +165,12 @@ public class ProjectController {
         return new ModelAndView("redirect:/project/");
     }
 
+    /**
+     * Crea el formulario de modificación para un proyecto
+     * @param idModifyproject identificador del proyecto a modificar
+     * @param model
+     * @return
+     */
     @GetMapping(value = "viewmodify/{id}")
     public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyproject, ModelMap model) {
     	Project modifyproject = projectService.findById(idModifyproject);
@@ -131,6 +191,13 @@ public class ProjectController {
         return new ModelAndView("formproject", model);
     }
 
+    /**
+     * Petición POST para modificar un proyecto
+     * @param modifyproject
+     * @param result
+     * @param model
+     * @return
+     */
     @PostMapping(value = "modify")
     public ModelAndView modifyForm(@ModelAttribute Project modifyproject, BindingResult result, ModelMap model) {
     	if (result.hasErrors()) {

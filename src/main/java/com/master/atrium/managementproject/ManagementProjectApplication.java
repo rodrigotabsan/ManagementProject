@@ -10,13 +10,27 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 import com.master.atrium.managementproject.config.AppConfig;
 
+
+/**
+ * Clase principal que permite la ejecución de la aplicación
+ * @author Rodrigo
+ *
+ */
 @SpringBootApplication
 public class ManagementProjectApplication {
 
+	/**
+	 * Permite la ejecución del proyecto. Además, se incluye la configuración de este.
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		SpringApplication.run(new Class[] {ManagementProjectApplication.class, AppConfig.class}, args);
 	}
 	
+	/**
+	 * Permite visualizar los html de la aplicación
+	 * @return
+	 */
 	@Bean
 	  public ViewResolver viewResolver() {
 	    ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();

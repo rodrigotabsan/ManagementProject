@@ -34,14 +34,26 @@ import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
+	/** Constante ADMIN */
 	private static final String ADMIN = "ADMIN";
+	/** Constante USER */
 	private static final String USER = "USER";
+	
+	/**
+	 * Inyección {@link UserDetailsServiceImpl}
+	 */
 	@Autowired
     private UserDetailsServiceImpl userDetailsService;
 	
+	/**
+	 * Inyección {@link PersonRepository}
+	 */
 	@Autowired
     private PersonRepository personRepository;
 	
+	/**
+	 * Inyección {@link RoleRepository}
+	 */
 	@Autowired
     private RoleRepository roleRepository;
 	
@@ -52,21 +64,36 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
         super();
     }	
 		
+	/**
+	 * Inyección para la configuración global
+	 * @param auth
+	 * @throws Exception
+	 */
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
-		
+	
+	/**
+	 * Crea un nuevo {@link PasswordEncoder} de tipo {@link BCryptPasswordEncoder}
+	 * @return
+	 */
 	@Bean
 	public static PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder(12);
 	}
 	
+	/**
+	 * Guarda los roles y las personas de prueba
+	 */
 	@PostConstruct
     private void saveTestUser() {
 		createTestRolesAndPersons();	
     }
 	
+	/**
+	 * Crea roles de prueba y personas de prueba
+	 */
 	private void createTestRolesAndPersons() {
 		Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
 		Role roleUser = roleRepository.findByName("ROLE_USER");
@@ -88,6 +115,11 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		createPersons(roleAdmin, roleUser);
 	}
 	
+	/**
+	 * Crea personas de prueba
+	 * @param roleAdmin
+	 * @param roleUser
+	 */
 	private void createPersons(Role roleAdmin, Role roleUser) {
 		Person personAdmin = personRepository.findByEmail("test@email.com");
 		Person personUser = personRepository.findByEmail("test2@email.com");
@@ -121,6 +153,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		}
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception { 
 	    http

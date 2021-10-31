@@ -26,8 +26,14 @@ public class Message extends Common implements Serializable{
 	@NotEmpty(message = "Date is required.")
 	private Date date;
 
+	/**
+	 * Tarea a la que pertenece el mensaje
+	 */
     private Task task;
     
+    /**
+     * Identificador de la tarea a la que pertenece el mensaje
+     */
     private Long taskId;
 	
 	/**
@@ -129,6 +135,7 @@ public class Message extends Common implements Serializable{
 	}
 
 	/**
+	 * Obtiene el identificador de la tarea
 	 * @return the taskId
 	 */
 	public Long getTaskId() {
@@ -136,6 +143,7 @@ public class Message extends Common implements Serializable{
 	}
 
 	/**
+	 * Sobrescribe el identificador de la tarea
 	 * @param taskId the taskId to set
 	 */
 	public void setTaskId(Long taskId) {

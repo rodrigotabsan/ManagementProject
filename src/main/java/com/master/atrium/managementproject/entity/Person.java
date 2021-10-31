@@ -55,14 +55,28 @@ public class Person extends Common implements Serializable{
 	/** Fecha de baja del usuario */
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
-	
+	/**
+	 * Array con los identificadores de los proyectos
+	 */
 	private Integer[] projects;
 	
+	/**
+	 * Lista de tareas que pertenecen a este usuario
+	 */
     private Set<Task> tasks = new HashSet<>();
-		
+	
+    /**
+     * Lista de proyectos en los que está involucrado este usuario
+     */
     private List<Project> projectList;
+    /**
+     * Rol del usuario
+     */
 	private Role role;
 	
+	/**
+	 * Identificador del rol del usuario
+	 */
 	private Long roleId;
 	
 	/**
@@ -74,16 +88,16 @@ public class Person extends Common implements Serializable{
 
 	/**
 	 * Constructor de la clase
-	 * @param dni
-	 * @param user
-	 * @param name
-	 * @param lastname1
-	 * @param lastname2
-	 * @param email
-	 * @param password
-	 * @param idRol
-	 * @param startDate
-	 * @param endDate
+	 * @param dni Documento nacional de identidad
+	 * @param user nombre de usuario
+	 * @param name nombre del usuario
+	 * @param lastname1 primer apellido del usuario
+	 * @param lastname2 segundo apellido del usuario
+	 * @param email correo electrónico del usuario
+	 * @param password contraseña del usuario
+	 * @param idRol identificador del rol del usuario
+	 * @param startDate fecha en la que se guardó por primera vez la persona
+	 * @param endDate fecha de desactivación del usuario
 	 */
 	public Person(String dni, String user, String name, String lastname1, String lastname2, String email,
 			String password, Role role, Date startDate, Date endDate) {
@@ -308,6 +322,7 @@ public class Person extends Common implements Serializable{
 	}
 
 	/**
+	 * Obtiene el array de identificadores de los proyectos del formulario 
 	 * @return the projects
 	 */
 	public Integer[] getProjects() {
@@ -315,6 +330,7 @@ public class Person extends Common implements Serializable{
 	}
 
 	/**
+	 * Sobrescribe el array de identificadores de los proyectos del formulario
 	 * @param projects the projects to set
 	 */
 	public void setProjects(Integer[] projects) {
@@ -322,6 +338,7 @@ public class Person extends Common implements Serializable{
 	}
 	
 	/**
+	 * Obtiene el identificador de rol
 	 * @return the roleId
 	 */
 	public Long getRoleId() {
@@ -329,12 +346,16 @@ public class Person extends Common implements Serializable{
 	}
 
 	/**
+	 * Sobrescribe el identificador del rol
 	 * @param roleId the roleId to set
 	 */
 	public void setRoleId(Long roleId) {
 		this.roleId = roleId;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -345,6 +366,9 @@ public class Person extends Common implements Serializable{
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
