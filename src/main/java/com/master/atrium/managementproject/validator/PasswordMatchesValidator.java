@@ -59,6 +59,12 @@ public class PasswordMatchesValidator implements ConstraintValidator<PasswordVal
     	return valid;
     }
     
+    /**
+     * Verifica los caracteres
+     * @param password la contraseña a verificar
+     * @param chars los caracteres que sirven para verificar la contraseña
+     * @return
+     */
     private boolean verifyChars(String password, String chars) {
     	
     	int indexSpecialChars = 0;
