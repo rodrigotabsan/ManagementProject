@@ -36,9 +36,14 @@ public class Task extends Common implements Serializable{
 	
 	/** {@link Person} */
     private Person person;
-    
+    /**
+     * Identificador de la persona
+     */
     private Long personId;
     
+    /**
+     * Identificador del proyecto
+     */
     private Long projectId;
 		
 	/**
@@ -49,10 +54,10 @@ public class Task extends Common implements Serializable{
 
 	/**
 	 * Constructor de la clase
-	 * @param name
-	 * @param description
-	 * @param startDate
-	 * @param endDate
+	 * @param name Nombre de la tarea
+	 * @param description Descripcion de la tarea
+	 * @param startDate Fecha comienzo de la tarea
+	 * @param endDate Fecha fin de la tarea
 	 */
 	public Task(String name, String description, Date startDate, Date endDate) {		
 		this.name = name;
@@ -63,12 +68,12 @@ public class Task extends Common implements Serializable{
 	
 	/**
 	 * Constructor de la clase
-	 * @param name
-	 * @param description
-	 * @param startDate
-	 * @param endDate
-	 * @param person
-	 * @param project
+	 * @param name Nombre de la tarea
+	 * @param description  Descripcion de la tarea
+	 * @param startDate Fecha comienzo de la tarea
+	 * @param endDate Fecha fin de la tarea
+	 * @param person Persona que se encarga de la tarea
+	 * @param project Proyecto de la tarea
 	 */
 	public Task(String name, String description, Date startDate, Date endDate, Person person, Project project) {		
 		this.name = name;
@@ -192,6 +197,7 @@ public class Task extends Common implements Serializable{
 	}
 
 	/**
+	 * Obtiene el identificador de la persona
 	 * @return the personId
 	 */
 	public Long getPersonId() {
@@ -199,6 +205,7 @@ public class Task extends Common implements Serializable{
 	}
 
 	/**
+	 * Sobrescribe el identificador de la persona
 	 * @param personId the personId to set
 	 */
 	public void setPersonId(Long personId) {
@@ -206,6 +213,7 @@ public class Task extends Common implements Serializable{
 	}
 
 	/**
+	 * Obtiene el identificador del proyecto
 	 * @return the projectId
 	 */
 	public Long getProjectId() {
@@ -213,6 +221,7 @@ public class Task extends Common implements Serializable{
 	}
 
 	/**
+	 * Sobrescribe el identificador del proyecto
 	 * @param projectId the projectId to set
 	 */
 	public void setProjectId(Long projectId) {

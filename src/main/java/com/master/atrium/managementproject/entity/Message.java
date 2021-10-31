@@ -2,6 +2,7 @@ package com.master.atrium.managementproject.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -149,5 +150,30 @@ public class Message extends Common implements Serializable{
 	public void setTaskId(Long taskId) {
 		this.taskId = taskId;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(body, date, subject, task, taskId);
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!(obj instanceof Message))
+			return false;
+		Message other = (Message) obj;
+		return Objects.equals(body, other.body) && Objects.equals(date, other.date)
+				&& Objects.equals(subject, other.subject) && Objects.equals(task, other.task)
+				&& Objects.equals(taskId, other.taskId);
+	}
+	
+	
 		
 }

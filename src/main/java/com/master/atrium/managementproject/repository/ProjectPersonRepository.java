@@ -1,93 +1,62 @@
 package com.master.atrium.managementproject.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.entity.ProjectPerson;
 
-@Repository
-public class ProjectPersonRepository {
-	@Autowired
-	private JdbcTemplate template;
-	@Autowired
-	PersonRepository personRepository;
-	@Autowired
-	ProjectRepository projectRepository;
-
+/**
+ * Interface de repositorio de proyecto/persona con las consultas a base de datos
+ * @author Rodrigo
+ *
+ */
+public interface ProjectPersonRepository {
+	
 	/**
-	 * @param template
+	 * Crea la relación entre un proyecto y una persona y lo almacena en la tabla projectpersonlist
+	 * @param project Proyecto a almacenar
+	 * @param person Persona a almacenar
 	 */
-	public ProjectPersonRepository(JdbcTemplate template) {
-		super();
-		this.template = template;
-	}
+	public void insert(Project project, Person person);
 	
-	@Transactional
-	public void insert(Project project, Person person) {
-		String query = "INSERT INTO project_person_list (project_id, person_id) VALUES (?,?);";
-		template.update(query, 
-				project.getId(),
-				person.getId());
-	}
+	/**
+	 * Actualiza la relación entre un proyecto y una persona
+	 * @param project proyecto a almacenar
+	 * @param person persona a almacenar
+	 * @param projectBeforeUpdate proyecto antes de actualizarse
+	 * @param personBeforeUpdate persona antes de actualizarse
+	 */
+	public void update(Project project, Person person, Project projectBeforeUpdate, Person personBeforeUpdate);
 	
-	@Transactional
-	public void update(Project project, Person person, Project projectBeforeUpdate, Person personBeforeUpdate) {
-		String query = "UPDATE project_person_list SET project_id = ?, person_id = ? WHERE project_id = ? AND person_id = ?;";
-		template.update(query, 
-						project.getId(),
-						person.getId(), 
-						projectBeforeUpdate.getId(),
-						personBeforeUpdate.getId());
-		
-	}
+	/**
+	 * Elimina la relación entre un proyecto y una persona
+	 * @param project El proyecto
+	 * @param person La persona
+	 */
+	public void delete(Project project, Person person);
 	
-	@Transactional
-	public void delete(Project project, Person person) {
-		String query = "DELETE FROM project_person_list WHERE project_id = ? AND person_id = ?;";
-		template.update(query, project.getId(), person.getId());
-	}
-		
-	public List<Person> findAllPersonsByIdProject(Long id) {
-		List<Person> persons = new ArrayList<>();
-		String query = "SELECT * FROM project_person_list WHERE project_id = ?;";
-		List<ProjectPerson> projectsPersons = template.query(query, new BeanPropertyRowMapper<ProjectPerson>(ProjectPerson.class), id);
-		for(ProjectPerson projectPerson : projectsPersons) { 
-			persons.add(personRepository.findById(projectPerson.getPersonId()));
-		}
-		
-		return persons;
-	}
+	/**
+	 * Encuentra todas las personas por identificador de proyecto
+	 * @param id identificador del proyecto
+	 * @return
+	 */
+	public List<Person> findAllPersonsByIdProject(Long id);
 	
-	public List<Project> findAllProjectsByIdPerson(Long id) {
-		List<Project> projects = new ArrayList<>();
-		String query = "SELECT * FROM project_person_list WHERE person_id = ?;";
-		List<ProjectPerson> projectsPersons = template.query(query, new BeanPropertyRowMapper<ProjectPerson>(ProjectPerson.class), id);
-		for(ProjectPerson projectPerson : projectsPersons) {			
-			projects.add(projectRepository.findById(projectPerson.getProjectId()));
-		}
-		
-		return projects;
-	}
+	/**
+	 * Encuentra todos los proyectos por identificador de la persona
+	 * @param id identificador de la persona
+	 * @return
+	 */
+	public List<Project> findAllProjectsByIdPerson(Long id);
 	
-	public ProjectPerson findProjectPersonByIdPersonAndByIdProject(Long idPerson, Long idProject) {
-		String query = "SELECT * FROM project_person_list WHERE person_id = ? AND project_id = ?;";
-		List<ProjectPerson> projectsPersons = template.query(query, new BeanPropertyRowMapper<ProjectPerson>(ProjectPerson.class), idPerson, idProject);
-		ProjectPerson projectPerson = null;
-		if(!projectsPersons.isEmpty()) {
-			projectPerson = projectsPersons.get(0);
-			Project project = projectRepository.findById(projectPerson.getProjectId());
-			projectPerson.setProject(project);
-			Person person = personRepository.findById(projectPerson.getPersonId());
-			projectPerson.setPerson(person);
-		}
-		return projectPerson;
-	}	
+	/**
+	 * Encuentra la relación entre una persona y un proyecto usando como parámetro el identificador de la persona y del proyecto
+	 * @param idPerson identificador de la persona
+	 * @param idProject identificador del proyecto
+	 * @return
+	 */
+	public ProjectPerson findProjectPersonByIdPersonAndByIdProject(Long idPerson, Long idProject);	
 }

@@ -31,7 +31,7 @@ public class Role extends Common implements Serializable{
 	 * Constructor de la clase
 	 */
 	public Role() {
-		
+		super();
 	}
 
 	/**

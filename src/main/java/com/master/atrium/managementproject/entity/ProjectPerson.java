@@ -1,17 +1,28 @@
 package com.master.atrium.managementproject.entity;
 
+/**
+ * Clase que representa la tabla de relacion entre proyecto y persona
+ * @author Rodrigo
+ *
+ */
 public class ProjectPerson {
 
+	/** Identificador de la persona */
 	private Long personId;	
+	/** Identificador del proyecto */
 	private Long projectId;
+	/** Proyecto */
 	private Project project;
+	/** Persona */
 	private Person person;
 		
+	/** Constructor de la clase */
 	public ProjectPerson() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/**
+	 * Constructor de la clase
 	 * @param personId
 	 * @param projectId
 	 */
@@ -22,6 +33,7 @@ public class ProjectPerson {
 	}
 	
 	/**
+	 * Constructor de la clase
 	 * @param project
 	 * @param person
 	 */
@@ -32,6 +44,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Obtiene el identificador de la persona
 	 * @return the personId
 	 */
 	public Long getPersonId() {
@@ -39,6 +52,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Sobrescribe el identificador de la persona
 	 * @param personId the personId to set
 	 */
 	public void setPersonId(Long personId) {
@@ -46,6 +60,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Obtiene el identificador del proyecto
 	 * @return the projectId
 	 */
 	public Long getProjectId() {
@@ -53,6 +68,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Sobrescribe el identificador del proyecto
 	 * @param projectId the projectId to set
 	 */
 	public void setProjectId(Long projectId) {
@@ -60,6 +76,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Obtiene el proyecto
 	 * @return the project
 	 */
 	public Project getProject() {
@@ -67,6 +84,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Sobrescribe el proyecto
 	 * @param project the project to set
 	 */
 	public void setProject(Project project) {
@@ -74,6 +92,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Obtiene la persona
 	 * @return the person
 	 */
 	public Person getPerson() {
@@ -81,6 +100,7 @@ public class ProjectPerson {
 	}
 
 	/**
+	 * Sobrescribe la persona
 	 * @param person the person to set
 	 */
 	public void setPerson(Person person) {

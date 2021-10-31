@@ -25,24 +25,40 @@ import com.master.atrium.managementproject.service.impl.TaskServiceImpl;
 @EntityScan("com.master.atrium.managementproject.entity")
 @EnableWebMvc
 public class AppMvcConfig implements WebMvcConfigurer {
-	
+	/**Constante con el classpath */
 	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = { "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/" };
 
+	/**
+	 * Bean de person service
+	 * @return
+	 */
 	@Bean
 	public PersonServiceImpl personService() {
 		return new PersonServiceImpl();
 	}
 	
+	/**
+	 * Bean de project service
+	 * @return
+	 */
 	@Bean
 	public ProjectServiceImpl projectService() {
 		return new ProjectServiceImpl();
 	}
 	
+	/**
+	 * Bean de task service
+	 * @return
+	 */
 	@Bean
 	public TaskServiceImpl taskService() {
 		return new TaskServiceImpl();
 	}
 	
+	/**
+	 * Bean de role service
+	 * @return
+	 */
 	@Bean
 	public RoleServiceImpl roleService() {
 		return new RoleServiceImpl();
@@ -55,11 +71,17 @@ public class AppMvcConfig implements WebMvcConfigurer {
 		super();
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
     }
 	
+    /**
+	 * {@inheritDoc}
+	 */
 	@Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addViewController("/login").setViewName("login");

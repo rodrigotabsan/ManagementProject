@@ -32,12 +32,15 @@ public class Project extends Common implements Serializable{
 	/** Fecha de finalización del proyecto */
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
-	
+	/** Array con los identificadores de las personas seleccionadas en el formulario */
 	private Integer[] persons; 
 	
 	/** Lista de {@link Task} */
 	private List<Task> tasks;
 	
+	/**
+	 * Lista de personas
+	 */
 	private List<Person> personList;
 	
 	/**
@@ -49,11 +52,10 @@ public class Project extends Common implements Serializable{
 
 	/**
 	 * Constructor de la clase
-	 * @param name
-	 * @param description
-	 * @param idAdmin
-	 * @param startDate
-	 * @param endDate
+	 * @param name Nombre del proyecto
+	 * @param description Descripción del proyecto
+	 * @param startDate Fecha comienzo del proyecto
+	 * @param endDate Fecha fin del proyecto
 	 */
 	public Project(String name, String description, Date startDate, Date endDate) {
 		this.name = name;
@@ -174,6 +176,9 @@ public class Project extends Common implements Serializable{
 		this.persons = persons;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -183,6 +188,9 @@ public class Project extends Common implements Serializable{
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
