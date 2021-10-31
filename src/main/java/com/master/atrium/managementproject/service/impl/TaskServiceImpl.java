@@ -173,11 +173,17 @@ public class TaskServiceImpl implements TaskService {
 		if(Objects.nonNull(task.getPerson()) 
 				&& Objects.nonNull(task.getPerson().getId())) {
 			task.setPersonId(task.getPerson().getId());
+		} else if(Objects.nonNull(task.getPersonId())) {
+			task.setPerson(personRepository.findById(task.getPersonId()));
 		}
 		if(Objects.nonNull(task.getProject()) 
 				&& Objects.nonNull(task.getProject().getId())) {
 			task.setProjectId(task.getProject().getId());
+		} else if(Objects.nonNull(task.getProjectId())) {
+			task.setProject(projectRepository.findById(task.getProjectId()));
 		}
+		
+		
 		return task;
 	}
 

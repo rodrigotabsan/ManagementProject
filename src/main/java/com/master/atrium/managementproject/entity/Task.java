@@ -8,6 +8,8 @@ import java.util.Objects;
 
 import javax.validation.constraints.NotEmpty;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * Clase que describe una tarea
  * @author Rodrigo
@@ -25,8 +27,10 @@ public class Task extends Common implements Serializable{
 	@NotEmpty(message = "Description is required.")
 	private String description;
 	/** Fecha de comienzo de una tarea */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date startDate;
 	/** Fecha de finalización de una tarea */
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date endDate;
 	
 	/** Lista de mensajes */

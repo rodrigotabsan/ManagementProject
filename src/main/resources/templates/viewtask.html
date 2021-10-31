@@ -1,6 +1,9 @@
 <!DOCTYPE>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout" lang="en">
 <head>
 <title>Tasks : View</title>
 <link rel="stylesheet"
@@ -52,30 +55,31 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 						<dd id="id" th:text="${viewtask.id}">123</dd>
 					</div>
 					<div class="col form-group">
-						<dt>Project name</dt>
-						<dd id="project" th:text="${viewtask.project.name}">Project</dd>
-					</div>					
-				</div>
-				<div class="row">
-					<div class="col form-group">
-						<dt>Person</dt>
-						<dd id="person" th:text="${viewtask.person.name}">Person</dd>
-					</div>
-					<div class="col form-group">
 						<dt>Name</dt>
 						<dd id="name" th:text="${viewtask.name}">Name</dd>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col form-group">
 						<dt>Description</dt>
 						<dd id="lastname1" th:text="${viewtask.description}">Description</dd>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col form-group">
 						<dt>Start Date</dt>
 						<dd id="created"
 							th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.startDate), #dates.month(viewtask.startDate), #dates.day(viewtask.startDate),'UTC'), 'yyyy-MMM-dd')}">July
 							11, 2012 2:17:16 PM CDT</dd>
+					</div>
+					<div class="col form-group">
+						<dt>Project name</dt>
+						<dd id="project" th:text="${viewtask.project.name}">Project</dd>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col form-group">
+						<dt>Person</dt>
+						<dd id="person"
+							th:text="${viewtask.person.user} + ' - ' + ${viewtask.person.name} + ' ' + ${viewtask.person.lastname1} + ' ' + ${viewtask.person.lastname2}">Person</dd>
 					</div>
 				</div>
 			</dl>
@@ -88,25 +92,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 						<dd id="id" th:text="${viewtask.id}">123</dd>
 					</div>
 					<div class="col form-group">
-						<dt>Project name</dt>
-						<dd id="project" th:text="${viewtask.project.name}">Project</dd>
-					</div>					
-				</div>
-				<div class="row">
-					<div class="col form-group">
-						<dt>Person</dt>
-						<dd id="person" th:text="${viewtask.person.name}">Person</dd>
-					</div>
-					<div class="col form-group">
 						<dt>Name</dt>
 						<dd id="name" th:text="${viewtask.name}">Name</dd>
 					</div>
-				</div>
-				<div class="row">
 					<div class="col form-group">
 						<dt>Description</dt>
 						<dd id="lastname1" th:text="${viewtask.description}">Description</dd>
 					</div>
+				</div>
+				<div class="row">
 					<div class="col form-group">
 						<dt>Start Date</dt>
 						<dd id="created"
@@ -119,6 +113,17 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 							th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.endDate), #dates.month(viewtask.endDate), #dates.day(viewtask.endDate),'UTC'), 'yyyy-MMM-dd')}">July
 							11, 2012 2:17:16 PM CDT</dd>
 					</div>
+					<div class="col form-group">
+						<dt>Project name</dt>
+						<dd id="project" th:text="${viewtask.project.name}">Project</dd>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col form-group">
+						<dt>Person</dt>
+						<dd id="person"
+							th:text="${viewtask.person.user} + ' - ' + ${viewtask.person.name} + ' ' + ${viewtask.person.lastname1} + ' ' + ${viewtask.person.lastname2}">Person</dd>
+					</div>
 				</div>
 			</dl>
 		</div>
@@ -128,8 +133,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 				<a href="formtask.html"
 					th:href="@{'/task/viewmodify/' + ${viewtask.id}}"> <span
 					class="btn btn-primary input-submit-create-user material-icons">mode_edit</span></a>
-				<a href="tasks"
-					th:href="@{'/task/delete/' + ${viewtask.id}}"> <span
+				<a href="tasks" th:href="@{'/task/delete/' + ${viewtask.id}}"> <span
 					class="btn btn-primary input-submit-create-user material-icons md-36">delete</span>
 				</a>
 			</div>

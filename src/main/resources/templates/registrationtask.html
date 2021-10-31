@@ -99,7 +99,7 @@
 					<label class="control-label col-xs-2" for="registrations"><strong>Projects</strong></label>
 					<div class="col-xs-10">
 						<select class="create-user-form" id="project"
-							th:field="*{project}" onclick="onProjectChanged()">
+							th:field="*{projectId}" onclick="onProjectChanged()">
 							<option th:each="project : ${projects}" th:value="${project.id}"
 								th:text="${project.name}"></option>
 						</select>
@@ -110,7 +110,7 @@
 					th:classappend="${#fields.hasErrors('person')} ? 'has-error'">
 					<label class="control-label col-xs-2"><strong>Users</strong></label>
 					<div class="col-xs-10">
-						<select class="create-user-form" id="person" th:field="*{person}"></select>
+						<select class="create-user-form" id="person" th:field="*{personId}"></select>
 					</div>
 				</div>
 			</div>

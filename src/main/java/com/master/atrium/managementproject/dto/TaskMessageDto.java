@@ -23,6 +23,16 @@ public class TaskMessageDto {
 	}
 
 	/**
+	 * Constructor de la clase
+	 * @param task
+	 * @param message
+	 */
+	public TaskMessageDto(Task task, Message message) {
+		this.task = task;
+		this.message = message;
+	}
+
+	/**
 	 * Obtiene la tarea
 	 * @return the task
 	 */

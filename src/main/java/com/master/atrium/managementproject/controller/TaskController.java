@@ -1,20 +1,27 @@
 package com.master.atrium.managementproject.controller;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.master.atrium.managementproject.dto.TaskMessageDto;
 import com.master.atrium.managementproject.entity.Message;
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.entity.Project;
@@ -50,6 +57,16 @@ public class TaskController {
 	@Autowired
 	public TaskController(TaskService taskService) {
 		this.taskService = taskService;
+	}
+	
+	/**
+	 * Inicializador del controlador. Cada acción que se ejecute pasará primero por esta función.
+	 * @param binder {@link WebDataBinder}
+	 */
+	@InitBinder     
+	public void initBinder(WebDataBinder binder){
+		DateFormat dateFormat=new SimpleDateFormat("yyyy-MM-dd");
+	    binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));   
 	}
 	
 	@GetMapping
@@ -114,7 +131,7 @@ public class TaskController {
 		
 		model.addAttribute("viewtask.id", taskcreated.getId()); 
 		model.addAttribute(PERSON, person);
-        return new ModelAndView("redirect:/project/{viewtask.id}", model);
+        return new ModelAndView("redirect:/task/{viewtask.id}", model);
     }
 
     /**
@@ -131,38 +148,42 @@ public class TaskController {
     }
 
     /**
-     * Crea el formulario de modificación para un proyecto
-     * @param idModifyproject identificador del proyecto a modificar
+     * Crea el formulario de modificación para una tarea
+     * @param idModifyproject identificador de la tarea a modificar
      * @param model
      * @return
      */
     @GetMapping(value = "viewmodify/{id}")
     public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyTask, ModelMap model) {
     	Task modifyTask = taskService.findById(idModifyTask);
+    	Message newMessage = new Message();
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-    	
-        model.addAttribute("modifytask", modifyTask);        
+    	TaskMessageDto taskMessageDto = new TaskMessageDto(modifyTask, newMessage);
+        model.addAttribute("taskmessagedto", taskMessageDto);        
 		model.addAttribute(PERSON, person);
         return new ModelAndView("formtask", model);
     }
 
     /**
-     * Petición POST para modificar un proyecto
-     * @param modifyproject
+     * Petición POST para modificar una tarea
+     * @param taskMessageDto
      * @param result
      * @param model
      * @return
      */
     @PostMapping(value = "modify")
-    public ModelAndView modifyForm(@ModelAttribute Project modifyproject, BindingResult result, ModelMap model) {
+    public ModelAndView modifyForm(@ModelAttribute TaskMessageDto taskMessageDto, BindingResult result, ModelMap model) {
     	if (result.hasErrors()) {
             return new ModelAndView("formproject", "formErrors", result.getAllErrors());
         }
-    	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());    		
-	    model.addAttribute("modifyproject.id", modifyproject.getId());        
-		model.addAttribute(PERSON, person);
-		projectService.save(modifyproject);    	
-        return new ModelAndView("redirect:/project/{modifyproject.id}", model);
+    	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
+    	Long idTask = taskMessageDto.getTask().getId();
+    	taskService.save(taskMessageDto.getTask());
+    	messageService.save(taskMessageDto.getMessage());
+    	
+	    model.addAttribute("modifytask.id", idTask);        
+		model.addAttribute(PERSON, person);  	
+        return new ModelAndView("redirect:/task/{modifytask.id}", model);
     }
 
    
