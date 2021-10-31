@@ -24,7 +24,6 @@ import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.service.ProjectService;
 import com.master.atrium.managementproject.service.RoleService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
-import com.master.atrium.managementproject.utility.Utility;
 import com.master.atrium.managementproject.validator.EmailExistsException;
 import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
 import com.master.atrium.managementproject.validator.UserExistsException;
@@ -111,8 +110,7 @@ public class PersonController {
     	Person modifyperson = personService.findById(idModifyperson);
     	Iterable<Role> roles = roleService.findAll();
     	
-    	Collection<Project> allprojects = Utility.convertIterableProjectToListProject(projectService.findAll());
-    	modifyperson = personService.findById(modifyperson.getId());
+    	Collection<Project> allprojects = projectService.findAll();
     	Collection<Project> projectsselected = personService.findById(modifyperson.getId()).getProjectList();
     	    	
     	Set<Long> idsprojselected = projectsselected.stream()

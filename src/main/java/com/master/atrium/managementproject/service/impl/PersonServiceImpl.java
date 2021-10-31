@@ -76,6 +76,10 @@ public class PersonServiceImpl implements PersonService {
 			} else {
 				insertProjectPersonRelation(person, personFoundSaved);
 			}
+		} else {
+			if(Objects.nonNull(projectsFound)){
+				deleteProjectPersonRelation(person, projectsFound, personFoundSaved);
+			}
 		}
 	}
 	
@@ -111,6 +115,16 @@ public class PersonServiceImpl implements PersonService {
 		for(int indexProjects = 0; indexProjects < person.getProjects().length; indexProjects++) {
 			Project[] projects = mappingArrayIntegerProjectsToArrayProjects(person.getProjects());
 			projectPersonRepository.insert(projects[indexProjects], personFoundSaved);
+		}
+	}
+	
+	private void deleteProjectPersonRelation(Person person, List<Project> projectsFound, Person personFoundSaved) {
+		int indexProjects = 0;
+		if(hasProjectPersonToDelete(indexProjects, person)) {
+			while(indexProjects < projectsFound.size()) {
+				projectPersonRepository.delete(projectsFound.get(indexProjects), personFoundSaved);
+				indexProjects++;
+			}
 		}
 	}
 	

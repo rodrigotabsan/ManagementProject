@@ -44,53 +44,81 @@ public class ProjectServiceImpl implements ProjectService {
 	public Project save(Project project) {
 		Project projectFound = projectRepository.findById(project.getId());
 		if (Objects.nonNull(projectFound)) {
-			project.setTasks(taskRepository.findTasksByProjectId(projectFound.getId()));
-			List<Person> personsOld = findAllPersonsByProject(projectFound);
-			projectRepository.update(project);
-			Project projectSaved = projectRepository.findByName(project.getName());
-			if (Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
-				Person[] persons = mappingArrayIntegerPersonsToArrayPersons(project.getPersons());
-				if (Objects.nonNull(personsOld)) {
-					int indexPersons = 0;
-					while (indexPersons < project.getPersons().length && indexPersons < personsOld.size()) {
-						projectPersonRepository.update(projectSaved, persons[indexPersons], projectFound,
-								personsOld.get(indexPersons));
-						indexPersons++;
-					}
-					if (indexPersons >= project.getPersons().length) {
-						while (indexPersons < personsOld.size()) {
-							projectPersonRepository.delete(projectSaved, personsOld.get(indexPersons));
-							indexPersons++;
-						}
-					} else if (indexPersons >= personsOld.size()) {
-						while (indexPersons < project.getPersons().length) {
-							projectPersonRepository.insert(projectSaved, persons[indexPersons]);
-							indexPersons++;
-						}
-					}
-				} else {
-					for (int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
-						projectPersonRepository.insert(projectSaved, persons[indexProjects]);
-					}
-				}
-			}
+			updateProject(project, projectFound);
 		} else {
-			if (Objects.nonNull(project.getPersonList()) && project.getPersonList().isEmpty()) {
-				project.setPersonList(null);
-			}
-			if (Objects.nonNull(project.getTasks()) && project.getTasks().isEmpty()) {
-				project.setTasks(null);
-			}
-			projectRepository.insert(project);
-			Project projectSaved = projectRepository.findByName(project.getName());
-			if (Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
-				Person[] persons = mappingArrayIntegerPersonsToArrayPersons(project.getPersons());
-				for (int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
-					projectPersonRepository.insert(projectSaved, persons[indexProjects]);
-				}
-			}
+			insertProject(project);
 		}
 		return findByName(project.getName());
+	}
+	
+	private void updateProject(Project project, Project projectFound) {
+		project.setTasks(taskRepository.findTasksByProjectId(projectFound.getId()));
+		List<Person> personsOld = findAllPersonsByProject(projectFound);
+		projectRepository.update(project);
+		Project projectSaved = projectRepository.findByName(project.getName());
+		if (Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
+			Person[] persons = mappingArrayIntegerPersonsToArrayPersons(project.getPersons());
+			if (Objects.nonNull(personsOld)) {
+				updateProjectPerson(project, projectSaved, projectFound, persons, personsOld);
+			} else {
+				insertProjectPerson(project, projectSaved, persons);
+			}
+		} else {
+			deleteProjectPerson(project, projectSaved, personsOld);
+		}
+	}
+	
+	private void insertProjectPerson(Project project, Project projectSaved, Person[] persons) {
+		for (int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
+			projectPersonRepository.insert(projectSaved, persons[indexProjects]);
+		}
+	}
+	
+	private void deleteProjectPerson(Project project, Project projectSaved, List<Person> personsOld) {
+		int indexPersons = 0;
+		if (indexPersons >= project.getPersons().length) {
+			while (indexPersons < personsOld.size()) {
+				projectPersonRepository.delete(projectSaved, personsOld.get(indexPersons));
+				indexPersons++;
+			}
+		}
+	}
+	
+	private void updateProjectPerson(Project project, Project projectSaved, Project projectFound, Person[] persons, List<Person> personsOld) {
+		int indexPersons = 0;
+		while (indexPersons < project.getPersons().length && indexPersons < personsOld.size()) {
+			projectPersonRepository.update(projectSaved, persons[indexPersons], projectFound,
+					personsOld.get(indexPersons));
+			indexPersons++;
+		}
+		if (indexPersons >= project.getPersons().length) {
+			while (indexPersons < personsOld.size()) {
+				projectPersonRepository.delete(projectSaved, personsOld.get(indexPersons));
+				indexPersons++;
+			}
+		} else if (indexPersons >= personsOld.size()) {
+			while (indexPersons < project.getPersons().length) {
+				projectPersonRepository.insert(projectSaved, persons[indexPersons]);
+				indexPersons++;
+			}
+		}
+	}
+	
+	private void insertProject(Project project) {
+		if (Objects.nonNull(project.getPersonList()) && project.getPersonList().isEmpty()) {
+			project.setPersonList(null);
+		}
+		if (Objects.nonNull(project.getTasks()) && project.getTasks().isEmpty()) {
+			project.setTasks(null);
+		}
+		projectRepository.insert(project);
+		Project projectSaved = projectRepository.findByName(project.getName());
+		if (Objects.nonNull(project.getPersons()) && project.getPersons().length > 0) {
+			Person[] persons = mappingArrayIntegerPersonsToArrayPersons(project.getPersons());
+			for (int indexProjects = 0; indexProjects < project.getPersons().length; indexProjects++) {
+				projectPersonRepository.insert(projectSaved, persons[indexProjects]);
+			}
+		}
 	}
 
 	@Override

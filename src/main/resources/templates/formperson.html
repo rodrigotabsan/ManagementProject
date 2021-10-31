@@ -124,7 +124,7 @@
 						<label class="control-label col-xs-2" for="projects"><strong>Projects</strong></label>
 						<div class="col-xs-10">
 							<select th:field="*{projects}" multiple="multiple" />
-							<option th:each="project : ${projectselected}"
+							<option th:each="project : ${projectsselected}"
 									th:value="${project.id}"
 									th:text="${project.name}" selected></option>
 							<option th:each="project : ${projects}"

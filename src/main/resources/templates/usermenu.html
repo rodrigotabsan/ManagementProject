@@ -8,19 +8,32 @@
 
 </head>
 <body>
-    <div th:fragment="header" class="container">
-        <div class="navbar">
-            <div class="navbar-inner">
-				<div class="pull-right">
-					<ul>		        				            
-				    	<li><a href="main.html" th:href="@{/main">Home</a></li>
-					    <li><a href="listperson.html" th:href="@{/person/(listperson)}">List Users</a></li>
-					    <li><a href="listproject.html" th:href="@{/project/(listproject)}">List Projects</a></li>
-					    <li><a href="listtask.html" th:href="@{/task/(listtask)}">List Tasks</a></li>
-					</ul>				    
-				</div>
+	<div th:fragment="header" class="">
+		<nav
+			class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" th:href="@{/main}"> <img
+				src="/img/logo.png" width="80" height="100" alt="">
+			</a>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" th:href="@{/main}">Home
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="listperson.html" th:href="@{/person/(listperson)}">List
+							Users <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="listproject.html" th:href="@{/project/(listproject)}">List
+							Projects <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="listtask.html"
+						th:href="@{/task/(listtask)}">List Tasks <span class="sr-only">(current)</span></a>
+					</li>
+				</ul>
 			</div>
-        </div>
-    </div>
+		</nav>
+	</div>
 </body>
 </html>

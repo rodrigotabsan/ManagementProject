@@ -2,8 +2,11 @@ package com.master.atrium.managementproject.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -112,10 +115,19 @@ public class ProjectController {
     public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyproject, ModelMap model) {
     	Project modifyproject = projectService.findById(idModifyproject);
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-    	Iterable<Person> persons = personService.findAll();
+    	Collection<Person> allPersons = personService.findAll();
+    	Collection<Person> personsSelected = projectService.findById(modifyproject.getId()).getPersonList();
+    	
+    	Set<Long> idsProjSelected = personsSelected.stream()
+    	        .map(Person::getId)
+    	        .collect(Collectors.toSet());
+    	Set<Person> personsNotSelected = allPersons.stream()
+    	        .filter(proj -> !idsProjSelected.contains(proj.getId()))
+    	        .collect(Collectors.toSet());
         model.addAttribute("modifyproject", modifyproject);        
 		model.addAttribute(PERSON, person);
-		model.addAttribute(PERSONS, persons);
+		model.addAttribute(PERSONS, personsNotSelected);
+		model.addAttribute("personsselected", personsSelected);
         return new ModelAndView("formproject", model);
     }
 

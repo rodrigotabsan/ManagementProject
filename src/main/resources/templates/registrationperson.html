@@ -162,18 +162,21 @@ to {
 		rgba(255, 255, 255, .15) 75%, transparent 75%, transparent);
 }
 
-.create-user-form{
+.create-user-form {
 	width: 74%;
 }
-.select-user-form{
-	width: 36%;
+
+.select-user-form {
+	width: 74%;
 }
-.submit-create-user-form{
-	margin-left:36%;
-	margin-top:5%;
+
+.submit-create-user-form {
+	margin-left: 36%;
+	margin-top: 5%;
 }
-.input-submit-create-user{
-	width:15%;
+
+.input-submit-create-user {
+	width: 15%;
 }
 </style>
 </head>
@@ -197,30 +200,30 @@ to {
 					th:classappend="${#fields.hasErrors('user')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="user"><strong>User</strong></label>
 					<div class="col-xs-10">
-						<input class="create-user-form" id="user" type="text" title="user" th:field="*{user}" /> <span
-							th:if="${#fields.hasErrors('user')}" th:errors="*{user}"
-							class="help-block">User Error</span>
+						<input class="create-user-form" id="user" type="text" title="user"
+							th:field="*{user}" /> <span th:if="${#fields.hasErrors('user')}"
+							th:errors="*{user}" class="help-block">User Error</span>
 					</div>
 				</div>
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('name')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="name"><strong>Name</strong></label>
 					<div class="col-xs-10">
-						<input class="create-user-form" id="name" type="text" title="name" th:field="*{name}" /> <span
-							th:if="${#fields.hasErrors('name')}" th:errors="*{name}"
-							class="help-block">Name Error</span>
+						<input class="create-user-form" id="name" type="text" title="name"
+							th:field="*{name}" /> <span th:if="${#fields.hasErrors('name')}"
+							th:errors="*{name}" class="help-block">Name Error</span>
 					</div>
 				</div>
 
-				</div>
-				<div class="row">
+			</div>
+			<div class="row">
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('lastname1')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="lastname1"><strong>Lastname
-						1</strong></label>
+							1</strong></label>
 					<div class="col-xs-10">
-						<input class="create-user-form" id="lastname1" type="text" title="lastname1"
-							th:field="*{lastname1}" /> <span
+						<input class="create-user-form" id="lastname1" type="text"
+							title="lastname1" th:field="*{lastname1}" /> <span
 							th:if="${#fields.hasErrors('lastname1')}"
 							th:errors="*{lastname1}" class="help-block">Lastname 1
 							Error</span>
@@ -230,10 +233,10 @@ to {
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('lastname2')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="lastname2"><strong>Lastname
-						2</strong></label>
+							2</strong></label>
 					<div class="col-xs-10">
-						<input class="create-user-form" id="lastname2" type="text" title="lastname2"
-							th:field="*{lastname2}" /> <span
+						<input class="create-user-form" id="lastname2" type="text"
+							title="lastname2" th:field="*{lastname2}" /> <span
 							th:if="${#fields.hasErrors('lastname2')}"
 							th:errors="*{lastname2}" class="help-block">Lastname 2
 							Error</span>
@@ -245,8 +248,8 @@ to {
 					th:classappend="${#fields.hasErrors('password')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="password"><strong>Password</strong></label>
 					<div class="col-xs-3">
-						<input class="create-user-form" id="password" type="password" title="password"
-							th:field="*{password}" /> <span
+						<input class="create-user-form" id="password" type="password"
+							title="password" th:field="*{password}" /> <span
 							th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
 							class="help-block">Password Error</span>
 					</div>
@@ -254,24 +257,25 @@ to {
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('passwordConfirmation')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="passwordConfirmation"><strong>Password
-						Confirmation</strong></label>
+							Confirmation</strong></label>
 					<div class="col-xs-10">
-						<input class="create-user-form" id="passwordConfirmation" type="password"
-							title="passwordConfirmation" th:field="*{passwordConfirmation}" />
-						<span th:if="${#fields.hasErrors('passwordConfirmation')}"
+						<input class="create-user-form" id="passwordConfirmation"
+							type="password" title="passwordConfirmation"
+							th:field="*{passwordConfirmation}" /> <span
+							th:if="${#fields.hasErrors('passwordConfirmation')}"
 							th:errors="*{passwordConfirmation}" class="help-block">Password
 							Confirmation Error</span>
 					</div>
 				</div>
-				</div>
-				<div class="row">
+			</div>
+			<div class="row">
 				<div class="col form-group"
 					th:classappend="${#fields.hasErrors('dni')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="dni"><strong>DNI</strong></label>
 					<div class="col-xs-10">
-						<input class="create-user-form" id="dni" type="text" title="dni" th:field="*{dni}" /> <span
-							th:if="${#fields.hasErrors('dni')}" th:errors="*{dni}"
-							class="help-block">DNI Error</span>
+						<input class="create-user-form" id="dni" type="text" title="dni"
+							th:field="*{dni}" /> <span th:if="${#fields.hasErrors('dni')}"
+							th:errors="*{dni}" class="help-block">DNI Error</span>
 					</div>
 				</div>
 
@@ -279,8 +283,9 @@ to {
 					th:classappend="${#fields.hasErrors('email')} ? 'has-error'">
 					<label class="control-label col-xs-2" for="email"><strong>Email</strong></label>
 					<div class="col-xs-10">
-						<input class="create-user-form" id="email" type="email" title="email" th:field="*{email}" />
-						<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
+						<input class="create-user-form" id="email" type="email"
+							title="email" th:field="*{email}" /> <span
+							th:if="${#fields.hasErrors('email')}" th:errors="*{email}"
 							class="help-block">Email Error</span>
 					</div>
 				</div>
@@ -297,21 +302,25 @@ to {
 						</select>
 					</div>
 				</div>
-				<div th:if="${!projects.isEmpty}">
-					<div class="col form-group"
+				<div class="col form-group"
 						th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
+				<div th:if="${!projects.isEmpty}">
+					
 						<label class="control-label col-xs-2" for="projects"><strong>Projects</strong></label>
-						<select class="select-user-form" th:field="*{projects}"
+						<div class="col-xs-5">
+							<select class="select-user-form" th:field="*{projects}"
 								multiple="multiple">
 								<option th:each="projectcreate : ${projects}"
-									th:value="${projectcreate.id}"
-									th:text="${projectcreate.name}"></option>
+									th:value="${projectcreate.id}" th:text="${projectcreate.name}"></option>
 							</select>
+						</div>
 					</div>
 				</div>
 			</div>
-			<div class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
-				<input type="submit" class="btn btn-primary input-submit-create-user" value="Register" />
+			<div
+				class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
+				<input type="submit"
+					class="btn btn-primary input-submit-create-user" value="Register" />
 			</div>
 
 		</form>

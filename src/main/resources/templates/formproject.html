@@ -86,7 +86,7 @@
 					<label class="control-label col-xs-2" for="persons"><strong>Users</strong></label>
 					<div class="col-xs-10">
 						<select th:field="*{persons}" multiple="multiple" />
-						<option th:each="person : ${personselected}"
+						<option th:each="person : ${personsselected}"
 							th:value="${person.id}"
 							th:text="${person.user} + '-' + ${person.name} + ' ' +${person.lastname1} + ' ' + ${person.lastname2}"
 							selected></option>
