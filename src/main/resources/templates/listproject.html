@@ -43,7 +43,7 @@
 		</thead>
 		<tbody>
 			<tr th:if="${projects.empty}">
-				<td colspan="3">No projects</td>
+				<td colspan="7">No projects</td>
 			</tr>
 			<tr th:each="project : ${projects}">
 				<td th:text="${project.name}">Name</td>
@@ -82,7 +82,7 @@
 		</thead>
 		<tbody>
 			<tr th:if="${projects.empty}">
-				<td colspan="3">No projects</td>
+				<td colspan="5">No projects</td>
 			</tr>
 			<tr th:each="project : ${projects}">
 				<td th:text="${project.name}">Name</td>

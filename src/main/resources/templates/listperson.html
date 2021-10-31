@@ -44,7 +44,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
             </thead>
             <tbody>
                 <tr th:if="${persons.empty}">
-                    <td colspan="3">No users</td>
+                    <td colspan="11">No users</td>
                 </tr>
                 <tr th:each="viewperson : ${persons}">
                     <td><a th:text="${viewperson.user}"> Username </a></td>
@@ -85,7 +85,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
             </thead>
             <tbody>
                 <tr th:if="${persons.empty}">
-                    <td colspan="3">No users</td>
+                    <td colspan="9">No users</td>
                 </tr>
                 <tr th:each="viewperson : ${persons}">
                     <td><a th:text="${viewperson.user}"> Username </a></td>
