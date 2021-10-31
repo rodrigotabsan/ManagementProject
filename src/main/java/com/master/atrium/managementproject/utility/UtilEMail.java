@@ -1,5 +1,6 @@
 package com.master.atrium.managementproject.utility;
 
+import java.lang.invoke.MethodHandles;
 import java.util.List;
 import java.util.Properties;
 
@@ -11,13 +12,30 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServlet;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * Clase de utilidades para el envío de correo electrónico
+ * @author Rodrigo
+ *
+ */
 @Component
 public class UtilEMail extends HttpServlet {
-	
+	/** Log de la clase */
+	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+	/**
+	 * Serial Version UID
+	 */
 	private static final long serialVersionUID = 6098477709328292413L;
 
+	/**
+	 * Envía un correo electrónico	
+	 * @param toMailList
+	 * @param mailSubject
+	 * @param mailText
+	 */
 	public void sendEmail(List<String> toMailList, String mailSubject, String mailText) {
 		
 		String mailFrom = "projectmanagementnoreply0@gmail.com";
@@ -36,31 +54,33 @@ public class UtilEMail extends HttpServlet {
 		MimeMessage msg = new MimeMessage(session);
 
 		try {
-			System.out.println("> Try block");
+			LOG.info("> Try block");
 			msg.setFrom(new InternetAddress(mailFrom));
 //			msg.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(mailTo));
 			msg.setSubject(mailSubject);
 			msg.setText(mailText);
-			System.out.println("> Transport created");
+			LOG.info("> Transport created");
 			Transport transport = session.getTransport("smtp");
 			for(String mailTo : toMailList) {
 				msg.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(mailTo));
-				System.out.println("> Sending E-mail...");
+				LOG.info("> Sending E-mail...");
 				Transport.send(msg);
 			}
-			System.out.println("E-mail sent!");
+			LOG.info("E-mail sent!");
 			transport.close();
-			System.out.println("> Closed connection");
+			LOG.info("> Closed connection");
 		} catch (Exception exc) {
-			System.out.println("> Catch block");
-			System.out.println(exc);
-			exc.printStackTrace();
+			LOG.info("> Catch block" + exc.getMessage());
 		}
 
-		System.out.println("EMAIL enviado...");
+		LOG.info("EMAIL enviado...");
 
 	}
 
+	/**
+	 * Obtiene las propiedades para el envío del correo electrónico
+	 * @return
+	 */
 	public Properties getProperties() {
 		Properties props = new Properties();
 

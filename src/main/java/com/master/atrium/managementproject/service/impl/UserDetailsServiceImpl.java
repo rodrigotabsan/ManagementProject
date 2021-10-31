@@ -16,13 +16,28 @@ import org.springframework.stereotype.Service;
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.repository.PersonRepository;
 
+/**
+ * Implementación del servicio de detalles del usuario para la autenticación
+ * @author Rodrigo
+ *
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService{
 
+	/**
+	 * {@link UserDetails}
+	 */
 	private UserDetails userDetails;
+	/**
+	 * Inyección de repositorio de personas
+	 */
     @Autowired
     private PersonRepository personRepository;
 
+    /**
+     * Carga el usuario por nombre de usuario
+     * @throws UsernameNotFoundException si no encuentra el nombre de usuario o si el usuario está desactivado.
+     */
     public UserDetails loadUserByUsername(final String user) throws UsernameNotFoundException {
         final Person person = personRepository.findByUser(user);
         if (Objects.isNull(person)) {
@@ -35,11 +50,17 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         return userDetails;
     }
 
+    /**
+     * Obtiene el listado de autorizaciones pasando un rol como parámetro
+     * @param role El rol
+     * @return
+     */
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return Arrays.asList(new SimpleGrantedAuthority(role));
     }
 
 	/**
+	 * Obtiene los {@link UserDetails}
 	 * @return the userDetails
 	 */
 	public UserDetails getUserDetails() {
@@ -47,6 +68,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
 	}
 
 	/**
+	 * Sobrescribe los {@link UserDetails}
 	 * @param userDetails the userDetails to set
 	 */
 	public void setUserDetails(UserDetails userDetails) {

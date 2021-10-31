@@ -19,8 +19,13 @@ import com.master.atrium.managementproject.service.RoleService;
  */
 @Service
 public class RoleServiceImpl implements RoleService {
+	
+	/**
+	 * Inyección de repositorio de rol
+	 */
 	@Autowired
 	RoleRepository roleRepository;
+	
 	/**
 	 * Constructor de la clase
 	 */
@@ -28,11 +33,17 @@ public class RoleServiceImpl implements RoleService {
 		super();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Role findById(Long id) {
 		return roleRepository.findById(id);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Person> findPersonsByRole(Role role) {
 		List<Person> persons = new ArrayList<>();
@@ -43,17 +54,26 @@ public class RoleServiceImpl implements RoleService {
 		return persons;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Role> findAll() {
 		List<Role> roles = roleRepository.findAll();
 		return Objects.nonNull(roles) ? roles : new ArrayList<>();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void delete(Role role) {
 		roleRepository.deleteById(role.getId());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Role save(Role role) {
 		Role roleFound = findByName(role.getName());
@@ -65,6 +85,9 @@ public class RoleServiceImpl implements RoleService {
 		return roleRepository.findByName(role.getName());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Role findByName(String name) {
 		return roleRepository.findByName(name);

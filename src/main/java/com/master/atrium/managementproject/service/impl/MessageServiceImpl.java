@@ -16,6 +16,11 @@ import com.master.atrium.managementproject.repository.MessageRepository;
 import com.master.atrium.managementproject.repository.TaskRepository;
 import com.master.atrium.managementproject.service.MessageService;
 
+/**
+ * Implementación del servicio de mensajes
+ * @author Rodrigo
+ *
+ */
 @Service
 public class MessageServiceImpl implements MessageService{
 

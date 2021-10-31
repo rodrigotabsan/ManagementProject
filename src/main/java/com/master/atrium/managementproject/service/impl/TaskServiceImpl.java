@@ -24,12 +24,27 @@ import com.master.atrium.managementproject.service.TaskService;
 @Service
 public class TaskServiceImpl implements TaskService {
 	
+	/**
+	 * Inyección del repositorio de tarea
+	 */
 	@Autowired
 	TaskRepository taskRepository;
+	
+	/**
+	 * Inyección del repositorio de mensaje
+	 */
 	@Autowired
 	MessageRepository messageRepository;
+	
+	/**
+	 * Inyección del repositorio de persona
+	 */
 	@Autowired
 	PersonRepository personRepository;
+	
+	/**
+	 * Inyección del repositorio de proyecto
+	 */
 	@Autowired
 	ProjectRepository projectRepository;
 	
@@ -40,6 +55,9 @@ public class TaskServiceImpl implements TaskService {
 		super();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Task save(Task task) {
 		Task taskFound = taskRepository.findByName(task.getName());
@@ -51,24 +69,36 @@ public class TaskServiceImpl implements TaskService {
 		return findByName(task.getName());
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Task findByName(String name) {
 		Task task = taskRepository.findByName(name);
 		return setPersonAndProjectAndMessages(task);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Task findById(Long id) {
 		Task task = taskRepository.findById(id);
 		return setPersonAndProjectAndMessages(task);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> findAll() {
 		List<Task> tasks = taskRepository.findAll();
 		return setPersonAndProjectAndMessagesToListOfTasks(tasks);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void delete(Task task) {
 		Task taskFound = findByName(task.getName());
@@ -77,18 +107,29 @@ public class TaskServiceImpl implements TaskService {
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> findTasksByPerson(Person person) {
 		List<Task> tasks = taskRepository.findTasksByPersonId(person.getId());
 		return setPersonAndProjectAndMessagesToListOfTasks(tasks);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public List<Task> findTasksByProject(Project project) {
 		List<Task> tasks = taskRepository.findTasksByProjectId(project.getId());		
 		return setPersonAndProjectAndMessagesToListOfTasks(tasks);
 	}
 	
+	/**
+	 * Sobrescribe las personas, los proyectos y los mensajes de una lista de tareas
+	 * @param tasks la lista de tareas
+	 * @return
+	 */
 	private List<Task> setPersonAndProjectAndMessagesToListOfTasks(List<Task> tasks){
 		for(Task task : tasks) {			
 			setPersonAndProjectAndMessages(task);		
@@ -96,6 +137,11 @@ public class TaskServiceImpl implements TaskService {
 		return tasks;
 	}
 	
+	/**
+	 * Sobrescribe las personas, los proyectos y los mensajes dado como parámetro una tarea
+	 * @param task la tarea
+	 * @return
+	 */
 	private Task setPersonAndProjectAndMessages(Task task) {
 		List<Message> messages = null;
 		Person personToAdd = null;
@@ -119,6 +165,10 @@ public class TaskServiceImpl implements TaskService {
 		return task;
 	}
 	
+	/*
+	 * Sobrescribe el identificador de persona y proyecto dado como parámetro una tarea
+	 * @param La tarea
+	 */
 	private Task setPersonIdAndProjectId(Task task) {
 		if(Objects.nonNull(task.getPerson()) 
 				&& Objects.nonNull(task.getPerson().getId())) {
