@@ -1,5 +1,7 @@
 package com.master.atrium.managementproject.service.impl;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -265,6 +267,28 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public List<Project> findAllProjectsByPerson(Person person) {
 		return projectPersonRepository.findAllProjectsByIdPerson(person.getId());
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Date[] getArrayStartDates(Person person) {
+		List<Project> projects = findAllProjectsByPerson(person);		
+		List<Date> projectsStartDates = new ArrayList<>();
+		projects.forEach(project -> projectsStartDates.add(project.getStartDate()));
+		return projectsStartDates.toArray(new Date[projectsStartDates.size()]);
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Date[] getArrayEndDates(Person person) {
+		List<Project> projects = findAllProjectsByPerson(person);
+		List<Date> projectsEndDates = new ArrayList<>();
+		projects.forEach(project -> projectsEndDates.add(project.getEndDate()));
+		return projectsEndDates.toArray(new Date[projectsEndDates.size()]);
 	}
 
 	/**
