@@ -29,19 +29,19 @@ public class ProjectServiceImpl implements ProjectService {
 	 */
 	@Autowired
 	PersonRepository personRepository;
-	
+
 	/**
 	 * Inyección de repositorio de proyecto
 	 */
 	@Autowired
 	ProjectRepository projectRepository;
-	
+
 	/**
 	 * Inyección de repositorio de la relación entre proyecto y persona
 	 */
 	@Autowired
 	ProjectPersonRepository projectPersonRepository;
-	
+
 	/**
 	 * Inyección de repositorio de tareas
 	 */
@@ -68,10 +68,11 @@ public class ProjectServiceImpl implements ProjectService {
 		}
 		return findByName(project.getName());
 	}
-	
+
 	/**
 	 * Actualiza un proyecto
-	 * @param project datos del proyecto nuevos
+	 * 
+	 * @param project      datos del proyecto nuevos
 	 * @param projectFound proyecto antes de actualizar
 	 */
 	private void updateProject(Project project, Project projectFound) {
@@ -90,9 +91,10 @@ public class ProjectServiceImpl implements ProjectService {
 			deleteProjectPerson(project, projectSaved, personsOld);
 		}
 	}
-	
+
 	/**
 	 * Crea la relación entre el proyecto y la persona
+	 * 
 	 * @param project
 	 * @param projectSaved
 	 * @param persons
@@ -102,53 +104,59 @@ public class ProjectServiceImpl implements ProjectService {
 			projectPersonRepository.insert(projectSaved, persons[indexProjects]);
 		}
 	}
-	
+
 	/**
 	 * Elimina la relación entre proyecto y persona
+	 * 
 	 * @param project
 	 * @param projectSaved
 	 * @param personsOld
 	 */
 	private void deleteProjectPerson(Project project, Project projectSaved, List<Person> personsOld) {
 		int indexPersons = 0;
-		if (indexPersons >= project.getPersons().length) {
+		if (Objects.nonNull(project.getPersons()) && indexPersons >= project.getPersons().length) {
 			while (indexPersons < personsOld.size()) {
 				projectPersonRepository.delete(projectSaved, personsOld.get(indexPersons));
 				indexPersons++;
 			}
 		}
 	}
-	
+
 	/**
 	 * Actualiza la relación entre persona y proyecto
+	 * 
 	 * @param project
 	 * @param projectSaved
 	 * @param projectFound
 	 * @param persons
 	 * @param personsOld
 	 */
-	private void updateProjectPerson(Project project, Project projectSaved, Project projectFound, Person[] persons, List<Person> personsOld) {
+	private void updateProjectPerson(Project project, Project projectSaved, Project projectFound, Person[] persons,
+			List<Person> personsOld) {
 		int indexPersons = 0;
-		while (indexPersons < project.getPersons().length && indexPersons < personsOld.size()) {
-			projectPersonRepository.update(projectSaved, persons[indexPersons], projectFound,
-					personsOld.get(indexPersons));
-			indexPersons++;
-		}
-		if (indexPersons >= project.getPersons().length) {
-			while (indexPersons < personsOld.size()) {
-				projectPersonRepository.delete(projectSaved, personsOld.get(indexPersons));
+		if (Objects.nonNull(personsOld) && Objects.nonNull(project.getPersons())) {
+			while (indexPersons < project.getPersons().length && indexPersons < personsOld.size()) {
+				projectPersonRepository.update(projectSaved, persons[indexPersons], projectFound,
+						personsOld.get(indexPersons));
 				indexPersons++;
 			}
-		} else if (indexPersons >= personsOld.size()) {
-			while (indexPersons < project.getPersons().length) {
-				projectPersonRepository.insert(projectSaved, persons[indexPersons]);
-				indexPersons++;
+			if (indexPersons >= project.getPersons().length) {
+				while (indexPersons < personsOld.size()) {
+					projectPersonRepository.delete(projectSaved, personsOld.get(indexPersons));
+					indexPersons++;
+				}
+			} else if (indexPersons >= personsOld.size()) {
+				while (indexPersons < project.getPersons().length) {
+					projectPersonRepository.insert(projectSaved, persons[indexPersons]);
+					indexPersons++;
+				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Crea un nuevo proyecto
+	 * 
 	 * @param project
 	 */
 	private void insertProject(Project project) {
@@ -221,6 +229,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	/**
 	 * Añade una lista de personas a un proyecto
+	 * 
 	 * @param project
 	 * @return
 	 */
@@ -232,7 +241,9 @@ public class ProjectServiceImpl implements ProjectService {
 	}
 
 	/**
-	 * Mapea los identificadores de personas recogidos del formulario y obtiene las personas 
+	 * Mapea los identificadores de personas recogidos del formulario y obtiene las
+	 * personas
+	 * 
 	 * @param personsInteger
 	 * @return
 	 */
@@ -246,6 +257,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	/**
 	 * Obtiene el usuario por el identificador de usuario
+	 * 
 	 * @param personInteger
 	 * @return
 	 */

@@ -1,6 +1,6 @@
 package com.master.atrium.managementproject.controller;
 
-import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.master.atrium.managementproject.entity.Person;
+import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
 
@@ -42,14 +43,10 @@ public class MainController {
 	@GetMapping
     public ModelAndView main(ModelMap model) {
 		Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-		Date[] startDates =  personService.getArrayStartDates(person);
-		Date[] endDates =  personService.getArrayEndDates(person);
+		List<Project> projects = personService.findAllProjectsByPerson(person);
 		model.addAttribute("person", person);
-		model.addAttribute("startDates", startDates);
-		model.addAttribute("endDates", endDates);
+		model.addAttribute("projects", projects);
         return new ModelAndView("main", model);
     }
-	
-	
 
 }

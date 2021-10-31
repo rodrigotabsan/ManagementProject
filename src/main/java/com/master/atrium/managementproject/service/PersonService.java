@@ -1,6 +1,5 @@
 package com.master.atrium.managementproject.service;
 
-import java.util.Date;
 import java.util.List;
 
 import com.master.atrium.managementproject.entity.Person;
@@ -59,15 +58,4 @@ public interface PersonService {
 	 */
 	public Person findByUser(final String user);
 	
-	/**
-	 * Obtiene un array de fechas de comienzo de proyectos de una persona
-	 * @param person persona involucrada en los proyectos
-	 */
-	public Date[] getArrayStartDates(Person person);
-	
-	/**
-	 * Obtiene un array de fechas de finalización de proyectos de una persona
-	 * @param person persona involucrada en los proyectos
-	 */
-	public Date[] getArrayEndDates(Person person);
 }

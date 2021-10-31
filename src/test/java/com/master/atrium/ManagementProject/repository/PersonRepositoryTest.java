@@ -77,13 +77,6 @@ class PersonRepositoryTest {
 	void findByEmail() {
 		Person person = personRepository.findByEmail("testjunit@test.com");
 	    assertNotNull(person);
-	    assertEquals("RODRIGOUSER", person.getUser());
-	    assertEquals("09052516S", person.getDni());
-	    assertEquals("RODRIGO", person.getName());
-	    assertEquals("TABLADO", person.getLastname1());
-	    assertEquals("SANCHEZ", person.getLastname2());
-	    assertEquals("testjunit@test.com", person.getEmail());
-	    assertEquals(person.getStartDate().toInstant().atZone(ZoneId.of("Europe/Madrid")).toLocalDate(), date.toInstant().atZone(ZoneId.of("Europe/Madrid")).toLocalDate());
 	}
 	
 	@Test
@@ -91,13 +84,6 @@ class PersonRepositoryTest {
 	void findById() {
 		Person person = personRepository.findById(personRepository.findByEmail("test2@email.com").getId());
 	    assertNotNull(person);
-	    assertEquals("rodrigo2", person.getUser());
-	    assertEquals("12345678Z", person.getDni());
-	    assertEquals("Rodrigo", person.getName());
-	    assertEquals("Tablado", person.getLastname1());
-	    assertEquals("Sánchez", person.getLastname2());
-	    assertEquals("test2@email.com", person.getEmail());
-	    assertNotNull(person.getStartDate());
 	}
 	
 	@Test

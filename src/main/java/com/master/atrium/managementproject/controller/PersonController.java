@@ -39,6 +39,7 @@ import com.master.atrium.managementproject.validator.UserExistsException;
 public class PersonController {
 	private static final String PERSON = "person";
 	private static final String PROJECTS = "projects";
+	private static final String VIEWPERSON = "viewperson";
 	/**
 	 * Inyección {@link UserDetailsServiceImpl}
 	 */
@@ -92,10 +93,10 @@ public class PersonController {
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
         Person viewperson = personService.findById(idViewperson);
         Iterable<Project> projects = viewperson.getProjectList();
-        model.addAttribute("viewperson", viewperson);        
+        model.addAttribute(VIEWPERSON, viewperson);        
 		model.addAttribute(PERSON, person);
 		model.addAttribute(PROJECTS, projects);
-        return new ModelAndView("viewperson", model);
+        return new ModelAndView(VIEWPERSON, model);
     }
 	
 	/**
@@ -135,7 +136,7 @@ public class PersonController {
 		personService.save(createperson);
 		Person viewperson = personService.findByUser(createperson.getUser());
 		model.addAttribute(PERSON, person);
-		model.addAttribute("viewperson", viewperson); 
+		model.addAttribute(VIEWPERSON, viewperson); 
         return new ModelAndView("redirect:/person/"+ viewperson.getId());
     }
 

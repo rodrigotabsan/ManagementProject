@@ -38,7 +38,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
      * Carga el usuario por nombre de usuario
      * @throws UsernameNotFoundException si no encuentra el nombre de usuario o si el usuario está desactivado.
      */
-    public UserDetails loadUserByUsername(final String user) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(final String user) {
         final Person person = personRepository.findByUser(user);
         if (Objects.isNull(person)) {
             throw new UsernameNotFoundException("No user found with username: " + user);

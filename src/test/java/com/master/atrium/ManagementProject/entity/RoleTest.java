@@ -6,7 +6,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
@@ -41,5 +43,26 @@ class RoleTest {
 				
 		assertNotNull(role.getName());
 		assertEquals("SOMETHING", role.getName());
+	}
+	
+	@Test
+	@Order(3)
+	void hashcodeTest() {
+		Role role = new Role("SOMETHING");
+		Role role2 = new Role("SOMETHING2");
+		
+		Set<Role> set= new HashSet<Role>();
+		set.add(role);
+		set.add(role2);
+		assertTrue(set.contains(role2));
+	}
+	
+	@Test
+	@Order(4)
+	void equalsTest() {
+		Role role = new Role("SOMETHING");
+		Role role2 = new Role("SOMETHING");
+		
+		assertTrue(role.equals(role2));
 	}
 }

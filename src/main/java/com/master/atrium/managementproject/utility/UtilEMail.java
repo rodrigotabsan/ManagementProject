@@ -70,7 +70,7 @@ public class UtilEMail extends HttpServlet {
 			transport.close();
 			LOG.info("> Closed connection");
 		} catch (Exception exc) {
-			LOG.info("> Catch block" + exc.getMessage());
+			LOG.info(String.join("", "> Catch block", exc.getMessage()));
 		}
 
 		LOG.info("EMAIL enviado...");

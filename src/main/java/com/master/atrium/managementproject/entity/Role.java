@@ -3,6 +3,7 @@ package com.master.atrium.managementproject.entity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -74,4 +75,31 @@ public class Role extends Common implements Serializable{
 	public void setPersons(List<Person> persons2) {
 		this.persons = persons2;
 	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + Objects.hash(name, persons);
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof Role))
+			return false;
+		Role other = (Role) obj;
+		return Objects.equals(name, other.name) && Objects.equals(persons, other.persons);
+	}
+	
 }

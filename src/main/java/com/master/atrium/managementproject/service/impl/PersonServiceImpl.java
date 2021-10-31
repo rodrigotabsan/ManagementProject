@@ -1,7 +1,5 @@
 package com.master.atrium.managementproject.service.impl;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -213,7 +211,7 @@ public class PersonServiceImpl implements PersonService {
 	 * @return
 	 */
 	private boolean hasProjectPersonToUpdate(int indexProjects, Person person, List<Project> projectsFound) {
-		return indexProjects < person.getProjects().length && indexProjects < projectsFound.size();
+		return Objects.nonNull(person.getProjects()) && indexProjects < person.getProjects().length && indexProjects < projectsFound.size();
 	}
 	
 	/**
@@ -223,7 +221,7 @@ public class PersonServiceImpl implements PersonService {
 	 * @return
 	 */
 	private boolean hasProjectPersonToDelete(int indexProjects, Person person) {
-		return indexProjects >= person.getProjects().length;
+		return Objects.nonNull(person.getProjects()) && indexProjects >= person.getProjects().length;
 	}
 	
 	/**
@@ -233,7 +231,7 @@ public class PersonServiceImpl implements PersonService {
 	 * @return
 	 */
 	private boolean hasProjectPersonToInsert(int indexProjects, List<Project> projectsFound) {
-		return indexProjects >= projectsFound.size();
+		return Objects.nonNull(projectsFound) && indexProjects >= projectsFound.size();
 	}
 	
 	/**
@@ -268,29 +266,7 @@ public class PersonServiceImpl implements PersonService {
 	public List<Project> findAllProjectsByPerson(Person person) {
 		return projectPersonRepository.findAllProjectsByIdPerson(person.getId());
 	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Date[] getArrayStartDates(Person person) {
-		List<Project> projects = findAllProjectsByPerson(person);		
-		List<Date> projectsStartDates = new ArrayList<>();
-		projects.forEach(project -> projectsStartDates.add(project.getStartDate()));
-		return projectsStartDates.toArray(new Date[projectsStartDates.size()]);
-	}
-	
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public Date[] getArrayEndDates(Person person) {
-		List<Project> projects = findAllProjectsByPerson(person);
-		List<Date> projectsEndDates = new ArrayList<>();
-		projects.forEach(project -> projectsEndDates.add(project.getEndDate()));
-		return projectsEndDates.toArray(new Date[projectsEndDates.size()]);
-	}
-
+		
 	/**
 	 * {@inheritDoc}
 	 */

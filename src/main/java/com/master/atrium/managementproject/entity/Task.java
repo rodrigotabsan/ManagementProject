@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import javax.validation.constraints.NotEmpty;
 
@@ -227,5 +228,35 @@ public class Task extends Common implements Serializable{
 	public void setProjectId(Long projectId) {
 		this.projectId = projectId;
 	}
-	
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ Objects.hash(description, endDate, messages, name, person, personId, project, projectId, startDate);
+		return result;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (!(obj instanceof Task))
+			return false;
+		Task other = (Task) obj;
+		return Objects.equals(description, other.description) && Objects.equals(endDate, other.endDate)
+				&& Objects.equals(messages, other.messages) && Objects.equals(name, other.name)
+				&& Objects.equals(person, other.person) && Objects.equals(personId, other.personId)
+				&& Objects.equals(project, other.project) && Objects.equals(projectId, other.projectId)
+				&& Objects.equals(startDate, other.startDate);
+	}
 }
