@@ -23,6 +23,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 		<div th:replace="usermenu :: header"> </div>  
 	</div> 
 	<h1>List of users</h1>
+	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
 		<div class="table-responsive">
         <table class="table table-bordered table-striped">
         	<caption>List of users</caption> 
@@ -63,6 +64,43 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
                 </tr>
             </tbody>
         </table>
+        </div>
+        </div>
+        <div th:if="${person.role.name == 'ROLE_USER'}">
+        <div class="table-responsive">
+        <table class="table table-bordered table-striped">
+        	<caption>List of users</caption> 
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Username</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Lastname 1</th>
+                    <th scope="col">Lastname 2</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Role</th>
+                    <th scope="col">Created</th>                    
+                    <th scope="col">Disabled</th>                    
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${persons.empty}">
+                    <td colspan="3">No users</td>
+                </tr>
+                <tr th:each="viewperson : ${persons}">
+                    <td><a th:text="${viewperson.user}"> Username </a></td>
+                    <td><a th:text="${viewperson.name}"> Name </a></td>
+                    <td><a th:text="${viewperson.lastname1}"> Lastname 1 </a></td>
+                    <td><a th:text="${viewperson.lastname2}"> Lastname 2 </a></td>
+                    <td><a th:text="${viewperson.email}"> Email </a></td>
+                    <td><a th:text="${viewperson.role.name}"> Role </a></td>
+                    <td th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewperson.startDate), #dates.month(viewperson.startDate), #dates.day(viewperson.startDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</td>
+                    <td th:text="${viewperson.endDate} ? ${#calendars.format(#calendars.createForTimeZone(#dates.year(viewperson.endDate), #dates.month(viewperson.endDate), #dates.day(viewperson.endDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</td>                    
+                    <td><a href="viewperson.html" th:href="@{'/person/' + ${viewperson.id}}"><span class="material-icons">visibility</span></a></td>                    
+                </tr>
+            </tbody>
+        </table>
+        </div>
         </div>
 </body>
 </html>
