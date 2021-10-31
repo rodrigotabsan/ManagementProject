@@ -4,6 +4,28 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<style>
+.create-user-form {
+	width: 74%;
+}
+
+.select-user-form {
+	width: 36%;
+}
+
+.submit-create-user-form {
+	margin-left: 36%;
+	margin-top: 5%;
+}
+
+.input-submit-create-user {
+	width: 15%;
+}
+</style>
 </head>
 <body>
 	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
@@ -12,10 +34,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 	<div th:if="${person.role.name == 'ROLE_USER'}">
 		<div th:replace="usermenu :: header"></div>
 	</div>
-	<h1>Modify user</h1>
+	<h1>Modify task</h1>
 	<div layout:fragment="content" class="container">
-		<form id="personForm" th:action="@{/person/modify}"
-			th:object="${modifyperson}" action="#" method="POST">
+		<form id="taskForm" th:action="@{/task/modify}"
+			th:object="${modifytask}" action="#" method="POST">
 			<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
 				<p th:each="error : ${#fields.errors('*')}" th:text="${error}">
 					<strong>Validation error</strong>

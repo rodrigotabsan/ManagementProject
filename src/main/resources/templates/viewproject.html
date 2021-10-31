@@ -75,7 +75,7 @@
 					<div class="col form-group">
 						<dt>Users</dt>
 						<dd th:each="person : ${persons}" th:value="${person.id}"
-							th:text="${person.name} + ' - ' + ${person.name} + ' ' + ${person.lastname1} + ' ' + ${person.lastname2}"></dd>
+							th:text="${person.user} + ' - ' + ${person.name} + ' ' + ${person.lastname1} + ' ' + ${person.lastname2}"></dd>
 					</div>
 				</div>
 			</dl>

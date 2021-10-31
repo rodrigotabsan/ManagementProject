@@ -6,11 +6,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 <head>
     <title>Registration Page</title>
 
-    <link type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="/js/jquery-1.7.2.js"></script>
-    <script src="/js/pwstrength.js"></script>
 
 </head>
 <body>
@@ -40,7 +38,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 		<div class="form-group" th:classappend="${#fields.hasErrors('person')} ? 'has-error'">
 			<label class="control-label col-xs-2">Users</label>
 			<select th:field="*{person}">
-			    <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.name} + ' ' + ${person.lastname1} + ' ' + ${person.lastname2}">
+			    <option th:each="person : ${persons}" th:value="${person.id}" th:text="${person.user} + ' - ' +${person.name} + ' ' + ${person.lastname1} + ' ' + ${person.lastname2}">
 			    </option>
 			</select>
 		</div>
