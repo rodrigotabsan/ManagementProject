@@ -3,55 +3,137 @@
 xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
 <head>
 <title>Tasks : View</title>
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
+<style>
+.material-icons {
+	color: white !important;
+	margin-right: 3%;
+}
+
+.create-user-form {
+	width: 74%;
+}
+
+.select-user-form {
+	width: 36%;
+}
+
+.submit-create-user-form {
+	margin-left: 36%;
+	margin-top: 5%;
+}
+
+.input-submit-create-user {
+	width: 15%;
+}
+</style>
 </head>
-<body>	
-    <div th:if="${person.role.name == 'ROLE_ADMIN'}">
-		<div th:replace="adminmenu :: header"> </div>  
-    </div>
-    <div th:if="${person.role.name == 'ROLE_USER'}">
-		<div th:replace="usermenu :: header"> </div>  
-	</div> 
-    <div layout:fragment="content" class="container">
-    	<div class="alert alert-success" th:if="${globalMessage}" th:text="${globalMessage}">Some Success message</div>
-        <div th:if="${viewtask.endDate == null}">
-        <dl>
-            <dt>ID</dt>
-            <dd id="id" th:text="${viewtask.id}">123</dd>
-            <dt>Name</dt>
-            <dd id="name" th:text="${viewtask.name}">Name</dd>
-            <dt>Description</dt>
-            <dd id="lastname1" th:text="${viewtask.description}">Description</dd>            
-            <dt>Start Date</dt>
-            <dd id="created" th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.startDate), #dates.month(viewtask.startDate), #dates.day(viewtask.startDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</dd>            
-            <dt>User</dt>
-		    <dd id="person" th:text="${viewtask.person.name} + ' ' + ${viewtask.person.lastname1} + ' ' + ${viewtask.person.lastname2}">User</dd>
-		    <dt>Project</dt>
-            <dd id="project" th:text="${viewtask.project.name}">Project</dd>
-        </dl>
-        </div>
-        <div th:if="${viewtask.endDate != null}">
-        <dl>
-            <dt>ID</dt>
-            <dd id="id" th:text="${viewtask.id}">123</dd>
-            <dt>Name</dt>
-            <dd id="name" th:text="${viewtask.name}">Name</dd>
-            <dt>Description</dt>
-            <dd id="lastname1" th:text="${viewtask.description}">Description</dd>            
-            <dt>Start Date</dt>
-            <dd id="created" th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.startDate), #dates.month(viewtask.startDate), #dates.day(viewtask.startDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</dd>
-            <dt>End Date</dt>
-            <dd id="ended" th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.endDate), #dates.month(viewtask.endDate), #dates.day(viewtask.endDate),'UTC'), 'yyyy-MMM-dd')}">July 11, 2012 2:17:16 PM CDT</dd>            
-            <dt>User</dt>
-		    <dd id="person" th:text="${viewtask.person.name} + ' ' + ${viewtask.person.lastname1} + ' ' + ${viewtask.person.lastname2}">User</dd>
-		    <dt>Project</dt>
-            <dd id="project" th:text="${viewtask.project.name}">Project</dd>           
-        </dl>
-        </div>
-        <div th:if="${person.role.name == 'ROLE_ADMIN'}">
-	        <div class="pull-left">
-	            <a href="tasks" th:href="@{'/task/delete/' + ${task.id}}"> Delete </a> | <a href="formtask.html" th:href="@{'/task/modify/' + ${task.id}}"> Modify </a>
-	        </div>
-        </div>
-    </div>
+<body>
+	<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+		<div th:replace="adminmenu :: header"></div>
+	</div>
+	<div th:if="${person.role.name == 'ROLE_USER'}">
+		<div th:replace="usermenu :: header"></div>
+	</div>
+	<h1>View task</h1>
+	<div layout:fragment="content" class="container">
+		<div class="alert alert-success" th:if="${globalMessage}"
+			th:text="${globalMessage}">Some Success message</div>
+		<div th:if="${viewtask.endDate == null}">
+			<dl>
+				<div class="row">
+					<div class="col form-group">
+						<dt>ID</dt>
+						<dd id="id" th:text="${viewtask.id}">123</dd>
+					</div>
+					<div class="col form-group">
+						<dt>Project name</dt>
+						<dd id="project" th:text="${viewtask.project.name}">Project</dd>
+					</div>					
+				</div>
+				<div class="row">
+					<div class="col form-group">
+						<dt>Person</dt>
+						<dd id="person" th:text="${viewtask.person.name}">Person</dd>
+					</div>
+					<div class="col form-group">
+						<dt>Name</dt>
+						<dd id="name" th:text="${viewtask.name}">Name</dd>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col form-group">
+						<dt>Description</dt>
+						<dd id="lastname1" th:text="${viewtask.description}">Description</dd>
+					</div>
+					<div class="col form-group">
+						<dt>Start Date</dt>
+						<dd id="created"
+							th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.startDate), #dates.month(viewtask.startDate), #dates.day(viewtask.startDate),'UTC'), 'yyyy-MMM-dd')}">July
+							11, 2012 2:17:16 PM CDT</dd>
+					</div>
+				</div>
+			</dl>
+		</div>
+		<div th:if="${viewtask.endDate != null}">
+			<dl>
+				<div class="row">
+					<div class="col form-group">
+						<dt>ID</dt>
+						<dd id="id" th:text="${viewtask.id}">123</dd>
+					</div>
+					<div class="col form-group">
+						<dt>Project name</dt>
+						<dd id="project" th:text="${viewtask.project.name}">Project</dd>
+					</div>					
+				</div>
+				<div class="row">
+					<div class="col form-group">
+						<dt>Person</dt>
+						<dd id="person" th:text="${viewtask.person.name}">Person</dd>
+					</div>
+					<div class="col form-group">
+						<dt>Name</dt>
+						<dd id="name" th:text="${viewtask.name}">Name</dd>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col form-group">
+						<dt>Description</dt>
+						<dd id="lastname1" th:text="${viewtask.description}">Description</dd>
+					</div>
+					<div class="col form-group">
+						<dt>Start Date</dt>
+						<dd id="created"
+							th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.startDate), #dates.month(viewtask.startDate), #dates.day(viewtask.startDate),'UTC'), 'yyyy-MMM-dd')}">July
+							11, 2012 2:17:16 PM CDT</dd>
+					</div>
+					<div class="col form-group">
+						<dt>End Date</dt>
+						<dd id="created"
+							th:text="${#calendars.format(#calendars.createForTimeZone(#dates.year(viewtask.endDate), #dates.month(viewtask.endDate), #dates.day(viewtask.endDate),'UTC'), 'yyyy-MMM-dd')}">July
+							11, 2012 2:17:16 PM CDT</dd>
+					</div>
+				</div>
+			</dl>
+		</div>
+		<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+			<div
+				class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
+				<a href="formtask.html"
+					th:href="@{'/task/viewmodify/' + ${viewtask.id}}"> <span
+					class="btn btn-primary input-submit-create-user material-icons">mode_edit</span></a>
+				<a href="persons"
+					th:href="@{'/task/delete/' + ${viewtask.id}}"> <span
+					class="btn btn-primary input-submit-create-user material-icons md-36">delete</span>
+				</a>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
