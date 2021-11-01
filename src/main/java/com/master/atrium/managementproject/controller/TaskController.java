@@ -2,6 +2,7 @@ package com.master.atrium.managementproject.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,7 @@ import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.service.ProjectService;
 import com.master.atrium.managementproject.service.TaskService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
+import com.master.atrium.managementproject.utility.UtilEMail;
 import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
 
 @Controller
@@ -128,7 +130,7 @@ public class TaskController {
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());               
 		
 		Task taskcreated = taskService.save(createtask);		
-		
+		sendEmail(person, taskcreated);
 		model.addAttribute("viewtask.id", taskcreated.getId()); 
 		model.addAttribute(PERSON, person);
         return new ModelAndView("redirect:/task/{viewtask.id}", model);
@@ -189,5 +191,15 @@ public class TaskController {
         return new ModelAndView("redirect:/task/{modifytask.id}", model);
     }
 
+    /**
+     * Enviar un correo cuando se cree una tarea
+     * @param person
+     */
+    private void sendEmail(Person person, Task task) {
+    	UtilEMail emailUtil = new UtilEMail();
+		List<String> emails = new ArrayList<>();
+		emails.add(person.getEmail());
+		emailUtil.sendEmail(emails, new Date() + ": A task was created." , "Task "+task.getName()+" has been created on your name. '"+task.getDescription()+"'");
+    }
    
 }

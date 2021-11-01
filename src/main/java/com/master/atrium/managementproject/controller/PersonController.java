@@ -1,6 +1,9 @@
 package com.master.atrium.managementproject.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -25,6 +28,7 @@ import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.service.ProjectService;
 import com.master.atrium.managementproject.service.RoleService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
+import com.master.atrium.managementproject.utility.UtilEMail;
 import com.master.atrium.managementproject.validator.EmailExistsException;
 import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
 import com.master.atrium.managementproject.validator.UserExistsException;
@@ -37,8 +41,11 @@ import com.master.atrium.managementproject.validator.UserExistsException;
 @Controller
 @RequestMapping("/person")
 public class PersonController {
+	/** Constante PERSON*/
 	private static final String PERSON = "person";
+	/** Constante PROJECTS*/
 	private static final String PROJECTS = "projects";
+	/** Constante VIEWPERSON*/
 	private static final String VIEWPERSON = "viewperson";
 	/**
 	 * Inyección {@link UserDetailsServiceImpl}
@@ -135,6 +142,7 @@ public class PersonController {
         }         		
 		personService.save(createperson);
 		Person viewperson = personService.findByUser(createperson.getUser());
+		sendEmail(createperson);
 		model.addAttribute(PERSON, person);
 		model.addAttribute(VIEWPERSON, viewperson); 
         return new ModelAndView("redirect:/person/"+ viewperson.getId());
@@ -202,6 +210,17 @@ public class PersonController {
 		model.addAttribute("modifyperson.id", modifyperson.getId());        
 		model.addAttribute(PERSON, person);   	
         return new ModelAndView("redirect:/person/{modifyperson.id}", model);
+    }
+    
+    /**
+     * Enviar un correo cuando se cree un usuario
+     * @param person el usuario
+     */
+    private void sendEmail(Person person) {
+    	UtilEMail emailUtil = new UtilEMail();
+		List<String> emails = new ArrayList<>();
+		emails.add(person.getEmail());
+		emailUtil.sendEmail(emails, new Date() + ": Your account was created." , "This is an email to let you know that your account has been created. Remember that your username is "+person.getUser()+".");
     }
 
 }

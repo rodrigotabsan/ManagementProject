@@ -2,6 +2,7 @@ package com.master.atrium.managementproject.controller;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +30,7 @@ import com.master.atrium.managementproject.entity.Project;
 import com.master.atrium.managementproject.service.PersonService;
 import com.master.atrium.managementproject.service.ProjectService;
 import com.master.atrium.managementproject.service.impl.UserDetailsServiceImpl;
+import com.master.atrium.managementproject.utility.UtilEMail;
 import com.master.atrium.managementproject.validator.RecordReferencedInOtherTablesException;
 
 /**
@@ -145,7 +147,7 @@ public class ProjectController {
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());               
 		
 		Project projectcreated = projectService.save(createproject);		
-		
+		sendEmail(projectService.findAllPersonsByProject(projectcreated), projectcreated);
 		model.addAttribute("viewproject.id", projectcreated.getId()); 
 		model.addAttribute(PERSON, person);
         model.addAttribute("globalMessage", "Successfully created a new project");
@@ -208,6 +210,21 @@ public class ProjectController {
 		model.addAttribute(PERSON, person);
 		projectService.save(modifyproject);    	
         return new ModelAndView("redirect:/project/{modifyproject.id}", model);
+    }
+    
+    /**
+     * Enviar un correo cuando se cree un proyecto
+     * @param person
+     * @param project
+     * 
+     */
+    private void sendEmail(List<Person> persons, Project project) {
+    	UtilEMail emailUtil = new UtilEMail();
+		List<String> emails = new ArrayList<>();
+		for(Person person : persons) {
+			emails.add(person.getEmail());
+		}
+		emailUtil.sendEmail(emails, new Date() + ": A project was created." , "Project "+project.getName()+" has been created. '"+project.getDescription()+"'");		
     }
 
 }
