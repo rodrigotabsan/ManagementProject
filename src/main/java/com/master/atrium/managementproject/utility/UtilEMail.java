@@ -29,25 +29,24 @@ public class UtilEMail extends HttpServlet {
 	 * Serial Version UID
 	 */
 	private static final long serialVersionUID = 6098477709328292413L;
-
+	
+	/**
+	 * Constante de correo de la aplicación
+	 */
+	private static final String MAIL_FROM = "projectmanagementnoreply0@gmail.com";
+	private static final String PASSWORD = "masteruah";;
 	/**
 	 * Envía un correo electrónico	
 	 * @param toMailList
 	 * @param mailSubject
 	 * @param mailText
 	 */
-	public void sendEmail(List<String> toMailList, String mailSubject, String mailText) {
-		
-		String mailFrom = "projectmanagementnoreply0@gmail.com";
-		
+	public void sendEmail(List<String> toMailList, String mailSubject, String mailText) {		
 		Properties props = getProperties();
-
 		Session session = Session.getDefaultInstance(props, new Authenticator() {
 			@Override
-			protected PasswordAuthentication getPasswordAuthentication() {
-				String username = mailFrom;
-				String password = "masteruah";
-				return new PasswordAuthentication(username, password);
+			protected PasswordAuthentication getPasswordAuthentication() {				
+				return new PasswordAuthentication(MAIL_FROM, PASSWORD);
 			}
 		});
 
@@ -55,8 +54,7 @@ public class UtilEMail extends HttpServlet {
 
 		try {
 			LOG.info("> Try block");
-			msg.setFrom(new InternetAddress(mailFrom));
-//			msg.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(mailTo));
+			msg.setFrom(new InternetAddress(MAIL_FROM));
 			msg.setSubject(mailSubject);
 			msg.setText(mailText);
 			LOG.info("> Transport created");
@@ -83,14 +81,8 @@ public class UtilEMail extends HttpServlet {
 	 */
 	public Properties getProperties() {
 		Properties props = new Properties();
-
 		props.put("mail.smtp.host", "smtp.gmail.com");
 		props.put("mail.stmp.user", "username of the sender");
-		/* If you want you use TLS
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.starttls.enable", "true");
-		props.put("mail.smtp.password", "password of the sender");
-		If you want to use SSL*/
 		props.put("mail.smtp.socketFactory.port", "465");
 		props.put("mail.smtp.ssl.checkserveridentity", true);
 		props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");

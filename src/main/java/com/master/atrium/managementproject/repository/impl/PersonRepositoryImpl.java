@@ -67,6 +67,17 @@ public class PersonRepositoryImpl implements PersonRepository{
 	 */
 	@Override
 	@Transactional
+	public void updatePassword(Person person) {
+		String query = "UPDATE person SET password = ? WHERE id = ?;";
+		template.update(query, 
+						person.getPassword(),
+						person.getId());		
+	}
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	@Transactional
 	public void update(Person person) {
 		LocalDate localDateStartDate = person.getStartDate().toInstant().atZone(ZoneId.of(MADRID_ZONE_ID))
 				.toLocalDate();

@@ -43,7 +43,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	private String[] staticResources  =  {
 	        "/css/**",
 	        "/img/**",
-	        "/js/**",
+	        "/js/**"
 	    };
 	
 	/**
@@ -168,11 +168,17 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 	    http
 	      .authorizeRequests()
 		      .antMatchers("/person/delete/**").hasRole(ADMIN)
-		      .antMatchers("/delete/**").hasRole(ADMIN)
+		      .antMatchers("/project/delete").hasRole(ADMIN)
+		      .antMatchers("/task/delete").hasRole(ADMIN)
 		      .antMatchers("/person/modify/**").hasAnyRole(ADMIN)
+		      .antMatchers("/project/modify/**").hasAnyRole(ADMIN)
 		      .antMatchers("/doLogin/**").hasAnyRole(ADMIN, USER)
 		      .antMatchers("/person/**").hasAnyRole(ADMIN, USER)
 		      .antMatchers(staticResources).permitAll()
+		      .antMatchers("/templates/recoverpassword.html").permitAll()
+		      .antMatchers("recoverpassword.html").permitAll()
+		      .antMatchers("/recoverpassword/**").permitAll()
+		      .antMatchers("/recoverpassword/forgotpassword").permitAll()
 		      .anyRequest().authenticated()
 		  .and()
 		  	  .formLogin()

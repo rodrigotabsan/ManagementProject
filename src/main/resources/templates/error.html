@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
@@ -34,15 +35,18 @@
 	<div th:fragment="header" class="">
 		<nav
 			class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
-			<a class="navbar-brand" th:href="@{/login}">
-		      <img src="/img/logo.png" width="80" height="100" alt="">
-		    </a>
+			<a class="navbar-brand" th:href="@{/login}"> <img
+				src="/img/logo.png" width="80" height="100" alt="">
+			</a>
 		</nav>
 	</div>
 	<h1>Custom error page</h1>
-		<div class="alert alert-danger" role="alert">
-		  Error: Probably you tried to delete a field that was related with other or you tryied to insert an empty field.
-		</div>
-     
+	<div class="alert alert-danger" role="alert">Error: Probably you
+		tried to delete a field that was related with other or you tryied to
+		insert an empty field.</div>
+	<div class="form-actions col-xs-offset-2 col-xs-10 loginsubmit">
+		<input type="submit" class="btn btn-primary" value="Accept"
+			style="margin-left: 1%;" />
+	</div>
 </body>
 </html>

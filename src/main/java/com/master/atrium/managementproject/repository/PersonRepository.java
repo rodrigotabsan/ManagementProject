@@ -55,5 +55,11 @@ public interface PersonRepository {
 	 * @return
 	 */
 	public Person findByUser(String user);
+
+	/**
+	 * Actualiza la contraseña de una persona
+	 * {@inheritDoc}
+	 */
+	void updatePassword(Person person);
 	
 }

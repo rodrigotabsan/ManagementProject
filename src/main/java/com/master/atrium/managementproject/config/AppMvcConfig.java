@@ -12,6 +12,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.master.atrium.managementproject.service.impl.PersonServiceImpl;
 import com.master.atrium.managementproject.service.impl.ProjectServiceImpl;
+import com.master.atrium.managementproject.service.impl.ResetPasswordServiceImpl;
 import com.master.atrium.managementproject.service.impl.RoleServiceImpl;
 import com.master.atrium.managementproject.service.impl.TaskServiceImpl;
 
@@ -28,6 +29,15 @@ public class AppMvcConfig implements WebMvcConfigurer {
 	/**Constante con el classpath */
 	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = { "classpath:/META-INF/resources/", "classpath:/resources/", "classpath:/static/", "classpath:/public/" };
 
+	/**
+	 * Bean de reset password service
+	 * @return
+	 */
+	@Bean
+	public ResetPasswordServiceImpl resetPasswordService() {
+		return new ResetPasswordServiceImpl();
+	}
+	
 	/**
 	 * Bean de person service
 	 * @return
