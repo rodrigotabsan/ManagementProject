@@ -1,10 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
 <head>
 <title>Layout</title>
 
-<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
 
 </head>
 <body>
@@ -20,6 +23,10 @@
 					<li class="nav-item"><a class="nav-link" th:href="@{/main}">Home
 							<span class="sr-only">(current)</span>
 					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="registrationtask.html"
+						th:href="@{/task/createform/(registrationtask)}">Create Task <span
+							class="sr-only">(current)</span></a></li>
 					<li class="nav-item"><a class="nav-link"
 						href="listperson.html" th:href="@{/person/(listperson)}">List
 							Users <span class="sr-only">(current)</span>
