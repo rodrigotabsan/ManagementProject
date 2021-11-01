@@ -127,6 +127,18 @@
 				</div>
 			</dl>
 		</div>
+		<h4>Messages</h2>
+		<div th:each="message : ${viewtask.messages}">
+			<div class="card">
+				<div th:text="${message.subject}" class="card-header">Subject</div>
+				<div class="card-body">
+					<blockquote th:text="${message.body}" class="blockquote mb-0">						
+						
+					</blockquote>
+				</div>
+			</div>
+			<br>
+		</div>
 		<div th:if="${person.role.name == 'ROLE_ADMIN'}">
 			<div
 				class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">

@@ -45,4 +45,10 @@ public interface MessageService {
 	 * @return
 	 */
 	public List<Message> findMessagesByTask(Task task);
+	
+	/**
+	 * Eliminados todos los mensajes dado como parámetro una tarea
+	 * @param task la tarea
+	 */
+	public void deleteAllByTask(Task task);
 }

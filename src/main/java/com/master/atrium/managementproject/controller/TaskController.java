@@ -143,6 +143,7 @@ public class TaskController {
     @GetMapping(value = "delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id) throws RecordReferencedInOtherTablesException {
     	Task task = taskService.findById(id);
+    	this.messageService.deleteAllByTask(task);    	
         this.taskService.delete(task);
         return new ModelAndView("redirect:/task/");
     }
@@ -154,13 +155,13 @@ public class TaskController {
      * @return
      */
     @GetMapping(value = "viewmodify/{id}")
-    public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyTask, ModelMap model) {
-    	Task modifyTask = taskService.findById(idModifyTask);
-    	Message newMessage = new Message();
+    public ModelAndView viewmodifyForm(@PathVariable("id") Long idModifyTask, ModelMap model) {    	
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-    	TaskMessageDto taskMessageDto = new TaskMessageDto(modifyTask, newMessage);
-        model.addAttribute("taskmessagedto", taskMessageDto);        
-		model.addAttribute(PERSON, person);
+    	TaskMessageDto taskMessageDto = new TaskMessageDto(taskService.findById(idModifyTask), new Message());
+    	List<Project> projects = personService.findAllProjectsWithTheirOwnPersonsByPerson(person);
+    	model.addAttribute(PERSON, person);
+    	model.addAttribute("projects", projects);
+        model.addAttribute("taskmessagedto", taskMessageDto);
         return new ModelAndView("formtask", model);
     }
 
@@ -172,14 +173,16 @@ public class TaskController {
      * @return
      */
     @PostMapping(value = "modify")
-    public ModelAndView modifyForm(@ModelAttribute TaskMessageDto taskMessageDto, BindingResult result, ModelMap model) {
+    public ModelAndView modifyForm(@ModelAttribute TaskMessageDto taskmessagedto, BindingResult result, ModelMap model) {
     	if (result.hasErrors()) {
             return new ModelAndView("formproject", "formErrors", result.getAllErrors());
         }
     	Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
-    	Long idTask = taskMessageDto.getTask().getId();
-    	taskService.save(taskMessageDto.getTask());
-    	messageService.save(taskMessageDto.getMessage());
+    	Long idTask = taskmessagedto.getTask().getId();
+    	taskService.save(taskmessagedto.getTask());
+    	taskmessagedto.getMessage().setTaskId(idTask);
+    	taskmessagedto.getMessage().setTask(taskmessagedto.getTask());
+    	messageService.save(taskmessagedto.getMessage());
     	
 	    model.addAttribute("modifytask.id", idTask);        
 		model.addAttribute(PERSON, person);  	

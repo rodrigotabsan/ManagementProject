@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" 
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="layout" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	layout:decorator="layout" lang="en">
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
@@ -8,6 +11,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+	<script src="/js/jquery-1.7.2.js"></script>
 <style>
 .create-user-form {
 	width: 74%;
@@ -25,6 +29,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 .input-submit-create-user {
 	width: 15%;
 }
+#subject{
+	width: 541%;
+}
+#body{
+	width: 600%;
+}
 </style>
 </head>
 <body>
@@ -37,67 +47,90 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 	<h1>Modify task</h1>
 	<div layout:fragment="content" class="container">
 		<form id="taskForm" th:action="@{/task/modify}"
-			th:object="${modifytask}" action="#" method="POST">
+			th:object="${taskmessagedto}" action="#" method="POST">
 			<div th:if="${#fields.hasErrors('*')}" class="alert alert-error">
 				<p th:each="error : ${#fields.errors('*')}" th:text="${error}">
 					<strong>Validation error</strong>
 				</p>
 			</div>
-			<input type="hidden" th:field="*{id}"
-				th:class="${#fields.hasErrors('id')} ? 'field-error'" /> 
-				<input
-				type="hidden" th:field="*{password}"
-				th:class="${#fields.hasErrors('password')} ? 'field-error'" />
-			<div class="row">
-				<div class="col form-group">
-					<label class="control-label col-xs-2" for="project"><strong>Project name</strong></label>
-					<div class="col-xs-10">
-						<select th:field="*{project}">
-							<option th:each="project : ${projects}" th:value="${project.name}"
-								th:text="${project.name}"></option>
-						</select>
-					</div>
-				</div>
-				<div class="col form-group">
-					<label class="control-label col-xs-2" for="person"><strong>Username</strong></label>
-					<div class="col-xs-10">
-						<select th:field="*{person}">
-							<option th:each="person : ${persons}" th:value="${person.user}"
-								th:text="${person.user}"></option>
-						</select>
-					</div>
-				</div>				
-			</div>
+			<input type="hidden" th:field="*{task.id}"
+				th:class="${#fields.hasErrors('task.id')} ? 'field-error'" /> 
+
 			<div class="row">
 				<div class="col form-group">
 					<label class="control-label col-xs-2" for="name"><strong>Name</strong></label>
 					<div class="col-xs-10">
-						<input type="text" th:field="*{name}"
-							th:class="${#fields.hasErrors('name')} ? 'field-error'" />
+						<input type="text" th:field="*{task.name}"
+							th:class="${#fields.hasErrors('task.name')} ? 'field-error'" />
 					</div>
 				</div>
 				<div class="col form-group">
 					<label class="control-label col-xs-2" for="description"><strong>Description</strong></label>
 					<div class="col-xs-10">
-						<input type="text" th:field="*{description}"
-							th:class="${#fields.hasErrors('description')} ? 'field-error'" />
+						<input type="text" th:field="*{task.description}"
+							th:class="${#fields.hasErrors('task.description')} ? 'field-error'" />
 					</div>
-				</div>				
+				</div>
+			</div>
+			<div class="row">
 				<div class="col form-group">
-					<label class="control-label col-xs-2" for="startDate"><strong>Created</strong></label>
+					<label class="control-label col-xs-2" for="startDate"><strong>Started</strong></label>
 					<div class="col-xs-10">
-						<input type="date" th:field="*{startDate}"
-							th:class="${#fields.hasErrors('startDate')} ? 'field-error'" />
+						<input type="date" th:field="*{task.startDate}"
+							th:class="${#fields.hasErrors('task.startDate')} ? 'field-error'" />
 					</div>
 				</div>
 				<div class="col form-group">
-					<label class="control-label col-xs-2" for="endDate"><strong>Disabled</strong></label>
+					<label class="control-label col-xs-2" for="endDate"><strong>Ended</strong></label>
 					<div class="col-xs-10">
-						<input type="date" th:field="*{endDate}"
-							th:class="${#fields.hasErrors('endDate')} ? 'field-error'" />
+						<input type="date" th:field="*{task.endDate}"
+							th:class="${#fields.hasErrors('task.endDate')} ? 'field-error'" />
 					</div>
 				</div>
-			</div>			
+			</div>
+
+			<div class="row">
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('task.project')} ? 'has-error'">
+					<label class="control-label col-xs-2" for="registrations"><strong>Projects</strong></label>
+					<div class="col-xs-10">
+						<select class="create-user-form" id="project"
+							th:field="*{task.projectId}" onclick="onProjectChanged()">
+							<option th:each="project : ${projects}" th:value="${project.id}"
+								th:text="${project.name}"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="col form-group"
+					th:classappend="${#fields.hasErrors('task.person')} ? 'has-error'">
+					<label class="control-label col-xs-2"><strong>Users</strong></label>
+					<div class="col-xs-10">
+						<select class="create-user-form" id="person" th:field="*{task.personId}"></select>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="form-group">
+					<label class="control-label col-xs-2" for="subject"><strong>Subject</strong></label>
+					<div class="col-xs-10">
+						<input id="subject" type="text" th:field="*{message.subject}"
+							th:class="${#fields.hasErrors('message.subject')} ? 'field-error'" />
+					</div>
+				</div>
+				</div>
+				<div class="row">
+				<div class="form-group">
+					<label class="control-label col-xs-2" for="body"><strong>Body</strong></label>
+					<div class="col-xs-30">
+						<textarea rows="5" id="body"
+                              name="body"
+                              placeholder="Body" th:field="*{message.body}" class="form-control"
+							th:class="${#fields.hasErrors('message.body')} ? 'field-error'"></textarea>
+					</div>
+				</div>
+			</div>
+			
 			<div
 				class="col form-actions col-xs-offset-2 col-xs-10 submit-create-user-form">
 				<input type="submit"
@@ -105,5 +138,30 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security" layout:decorator="la
 			</div>
 		</form>
 	</div>
+	<script th:inline="javascript">
+		var projects = /*[[${projects}]]*/'projects';
+
+		function onProjectChanged() {
+			var chosenProject = $("#project").children("option:selected").val();
+			for (i = 0; i < projects.length; i++) {
+				if (projects[i].id == chosenProject) {
+					$('#person option').remove();
+					person = projects[i].personList;
+					for (indexPerson = 0; indexPerson < person.length; indexPerson++) {
+						$('#person').append(
+								$('<option>', {
+									value : person[indexPerson].id,
+									text : person[indexPerson].user + " - "
+											+ person[indexPerson].name + " "
+											+ person[indexPerson].lastname1
+											+ " "
+											+ person[indexPerson].lastname2
+								}));
+					}
+					$("#person").trigger("chosen:updated");
+				}
+			}
+		}
+	</script>
 </body>
 </html>

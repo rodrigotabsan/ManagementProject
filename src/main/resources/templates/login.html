@@ -10,7 +10,14 @@
 
 <link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+<style>
+.login{
+	margin-left:40%;
+}
+.loginsubmit{
+	margin-left:45%;
+}
+</style>
 </head>
 <body>
 	<div th:fragment="header" class="">
@@ -21,31 +28,32 @@
 		    </a>
 		</nav>
 	</div>
+	<h1>Login page</h1>
 	<div class="container">
-		<h1>Login page</h1>
+		
 		<div th:if="${param.error}" class="alert alert-danger">Invalid
 			username and password.</div>
 		<div th:if="${param.logout}" class="alert alert-danger">You have
 			been logged out.</div>
 
 		<form th:action="@{/doLogin}" method="post" class="form-horizontal">
-			<div class="form-group">
-				<label class="control-label col-xs-2" for="user"> User Name:
+			<div class="form-group login">
+				<label class="control-label col-xs-2" for="user"> <strong>User Name:</strong>
 				</label>
 
 				<div class="col-xs-10">
 					<input id="user" type="text" name="user" />
 				</div>
 			</div>
-			<div class="form-group">
+			<div class="form-group login">
 				<label class="control-label col-xs-2" for="password">
-					Password: </label>
+					<strong>Password:</strong> </label>
 
 				<div class="col-xs-10">
 					<input id="password" type="password" name="password" />
 				</div>
 			</div>
-			<div class="form-actions col-xs-offset-2 col-xs-10">
+			<div class="form-actions col-xs-offset-2 col-xs-10 loginsubmit">
 				<input type="submit" class="btn btn-primary" value="Sign In" />
 			</div>
 		</form>
