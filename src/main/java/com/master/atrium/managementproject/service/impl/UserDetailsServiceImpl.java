@@ -45,7 +45,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
             throw new UsernameNotFoundException("No user found with username: " + user);
         }
         if (Objects.nonNull(person.getEndDate()) && person.getEndDate().before(new Date())) {
-            throw new UsernameNotFoundException("User: " + user + " is disabled.");
+            throw new UsernameNotFoundException("User " + user + " is disabled.");
         }
         setUserDetails(new User(person.getUser(), person.getPassword(), true, true, true, true, getAuthorities(person.getRole().getName())));
         return userDetails;
