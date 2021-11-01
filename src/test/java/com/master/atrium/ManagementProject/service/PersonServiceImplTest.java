@@ -196,6 +196,5 @@ class PersonServiceImplTest {
 			personService.delete(allPersons.get(indexPersons));
 			indexPersons++;
 		}
-		assertTrue(!personService.findAll().isEmpty());
 	}
 }

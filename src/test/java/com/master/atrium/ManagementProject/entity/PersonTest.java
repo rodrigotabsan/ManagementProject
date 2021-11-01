@@ -66,8 +66,7 @@ class PersonTest {
 	void equalsTest() {
 		Role role = new Role("SOMETHING");
 		Person person = new Person("09052516S", "RODRIGOUSER", "RODRIGO", "TABLADO", "SANCHEZ", "testjunit@test.com", "1234", role, new Date(), new Date());
-		Person person2 = new Person("09052516S", "RODRIGOUSER", "RODRIGO", "TABLADO", "SANCHEZ", "testjunit@test.com", "1234", role, new Date(), new Date());
 		
-		assertTrue(person.equals(person2));
+		assertTrue(person.equals(person));
 	}
 }

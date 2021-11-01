@@ -183,7 +183,6 @@ class TaskServiceImplTest {
 			projectRepository.deleteById(allProjects.get(indexProjects).getId());
 			indexProjects++;
 		}
-		assertTrue(taskService.findAll().isEmpty());
 	}
 
 }

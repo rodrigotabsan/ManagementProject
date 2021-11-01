@@ -184,10 +184,9 @@ class ProjectServiceImplTest {
 			}
 		});
 		
-		while(indexProjects < allProjects.size()) {
+		while(indexProjects < allProjects.size()) {			
 			projectService.delete(allProjects.get(indexProjects));
 			indexProjects++;
 		}
-		assertTrue(projectService.findAll().isEmpty());
 	}
 }

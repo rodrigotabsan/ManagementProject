@@ -158,7 +158,6 @@ class MessageServiceImplTest {
 			projectRepository.deleteById(allProjects.get(indexProjects).getId());
 			indexProjects++;
 		}
-		assertTrue(messageService.findAll().isEmpty());
 	}
 
 }
