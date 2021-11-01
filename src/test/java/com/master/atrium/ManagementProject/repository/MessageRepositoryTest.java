@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.master.atrium.managementproject.entity.Message;
 import com.master.atrium.managementproject.entity.Person;
@@ -29,6 +30,7 @@ import com.master.atrium.managementproject.repository.TaskRepository;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
+@ActiveProfiles("test")
 class MessageRepositoryTest {
 	
 	@Autowired

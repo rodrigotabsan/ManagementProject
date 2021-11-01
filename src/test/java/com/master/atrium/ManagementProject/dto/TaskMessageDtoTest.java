@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.master.atrium.managementproject.dto.TaskMessageDto;
 import com.master.atrium.managementproject.entity.Message;
@@ -22,6 +23,7 @@ import com.master.atrium.managementproject.entity.Task;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
+@ActiveProfiles("test")
 class TaskMessageDtoTest {
 			
 	@Test

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.master.atrium.managementproject.entity.Person;
 import com.master.atrium.managementproject.repository.PersonRepository;
@@ -19,6 +20,7 @@ import com.master.atrium.managementproject.validator.UserExistsException;
 
 @SpringBootTest
 @TestMethodOrder(OrderAnnotation.class)
+@ActiveProfiles("test")
 class UserDetailsServiceImplTest {
 
 	@Autowired
