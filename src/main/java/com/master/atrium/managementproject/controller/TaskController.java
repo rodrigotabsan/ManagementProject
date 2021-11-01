@@ -76,7 +76,7 @@ public class TaskController {
         Iterable<Task> tasks = this.taskService.findAll();
         Person person = personService.findByUser(userDetailsService.getUserDetails().getUsername());
         model.addAttribute("tasks", tasks);        
-		model.addAttribute("person", person);
+		model.addAttribute(PERSON, person);
         return new ModelAndView("listtask", model);
     }
 
