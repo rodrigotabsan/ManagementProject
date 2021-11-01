@@ -2,6 +2,7 @@ package com.master.atrium.managementproject.service.impl;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class UserDetailsServiceImpl implements UserDetailsService{
         if (Objects.isNull(person)) {
             throw new UsernameNotFoundException("No user found with username: " + user);
         }
-        if (Objects.nonNull(person.getEndDate())) {
+        if (Objects.nonNull(person.getEndDate()) && person.getEndDate().before(new Date())) {
             throw new UsernameNotFoundException("User: " + user + " is disabled.");
         }
         setUserDetails(new User(person.getUser(), person.getPassword(), true, true, true, true, getAuthorities(person.getRole().getName())));
