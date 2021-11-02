@@ -34,7 +34,7 @@ public class UtilEMail extends HttpServlet {
 	 * Constante de correo de la aplicación
 	 */
 	private static final String MAIL_FROM = "projectmanagementnoreply0@gmail.com";
-	private static final String PASSWORD = "masteruah";;
+	private static final String PASSWORD = "masteruah";
 	/**
 	 * Envía un correo electrónico	
 	 * @param toMailList
