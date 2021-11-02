@@ -35,8 +35,11 @@ public class ResetPasswordServiceImpl implements ResetPasswordService{
 	@Autowired
 	PersonRepository personRepository;
 	
+	/**
+	 * Constructor de la clase
+	 */
 	public ResetPasswordServiceImpl() {
-		// TODO Auto-generated constructor stub
+		super();
 	}
 
 	/**
