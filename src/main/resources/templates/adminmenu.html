@@ -1,45 +1,61 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout" lang="en">
 <head>
 <title>Layout</title>
 
-<link rel="stylesheet" th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<link rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
 
 </head>
 <body>
-    <div th:fragment="header" class="">
-        <nav class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
-		    <a class="navbar-brand" th:href="@{/main}">
-		      <img src="/img/logo.png" width="80" height="100" alt="">
-		    </a>
-  			
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-		    <ul class="navbar-nav mr-auto">
-		      <li class="nav-item">
-		        <a class="nav-link" th:href="@{/main}">Home <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="registrationperson.html" th:href="@{/person/createform/(registrationperson)}">Create User <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="registrationproject.html" th:href="@{/project/createform/(registrationproject)}">Create Project <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="registrationtask.html" th:href="@{/task/createform/(registrationtask)}">Create Task <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="listperson.html" th:href="@{/person/(listperson)}">List Users <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="listproject.html" th:href="@{/project/(listproject)}">List Projects <span class="sr-only">(current)</span></a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link" href="listtask.html" th:href="@{/task/(listtask)}">List Tasks <span class="sr-only">(current)</span></a>
-		      </li>
-		    </ul>
-		 	</div>
-		</nav>	  
-    </div>
+	<div th:fragment="header" class="">
+		<nav
+			class="navbar navbar-dark bg-dark navbar-expand-lg navbar-light bg-light">
+			<a class="navbar-brand" th:href="@{/main}"> <img
+				src="/img/logo.png" width="80" height="100" alt="">
+			</a>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link" th:href="@{/main}">Home
+							<span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="registrationperson.html"
+						th:href="@{/person/createform/(registrationperson)}">Create
+							User <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="registrationproject.html"
+						th:href="@{/project/createform/(registrationproject)}">Create
+							Project <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="registrationtask.html"
+						th:href="@{/task/createform/(registrationtask)}">Create Task <span
+							class="sr-only">(current)</span></a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="listperson.html" th:href="@{/person/(listperson)}">List
+							Users <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link"
+						href="listproject.html" th:href="@{/project/(listproject)}">List
+							Projects <span class="sr-only">(current)</span>
+					</a></li>
+					<li class="nav-item"><a class="nav-link" href="listtask.html"
+						th:href="@{/task/(listtask)}">List Tasks <span class="sr-only">(current)</span></a>
+					</li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="viewproject.html"
+						th:href="@{'/person/viewmodify/' + ${person.id}}"><span
+							class="material-icons" id="ownmenuicon">account_circle</span></a></li>
+				</ul>
+			</div>
+		</nav>
+	</div>
 </body>
 </html>

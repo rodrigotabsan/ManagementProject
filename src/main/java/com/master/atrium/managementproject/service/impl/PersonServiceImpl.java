@@ -136,14 +136,17 @@ public class PersonServiceImpl implements PersonService {
 	 * @return
 	 */
 	private Person addRole(Person person) {
-		Role role = roleRepository.findByName(person.getRole().getName());
-		person.setRole(role);
+		if(Objects.nonNull(person.getRole()) && Objects.nonNull(person.getRole().getName())) {
+			Role role = roleRepository.findByName(person.getRole().getName());
+			person.setRole(role);
+		}
 		return person;
 	}
 	
 	private Person addRoleById(Person person) {
 		Role role = roleRepository.findById(person.getRoleId());
 		person.setRole(role);
+		
 		return person;
 	}
 	

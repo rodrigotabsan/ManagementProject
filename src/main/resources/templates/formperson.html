@@ -10,6 +10,8 @@
 	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css}"
 	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
 	crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+	rel="stylesheet" />
 <style>
 .create-user-form {
 	width: 74%;
@@ -26,6 +28,12 @@
 
 .input-submit-create-user {
 	width: 15%;
+}
+
+#ownmenuicon {
+	color: white !important;
+	font-size: 70px;
+	margin-left:0%;
 }
 </style>
 </head>
@@ -46,8 +54,7 @@
 				</p>
 			</div>
 			<input type="hidden" th:field="*{id}"
-				th:class="${#fields.hasErrors('id')} ? 'field-error'" /> 
-				<input
+				th:class="${#fields.hasErrors('id')} ? 'field-error'" /> <input
 				type="hidden" th:field="*{password}"
 				th:class="${#fields.hasErrors('password')} ? 'field-error'" />
 			<div class="row">
@@ -66,14 +73,16 @@
 					</div>
 				</div>
 				<div class="col form-group">
-					<label class="control-label col-xs-2" for="lastname1"><strong>Lastname 1</strong></label>
+					<label class="control-label col-xs-2" for="lastname1"><strong>Lastname
+							1</strong></label>
 					<div class="col-xs-10">
 						<input type="text" th:field="*{lastname1}"
 							th:class="${#fields.hasErrors('lastname1')} ? 'field-error'" />
 					</div>
 				</div>
 				<div class="col form-group">
-					<label class="control-label col-xs-2" for="lastname2"><strong>Lastname 2</strong></label>
+					<label class="control-label col-xs-2" for="lastname2"><strong>Lastname
+							2</strong></label>
 					<div class="col-xs-10">
 						<input type="text" th:field="*{lastname2}"
 							th:class="${#fields.hasErrors('lastname2')} ? 'field-error'" />
@@ -110,29 +119,30 @@
 					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col form-group">
-					<label class="control-label col-xs-2" for="role"><strong>Role</strong></label>
-					<div class="col-xs-10">
-						<select th:field="*{role}">
-							<option th:each="role : ${roles}" th:value="${role.name}"
-								th:text="${role.name}"></option>
-						</select>
+			<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+				<div class="row">
+					<div class="col form-group">
+						<label class="control-label col-xs-2" for="role"><strong>Role</strong></label>
+						<div class="col-xs-10">
+							<select th:field="*{role}">
+								<option th:each="role : ${roles}" th:value="${role.name}"
+									th:text="${role.name}"></option>
+							</select>
+						</div>
 					</div>
-				</div>
-				<div class="col form-group">
-					<div th:if="${!projects.isEmpty}">
-						<div class="form-group"
-							th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
-							<label class="control-label col-xs-2" for="projects"><strong>Projects</strong></label>
-							<div class="col-xs-10">
-								<select th:field="*{projects}" multiple="multiple" />
-								<option th:each="project : ${projectsselected}"
-									th:value="${project.id}" th:text="${project.name}" selected></option>
-								<option
-										th:each="project : ${projects}" th:value="${project.id}"
-										th:text="${project.name}"></option>
-								</select>
+					<div class="col form-group">
+						<div th:if="${!projects.isEmpty}">
+							<div class="form-group"
+								th:classappend="${#fields.hasErrors('projects')} ? 'has-error'">
+								<label class="control-label col-xs-2" for="projects"><strong>Projects</strong></label>
+								<div class="col-xs-10">
+									<select th:field="*{projects}" multiple="multiple" />
+									<option th:each="project : ${projectsselected}"
+										th:value="${project.id}" th:text="${project.name}" selected></option>
+									<option th:each="project : ${projects}"
+										th:value="${project.id}" th:text="${project.name}"></option>
+									</select>
+								</div>
 							</div>
 						</div>
 					</div>

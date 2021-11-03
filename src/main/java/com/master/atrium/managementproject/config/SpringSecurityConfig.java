@@ -170,7 +170,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter{
 		      .antMatchers("/person/delete/**").hasRole(ADMIN)
 		      .antMatchers("/project/delete").hasRole(ADMIN)
 		      .antMatchers("/task/delete").hasRole(ADMIN)
-		      .antMatchers("/person/modify/**").hasAnyRole(ADMIN)
+		      .antMatchers("/person/modify/**").hasAnyRole(ADMIN, USER)
 		      .antMatchers("/project/modify/**").hasAnyRole(ADMIN)
 		      .antMatchers("/doLogin/**").hasAnyRole(ADMIN, USER)
 		      .antMatchers("/person/**").hasAnyRole(ADMIN, USER)

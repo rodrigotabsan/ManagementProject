@@ -82,6 +82,10 @@ public class PersonRepositoryImpl implements PersonRepository{
 		LocalDate localDateStartDate = person.getStartDate().toInstant().atZone(ZoneId.of(MADRID_ZONE_ID))
 				.toLocalDate();
 		Role role = null;
+		if(Objects.isNull(person.getRoleId())) {
+			Person personFound = findById(person.getId());
+			person.setRoleId(personFound.getRoleId());
+		}
 		if(Objects.nonNull(person.getRole())) {
 			role = person.getRole();
 		} else {
