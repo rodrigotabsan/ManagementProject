@@ -33,7 +33,7 @@
 #ownmenuicon {
 	color: white !important;
 	font-size: 70px;
-	margin-left:0%;
+	margin-left: 0%;
 }
 </style>
 </head>
@@ -111,11 +111,13 @@
 							th:class="${#fields.hasErrors('startDate')} ? 'field-error'" />
 					</div>
 				</div>
-				<div class="col form-group">
-					<label class="control-label col-xs-2" for="endDate"><strong>Disabled</strong></label>
-					<div class="col-xs-10">
-						<input type="date" th:field="*{endDate}"
-							th:class="${#fields.hasErrors('endDate')} ? 'field-error'" />
+				<div th:if="${person.role.name == 'ROLE_ADMIN'}">
+					<div class="col form-group">
+						<label class="control-label col-xs-2" for="endDate"><strong>Disabled</strong></label>
+						<div class="col-xs-10">
+							<input type="date" th:field="*{endDate}"
+								th:class="${#fields.hasErrors('endDate')} ? 'field-error'" />
+						</div>
 					</div>
 				</div>
 			</div>
