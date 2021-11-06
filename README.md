@@ -6,3 +6,5 @@ y ejecutar el proyecto para que se inserte un administrador y se pueda, accedien
 El login del administrador por defecto es:
 usuario -> rodrigo
 password -> pass
+
+La versión de Java a utilizar es la versión JDK14.
